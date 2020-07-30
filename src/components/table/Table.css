@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+.react-table-lite-container{
+  width: 100%;
+}
+.react-table-lite-container table{
+  width: 100%;
+}
+.react-table-lite-container table td,
+.react-table-lite-container table th{
+  text-align: left;
+} 
+
+.react-table-lite-container table td{
+  padding: 5px;
+  border: .0525rem solid #dadadaa8;
+  border-top: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.react-table-lite-container table td{  
+  border-left: 0;  
+}
+.react-table-lite-container table td:first-child{  
+  border-left: .0525rem solid #dadadaa8;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.react-table-lite-container table th{
+  background: #ececec;
+  border-top:1px solid rgb(0,0,0);
+  border-bottom:1px solid rgb(0,0,0);  
+  border-right:1px solid rgb(0,0,0);
+  padding:5px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.react-table-lite-container table th:last-child{
+  border-left: 0px;
 }
-
-.App-link {
-  color: #61dafb;
+.react-table-lite-container table th:first-child{
+  border-left: 1px solid rgb(0,0,0);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.react-table-lite-container thead th{
+  text-transform: capitalize;
 }
