@@ -7,12 +7,9 @@ export default class Table extends React.Component {
     this.state = {};
   }
 
-
   TableHeader = () =>{
-    let {
-        header , 
-        headerStyle
-    } = this.props;    
+    let header = this.props.header==undefined?[]:this.props.header;
+    let {headerStyle} = this.props;    
     return(
       <thead className="react-table-lite-header" style={headerStyle}>
         <tr>
@@ -31,9 +28,9 @@ export default class Table extends React.Component {
   }
 
   TableData = () =>{
+    let header = this.props.header==undefined?[]:this.props.header;
     let { 
       data, 
-      header,
       limit,
       rowStyle,
       dataStyle
@@ -52,14 +49,17 @@ export default class Table extends React.Component {
                     className="react-table-lite-row"
                   >  
                       {
-                        header.map((header_key,index)=>(
-                          <td 
-                            key={index} 
-                            style={dataStyle}
-                          >
-                              {data_row[header_key]}
-                          </td>
-                        ))                    
+                        header.length?
+                          header.map((header_key,index)=>(
+                            <td 
+                              key={index} 
+                              style={dataStyle}
+                            >
+                                {data_row[header_key]}
+                            </td>
+                          ))     
+                          :
+                          <td></td>               
                       }                      
                   </tr>     
                   )      
