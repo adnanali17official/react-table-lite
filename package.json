@@ -1,6 +1,6 @@
 {
   "name": "react-table-lite",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./dist/table.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
