@@ -71,6 +71,7 @@ export default class Table extends React.Component {
                   </tr>     
                   )      
                 }        
+                return "";
               })
             :
           ""
@@ -80,7 +81,7 @@ export default class Table extends React.Component {
   }
 
   DownloadTableButton = () =>{
-    let download = this.props.download === undefined? false : this.props.download
+    let download = this.props.download === undefined? false : this.props.download;
     return(
       <div>
         {

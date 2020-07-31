@@ -1,7 +1,8 @@
 const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/webpack-index.js",
   mode: "production",
   output: {
     filename: "table.js",
@@ -17,11 +18,22 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [
-            "style-loader",
-            "css-loader"
-        ],
+        use: ["style-loader", "css-loader"],
       },
+    ],
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        cache: true,
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
     ],
   },
 };
