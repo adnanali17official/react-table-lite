@@ -1,68 +1,47 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React Table Lite:
 
-## Available Scripts
+A lightweight easy to use and easily customizable React Component for rendering a Table.
 
-In the project directory, you can run:
+Features:
 
-### `npm start`
+1) Fully Customizable:
+    Style props and classes can be overridden easily.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2) JSON data array:
+    Accepts data array and renders them in respective headers.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+3) Download Table Data:
+    use 'download = {true}' prop to get a button that exports data as .csv, button is also customizable, default is false.
 
-### `npm test`
+support:
+    adnanali17official@gmail.com
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Example:
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+import Table from "react-table-lite";
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+let Users = 
+    [
+        {id:1 , name:"John Doe", age:"25" email:"JohnDoe@gmail.com"},
+        {id:2 , name:"Suzumura Kenichi", age:"35" email:"Kenichi_S@gmail.com"},
+        {id:3 , name:"Eddie Memon", age:"22" email:"Eddie254@gmail.com"},
+        {id:4 , name:"Barood Khan", age:"45" email:"BK5454@gmail.com"},
+	];
+	
+	render(){
+		return(
+			<Table
+				data = {Users}							//Array of JSON Objects (required)
+				header = {["id","name","age","email"]}  //Headers should be same as data JSON(required)
+				download = {true}						//Downloadable data 
+				limit = {10}                          	//No of rows to display at a time
+				headerStyle = {}						//Customize table header style
+				containerStyle = {}						//Customize table container style
+				rowStyle = {}							//Customize table row style
+				dataStyle = {}							//Customize table data cell style
+			/>
+		)
+	}
