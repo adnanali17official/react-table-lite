@@ -38,3 +38,12 @@
 .react-table-lite-container thead th{
   text-transform: capitalize;
 }
+.rtl-table-download-btn-css{
+  cursor: pointer;
+  border: none;
+  border-radius: 100px;
+  padding: 5px;
+  margin:2px;
+  float: right;
+  background: transparent;
+}
