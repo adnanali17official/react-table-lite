@@ -56,8 +56,4 @@ A lightweight easy to use and easily customizable React Component for rendering 
         />
       )
   }
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> d3a40dcb60f982fba2ac59ea6cdcd54949844953
