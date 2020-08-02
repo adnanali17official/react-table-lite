@@ -16,10 +16,10 @@ A lightweight easy to use and easily customizable React Component for rendering 
  - **Download Table Data:**
     Use ‘download’ prop to enable a button that exports table data as .csv, button is also customizable, default is false.
 
-  ### Preview:  
+### Preview:  
  <img src="https://github.com.com/adnanali17official/react-table-lite/docs/preview.png" alt="react-table-lite-preview" />
 
- ### Example:
+### Example:
 ```js  
     import React from 'react';
     import Table from "react-table-lite";
