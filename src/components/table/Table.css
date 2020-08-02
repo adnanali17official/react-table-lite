@@ -47,3 +47,10 @@
   float: right;
   background: transparent;
 }
+.rtl-sortable-header >span{
+  font-size: 0.7em;
+  cursor:pointer;
+ }
+.rtl-sortable-header >span:first-child{
+   margin-left:3px;
+  }

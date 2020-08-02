@@ -6,7 +6,10 @@ import { export_table_to_csv } from './../../script/download_csv';
 export default class Table extends React.Component {
   constructor(props) {
     super(props);    
-    this.state = {};
+    this.state = {
+		sortParameters : [],
+		sortKeys : [],
+	};
   }
 
   _downloadData = () => {
@@ -14,8 +17,40 @@ export default class Table extends React.Component {
     export_table_to_csv(html, "table.csv");
   }
 
+  _onSort = (sortKey, direction) => {	
+    let data = this.props.data===undefined?[]:this.props.data;
+    let sortKeyIndex = this.state.sortKeys.indexOf(sortKey);
+    let sortParameters = this.state.sortParameters;
+    sortParameters.forEach((parameter) => {
+		  parameter = false;
+	  });	
+	  sortParameters[sortKeyIndex] = true;
+    data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+    if(direction==='dsc'){
+      data.reverse();
+    } 
+    this.setState({ sortParameters });   
+  }  
+  
+  _getSortParameters = () => {
+	  let sortKeys = [];
+	  let sortParameters = [];	  
+	  let sortBy = this.props.sortBy===undefined?[]:this.props.sortBy;
+	  let header = this.props.header===undefined?[]:this.props.header;
+	  sortBy.forEach(function(sortKey){
+		  if(header.indexOf(sortKey)!==-1)
+			sortParameters.push(false);
+	  });
+	  this.setState({ sortParameters, sortKeys });
+	}
+	
+  componentDidMount = () => {
+	  this._getSortParameters();
+  }
+  
   TableHeader = () =>{
     let header = this.props.header===undefined?[]:this.props.header;
+    let sortBy = this.props.sortBy===undefined?[]:this.props.sortBy;
     let {headerStyle} = this.props;    
     return(
       <thead className="react-table-lite-header" style={headerStyle}>
@@ -23,11 +58,19 @@ export default class Table extends React.Component {
           {header.length?
             header.map((heading,index)=>(
               <th key={index}>
-                  {heading}
+				{sortBy.indexOf(heading)!==-1?
+					<span className="rtl-sortable-header">						
+						{heading}
+						<span onClick={this._onSort.bind(this, heading, 'asc' )} > ▲ </span>
+						<span onClick={this._onSort.bind(this, heading, 'dsc' )}>  ▼ </span>
+					</span>	
+					:
+					heading
+				}
               </th>
             ))
             :
-          ""
+           <th></th>
           }
         </tr>
       </thead>
@@ -36,8 +79,8 @@ export default class Table extends React.Component {
 
   TableData = () =>{
     let header = this.props.header===undefined?[]:this.props.header;
-    let { 
-      data, 
+    let data = this.props.data===undefined?[]:this.props.data;
+    let {       
       limit,
       rowStyle,
       dataStyle
@@ -74,7 +117,7 @@ export default class Table extends React.Component {
                 return "";
               })
             :
-          ""
+			<tr></tr>
         }        
       </tbody>
     )
@@ -102,7 +145,7 @@ export default class Table extends React.Component {
     return (
       <div className="react-table-lite-container" style={this.props.containerStyle}>        
         <>{this.DownloadTableButton()}</>      
-        <table id="rtl-table-table-lite" cellspacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
+        <table id="rtl-table-table-lite" cellSpacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
           {this.TableHeader()}
           {this.TableData()}
         </table>
