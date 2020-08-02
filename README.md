@@ -1,4 +1,4 @@
-﻿# React Table Lite
+# React Table Lite
 
 A lightweight easy to use and easily customizable React Component for rendering a Table..
 
