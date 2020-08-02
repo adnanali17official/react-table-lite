@@ -20,7 +20,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
   
  ## Preview:
  
- <img src="https://github.com/adnanali17official/react-table-lite/blob/master/preview.png" alt="react-table-lite-preview" width="600" />
+ <img src="https://github.com/adnanali17official/react-table-lite/blob/master/preview.png" alt="react-table-lite-preview" />
 
  ## Example:
 ```js  
