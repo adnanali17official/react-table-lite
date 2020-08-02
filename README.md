@@ -34,26 +34,26 @@ A lightweight easy to use and easily customizable React Component for rendering 
 			];
 	
 		return(
-			<Table
-				data = {Users}		
-				//Array of JSONObjects(required)
-				header = {["id","name","age","email"]}  
-				// Headers should be same as data JSON(required)
-				sortBy = {["name", "age"]}
-				// keys for sorting should be present in header array
-				download = {true}
-				//Downloadable data 
-				limit = {10}
-				//No of rows to display at a time
-				headerStyle = {}
-				//Customize table header style
-				containerStyle = {}
-				//Customize table container style
-				rowStyle = {}
-				//Customize table row style
-				dataStyle = {}
-				//Customize table data cell style
-			/>
+		   <Table
+			   data = {Users}		
+			   //Array of JSONObjects(required)
+			   header = {["id","name","age","email"]}  
+			   // Headers should be same as data JSON(required)
+			   sortBy = {["name", "age"]}
+			   // keys for sorting should be present in header array
+			   download = {true}
+			   //Downloadable data 
+			   limit = {10}
+			   //No of rows to display at a time
+			   headerStyle = {}
+			   //Customize table header style
+			   containerStyle = {}
+			   //Customize table container style
+			   rowStyle = {}
+			   //Customize table row style
+			   dataStyle = {}
+			   //Customize table data cell style
+		   />
 		)
 	}
 ```
