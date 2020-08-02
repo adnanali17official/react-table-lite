@@ -57,3 +57,4 @@ A lightweight easy to use and easily customizable React Component for rendering 
       )
   }
 ```
+**Support**:  adnanali17official@gmail.com, daniyal_09.2005@hotmail.com
