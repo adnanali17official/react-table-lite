@@ -1,7 +1,7 @@
 {
     "name": "react-table-lite",
     "version": "1.1.9",
-    "keywords": ["table", "react-data-table", "table-component", "react-table", "data-table", "downloadable"],
+    "keywords": ["table", "react-data-table", "table-component", "react-table", "data-table", "react", "downloadable"],
     "main": "./dist/table.js",
     "dependencies": {
         "@testing-library/jest-dom": "^4.2.4",
