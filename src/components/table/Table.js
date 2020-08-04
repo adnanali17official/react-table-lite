@@ -60,8 +60,7 @@ export default class Table extends React.Component {
     let searchStringArray = this.state.searchString.trim().split(",");
     let searchKeys = this.state.searchKeys;
     if (!this.state.searchString.trim().length) {
-      this.setState({ appliedSearch: false });
-      this.getTableData();
+      this.setState({ appliedSearch: false });      
     }
     else {
       data.forEach((row) => {
@@ -126,8 +125,7 @@ export default class Table extends React.Component {
 	  this.setState({ sortParameters, sortKeys });
 	}
   
-  getTableData = () => {
-    console.log("ok");
+  getTableData = () => {    
     let data = this.props.data === undefined ? [] : this.props.data;
     let limit = this.props.limit === undefined ? null : Number(this.props.limit);
     let tempData = [];
@@ -239,7 +237,7 @@ export default class Table extends React.Component {
       <div>
         {
           searchable?
-            <form className="rtl-table-search-form" onSubmit={this.applySearch.bind(this)}>
+            <form className="rtl-table-search-form" onSubmit={this._handleSearch.bind(this)}>
               <input 
                 onChange = {this._handleSearchString.bind(this)}
                 value={this.state.searchString}
