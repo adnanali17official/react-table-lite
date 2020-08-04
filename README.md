@@ -84,4 +84,4 @@ dataStyle   | Style  | Style object for table cells
  
 
 ### Support:  
-adnanali17official@gmail.com, daniyal_09.2005@hotmail.com
+For support contact: adnanali17official@gmail.com, daniyal_09.2005@hotmail.com
