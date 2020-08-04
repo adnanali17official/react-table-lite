@@ -1,68 +1,85 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Table Lite
 
-## Available Scripts
+A lightweight easy to use and easily customizable React Component for rendering a Table.
 
-In the project directory, you can run:
+### Features:
 
-### `npm start`
+ - **Fully Customizable:**
+    Style props and classes can be overridden easily to customize table.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ - **JSON data array:**
+    Accepts data array and renders them in respective table headers.
+    
+ - **Sort data by header:**
+    Accepts array of keys which matches with headers for displaying sorted table data.    
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+ - **Download Table Data:**
+    Use ‘download’ prop to enable a button that exports table data as .csv, button is also customizable, default is false.
 
-### `npm test`
+### Preview:  
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ <img src="https://1hvwng.dm.files.1drv.com/y4mKkLste69u9HLEPbqBxtQiSohJoLUeaOFHSqACla5g2p89YcZ1iRhIuO2Rtxcg1G27Cjg9xk3trgYpNwHvPul3683kDwtSFFb-rxEChStH-Q97DmH5KaJXEP-CWFkbnVzKNAzbXWPX8OzZ18Y4YBRmmRjxXtA_ggQHnh1jMXBfNZZLUsIcwIr06YnIveG_GOHN3bmvPm8N16eJFxhC_VICw?width=1439&height=429&cropmode=none" alt="react-table-lite-preview-1"/>
 
-### `npm run build`
+ <img src="https://1hvd5q.dm.files.1drv.com/y4mhsGw04CX8hM6U-ycjujPo-ynxHPAbYkKXVGPigUJB2p1pjEjsndkwa1_CTk1xWBNUQosSVmTRBusy-D4rkkqOtAmi-hlkB42E5pD7reDyAdS_xK2tSMh779zbNxAXy2ItG1pWA-2LiON-89-f4DdyhwfbdS3tW0biIO9f_xXu_iYacUy3gvhr8MA72aLiclqxUP6DQ7H65AvSYylUGzfDA?width=1439&height=344&cropmode=none" alt="react-table-lite-preview-2" />
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Example:
+```js  
+    import React from 'react';
+    import Table from "react-table-lite";
+    
+    function UserData(props){
+      let Users = 
+        [
+            {id:1 , name:"John Doe", age:"25", email:"JohnDoe@gmail.com"},
+            {id:2 , name:"Kazuki Yashiro", age:"35", email:"Y_Kazuki@gmail.com"},
+            {id:3 , name:"Eddie Memon", age:"22", email:"Eddie254@gmail.com"},
+            {id:4 , name:"Barood Khan", age:"45", email:"BK5454@gmail.com"},
+        ];
+	
+      return(
+        <Table
+           data = {Users}		
+           //Array of JSONObjects(required)
+           header = {["id","name","age","email"]}  
+           // Headers should be same as data JSON(required)
+           sortBy = {["name", "age"]}
+           // keys for sorting should be present in header array
+           searchable={true}
+           //Enable table search field
+           searchBy={["name", "email"]}
+           // keys for sorting should be present in header array
+           download = {true}
+           //Downloadable data 
+           fileName = {"Table_Data"}
+           //Default name of downloaded csv file            
+           limit = {10}
+           //No of rows to display at a time
+           containerStyle = {}
+           //Customize table container style           
+           headerStyle = {}
+           //Customize table header style
+           rowStyle = {}
+           //Customize table row style
+           dataStyle = {}
+           //Customize table data cell style
+        />
+      )
+  }
+```
+### Props:
+Prop | Type | Description
+---- | ---- | ----
+header      | Array | Array of string will be rendered as table headers (required)|
+data        | Array | Array of JSON objects to be rendered in table, keys should match with table headers (required)|
+sortBy      | Array | Array of string which matches the headers for sorting data in table body |
+searchable  | Boolean | Pass ‘true’ to enable search field |
+searchBy    | Array | Array of string which matches the headers for searching data in table body |
+download    | Boolean | Pass ‘true’ to enable download csv button |
+fileName    | String | String used as default filename for csv files when downloading 
+limit       | Integer | Limit number of rows to display at a time
+containerStyle | Style  | Style object for parent container
+headerStyle | Style  | Style object for table header
+rowStyle    | Style  | Style object for table rows
+dataStyle   | Style  | Style object for table cells
+ 
+**Support**:  adnanali17official@gmail.com, daniyal_09.2005@hotmail.com

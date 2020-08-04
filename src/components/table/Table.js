@@ -6,38 +6,163 @@ import { export_table_to_csv } from './../../script/download_csv';
 export default class Table extends React.Component {
   constructor(props) {
     super(props);    
-    this.state = {};
+    this.state = {
+      data:[],
+      sortParameters : [],
+      sortKeys : [],
+      searchKeys: [],
+      fileName: "table",
+      searchString: "",
+      appliedSearch: false
+	  };
   }
 
   _downloadData = () => {
     var html = document.getElementById("rtl-table-table-lite").outerHTML;
-    export_table_to_csv(html, "table.csv");
+    export_table_to_csv(html, this.state.fileName+".csv");
   }
 
-  TableHeader = () =>{
+  _onSort = (sortKey, direction) => {
+    let data = this.state.data;
+    let sortKeyIndex = this.state.sortKeys.indexOf(sortKey);
+    let sortParameters = this.state.sortParameters;
+    sortParameters.forEach((parameter) => {
+      parameter = false;
+    });
+    sortParameters[sortKeyIndex] = true;
+    data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
+    if (direction === 'dsc') {
+      data.reverse();
+    }
+    this.setState({ sortParameters });
+  }  
+  
+  _handleSearchString = (evt) => {
+    let searchString = evt.target.value;
+    this.setState({ searchString });
+  }
+
+  _handleSearch = (evt) => {
+      evt.preventDefault();  
+      let searchedData = [];
+      let data = this.props.data===undefined?[]:this.props.data;       
+      let searchStringArray = this.state.searchString.trim().split(","); 
+      let searchKeys = this.state.searchKeys;                 
+      if(!this.state.searchString.trim().length){
+        this.setState({ appliedSearch: false });
+        this.getTableData();
+      }
+      else {
+        data.forEach((row) => {
+          for (const key in row) {
+            if (searchKeys.indexOf(key) !== -1 && 
+                row.hasOwnProperty(key) &&                   
+                this.matchCaseInsensitive(row[key],searchStringArray)           
+            ){                            
+              searchedData.push(row);
+            }
+          }
+        })
+        this.setState({ 
+            data : searchedData, 
+            appliedSearch: true 
+        });
+      }
+  }
+
+  _clearSearch = (evt) =>{
+    evt.preventDefault();
+    this.setState(
+        {searchString:"", appliedSearch: false}, this.getTableData()
+      );    
+  }
+
+  matchCaseInsensitive = (parentString, substringArray) => {
+      let flag = false;         
+      for( let i=0 ; i<= substringArray.length; i++){   
+        let substr = String(substringArray[i]).toUpperCase().trim();
+        parentString = String(parentString).toUpperCase().trim();  
+        if (parentString.includes(substr) && substr!==""){
+          flag = true;
+          break;
+        }
+      }
+      return flag;        
+  }
+
+  getSearchParameters = () => {
+    let searchKeys = [];
+    let searchBy = this.props.searchBy===undefined?[]:this.props.searchBy;
     let header = this.props.header===undefined?[]:this.props.header;
-    let {headerStyle} = this.props;    
-    return(
+    searchBy.forEach(function(searchKey){
+		  if(header.indexOf(searchKey)!==-1)
+        searchKeys.push(searchKey);
+	  });
+	  this.setState({ searchKeys });
+  }
+
+  getSortParameters = () => {
+	  let sortKeys = [];
+	  let sortParameters = [];	  
+	  let sortBy = this.props.sortBy===undefined?[]:this.props.sortBy;
+	  let header = this.props.header===undefined?[]:this.props.header;
+	  sortBy.forEach(function(sortKey){
+		  if(header.indexOf(sortKey)!==-1)
+			  sortParameters.push(false);
+	  });
+	  this.setState({ sortParameters, sortKeys });
+	}
+  
+  getTableData = () => {
+    let data = this.props.data===undefined?[]:this.props.data;
+    this.setState({ data });
+  }
+
+  getDownloadableFileName = () =>{
+    let fileName = this.props.fileName===undefined?"table":this.props.fileName;
+    this.setState({ fileName });
+  }
+
+  componentDidMount = () => {
+    this.getSortParameters();
+    this.getSearchParameters();
+    this.getTableData();
+    this.getDownloadableFileName();
+  }
+  
+  TableHeader = () => {
+    let header = this.props.header === undefined ? [] : this.props.header;
+    let sortBy = this.props.sortBy === undefined ? [] : this.props.sortBy;
+    let { headerStyle } = this.props;
+    return (
       <thead className="react-table-lite-header" style={headerStyle}>
         <tr>
-          {header.length?
-            header.map((heading,index)=>(
+          {header.length ?
+            header.map((heading, index) => (
               <th key={index}>
-                  {heading}
+                {sortBy.indexOf(heading) !== -1 ?
+                  <span className="rtl-table-sortable-header">
+                    {heading}
+                    <span onClick={this._onSort.bind(this, heading, 'asc')} > ▲ </span>
+                    <span onClick={this._onSort.bind(this, heading, 'dsc')}>  ▼ </span>
+                  </span>
+                  :
+                  heading
+                }
               </th>
             ))
             :
-          ""
+            <th></th>
           }
         </tr>
       </thead>
     )
   }
 
-  TableData = () =>{
+  TableData = () => {
     let header = this.props.header===undefined?[]:this.props.header;
-    let { 
-      data, 
+    let data = this.state.data;
+    let {       
       limit,
       rowStyle,
       dataStyle
@@ -66,23 +191,52 @@ export default class Table extends React.Component {
                             </td>
                           ))     
                           :
-                          <td></td>               
+                          <td> </td>               
                       }                      
                   </tr>     
                   )      
                 }        
+                return "";
               })
             :
-          ""
+            <tr>
+              <td colSpan={header.length}> 
+                No data found 
+              </td> 
+            </tr>
         }        
       </tbody>
     )
   }
 
-  DownloadTableButton = () =>{
-    let download = this.props.download === undefined? false : this.props.download
+  TableOperations = () =>{
+    let download = this.props.download === undefined? false : Boolean(this.props.download);
+    let searchable = this.props.searchable === undefined? false : Boolean(this.props.searchable);
     return(
       <div>
+        {
+          searchable?
+            <form className="rtl-table-search-form" onSubmit={this._handleSearch.bind(this)}>
+              <input 
+                onChange = {this._handleSearchString.bind(this)}
+                value={this.state.searchString}
+                placeholder = "Search"
+                type="text" 
+                name="rtl-table-search" 
+              />              
+              {!this.state.appliedSearch ?
+                <button type="submit">
+                  <svg width="14" height="13" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" display="inline-block" viewBox="2 2 21 21" style={{ verticalAlign: "middle" }}> <circle cx="11" cy="11" r="8"></circle> <path d="M21 21L16.65 16.65"></path> </svg>
+                </button>
+                :
+                <button type="button" onClick={this._clearSearch.bind(this)}>
+                  <svg width="14" height="13" fill="currentColor" viewBox="12 13 40 40" style={{ verticalAlign: "middle" }} display="inline-block" > <g> <g> <path d="M36.243 32l11.879-11.879a3 3 0 00-4.243-4.242L32 27.757 20.121 15.879a3 3 0 10-4.242 4.242L27.757 32 15.879 43.879a3 3 0 104.242 4.242L32 36.243l11.879 11.879a3 3 0 004.242-4.243L36.243 32z"></path> </g> </g> </svg>
+                </button>
+              }
+            </form>           
+          :
+          ""
+        }
         {
           download?
             <button id="rtl-table-download-btn" className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
@@ -92,16 +246,17 @@ export default class Table extends React.Component {
             </button>            
           :
           ""
-        }
+        }        
       </div>
     )
   }
 
+
   render() {
     return (
-      <div className="react-table-lite-container" style={this.props.containerStyle}>        
-        <>{this.DownloadTableButton()}</>      
-        <table id="rtl-table-table-lite" cellspacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
+      <div className="react-table-lite-container" style={this.props.containerStyle}>              
+        <>{this.TableOperations()}</>      
+        <table id="rtl-table-table-lite" cellSpacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
           {this.TableHeader()}
           {this.TableData()}
         </table>

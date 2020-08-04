@@ -1,49 +1,84 @@
-.react-table-lite-container{
-  width: 100%;
+.react-table-lite-container {
+	width: 100%;
 }
-.react-table-lite-container table{
-  width: 100%;
+
+.react-table-lite-container table {
+	width: 100%;
 }
+
 .react-table-lite-container table td,
-.react-table-lite-container table th{
-  text-align: left;
-} 
-
-.react-table-lite-container table td{
-  padding: 5px;
-  border: .0525rem solid #dadadaa8;
-  border-top: 0;
+.react-table-lite-container table th {
+	text-align: left;
 }
 
-.react-table-lite-container table td{  
-  border-left: 0;  
-}
-.react-table-lite-container table td:first-child{  
-  border-left: .0525rem solid #dadadaa8;
+.react-table-lite-container table td {
+	padding: 5px;
+	border: .0525rem solid #dadadaa8;
+	border-top: 0;
 }
 
-.react-table-lite-container table th{
-  background: #ececec;
-  border-top:1px solid rgb(0,0,0);
-  border-bottom:1px solid rgb(0,0,0);  
-  border-right:1px solid rgb(0,0,0);
-  padding:5px;
+.react-table-lite-container table td {
+	border-left: 0;
 }
-.react-table-lite-container table th:last-child{
+
+.react-table-lite-container table td:first-child {
+	border-left: .0525rem solid #dadadaa8;
+}
+
+.react-table-lite-container table thead{
+	background: #ececec;
+}
+
+.react-table-lite-container table th {	
+	border-top: 1px solid rgb(0, 0, 0);
+	border-bottom: 1px solid rgb(0, 0, 0);
+	border-right: 1px solid rgb(0, 0, 0);
+	padding: 5px;
+}
+
+.react-table-lite-container table th:last-child {
+	border-left: 0px;
+}
+
+.react-table-lite-container table th:first-child {
+	border-left: 1px solid rgb(0, 0, 0);
+}
+
+.react-table-lite-container thead th {
+	text-transform: capitalize;
+}
+
+.rtl-table-download-btn-css {
+	cursor: pointer;
+	border: none;
+	border-radius: 100px;
+	padding: 5px;
+	margin: 2px;
+	float: right;
+	background: transparent;
+}
+
+.rtl-table-sortable-header>span {
+	font-size: 0.7em;
+	cursor: pointer;
+}
+
+.rtl-table-sortable-header>span:first-child {
+	margin-left: 3px;
+}
+
+.rtl-table-search-form {
+	float: left;
+}
+
+.rtl-table-search-form input, .rtl-table-search-form input:focus  {
+  padding: 7px;
+  outline: none;
+}
+.rtl-table-search-form button{
+  padding: 8px;
+  cursor: pointer;  
+  border:1px solid black;
   border-left: 0px;
-}
-.react-table-lite-container table th:first-child{
-  border-left: 1px solid rgb(0,0,0);
-}
-.react-table-lite-container thead th{
-  text-transform: capitalize;
-}
-.rtl-table-download-btn-css{
-  cursor: pointer;
-  border: none;
-  border-radius: 100px;
-  padding: 5px;
-  margin:2px;
-  float: right;
-  background: transparent;
+  outline: none !important;
 }
