@@ -1,14 +1,7 @@
 {
     "name": "react-table-lite",
     "version": "1.1.9",
-    "keywords": [
-        "table",
-        "react-data-table",
-        "table-component",
-        "react-table",
-        "data-table",
-        "downloadable"
-    ],
+    "keywords": ["table", "react-data-table", "table-component", "react-table", "data-table", "downloadable"],
     "main": "./dist/table.js",
     "dependencies": {
         "@testing-library/jest-dom": "^4.2.4",
@@ -28,16 +21,8 @@
         "extends": "react-app"
     },
     "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+        "production": [">0.2%", "not dead", "not op_mini all"],
+        "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
     },
     "devDependencies": {
         "@babel/core": "^7.11.0",
