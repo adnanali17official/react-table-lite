@@ -1,6 +1,6 @@
 # React Table Lite
 
-A lightweight easy to use and easily customizable React Component for rendering a Table.
+A lightweight easy to use and easily customizable React Component for rendering a table.
 
 ### Features:
 
@@ -35,12 +35,12 @@ A lightweight easy to use and easily customizable React Component for rendering 
     
     function UserData(props){
       let Users = 
-        [
-            {id:1 , name:"John Doe", age:"25", email:"JohnDoe@gmail.com"},
-            {id:2 , name:"Kazuki Yashiro", age:"35", email:"Y_Kazuki@gmail.com"},
-            {id:3 , name:"Eddie Memon", age:"22", email:"Eddie254@gmail.com"},
-            {id:4 , name:"Barood Khan", age:"45", email:"BK5454@gmail.com"},
-        ];
+       [
+         {id:1 , name:"John Doe", age:"25", email:"JohnDoe@gmail.com"},
+         {id:2 , name:"Kazuki Yashiro", age:"35", email:"Y_Kazuki@gmail.com"},
+         {id:3 , name:"Eddie Memon", age:"22", email:"Eddie254@gmail.com"},
+         {id:4 , name:"Barood Khan", age:"45", email:"BK5454@gmail.com"},
+       ];
 	
       return(
         <Table
