@@ -191,8 +191,8 @@ export default class Table extends React.Component {
                 {sortBy.indexOf(heading) !== -1 ?
                   <span className="rtl-table-sortable-header">
                     {heading}
-                    <span onClick={this._onSort.bind(this, heading, 'asc')} > ▲ </span>
-                    <span onClick={this._onSort.bind(this, heading, 'dsc')}>  ▼ </span>
+                    <span onClick={this._onSort.bind(this, heading, 'dsc')} > ▲ </span>
+                    <span onClick={this._onSort.bind(this, heading, 'asc')}>  ▼ </span>
                   </span>
                   :
                   heading
