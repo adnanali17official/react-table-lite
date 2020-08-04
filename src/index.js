@@ -7,7 +7,7 @@ ReactDOM.render(
         download={true}
         fileName="my customers"
         header={["name", "age", "phone", "email"]}
-        //sortBy={["age", "phone", "name"]}
+        sortBy={["age", "phone", "name"]}
         searchBy={["age"]}
         searchable={1}
         data={[

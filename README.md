@@ -13,6 +13,12 @@ A lightweight easy to use and easily customizable React Component for rendering 
  - **Sort data by header:**
     Accepts array of keys which matches with headers for displaying sorted table data.    
 
+ - **Searchable:**
+    Data can be searched by providing comma separated search strings. Specify columns to be searched using 'searchBy' props. 
+
+ - **Data limit:**
+    Limit data rows for better performance.
+
  - **Download Table Data:**
     Use ‘download’ prop to enable a button that exports table data as .csv, button is also customizable, default is false.
 
