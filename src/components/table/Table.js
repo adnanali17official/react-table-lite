@@ -17,6 +17,13 @@ export default class Table extends React.Component {
 	  };
   }
 
+  componentDidMount = () => {
+    this.getSortParameters();
+    this.getSearchParameters();
+    this.getDownloadableFileName();
+    this.getTableData();    
+  }
+
   _downloadData = () => {
     var html = document.getElementById("rtl-table-table-lite").outerHTML;
     export_table_to_csv(html, this.state.fileName+".csv");
@@ -30,10 +37,10 @@ export default class Table extends React.Component {
       parameter = false;
     });
     sortParameters[sortKeyIndex] = true;
-    data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
-    if (direction === 'dsc') {
-      data.reverse();
-    }
+    direction === 'dsc'?
+      data.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])))
+    :
+    data.sort((a, b) => String(b[sortKey]).localeCompare(String(a[sortKey])))
     this.setState({ sortParameters });
   }  
   
@@ -43,38 +50,40 @@ export default class Table extends React.Component {
   }
 
   _handleSearch = (evt) => {
-      evt.preventDefault();  
-      let searchedData = [];
-      let data = this.props.data===undefined?[]:this.props.data;       
-      let searchStringArray = this.state.searchString.trim().split(","); 
-      let searchKeys = this.state.searchKeys;                 
-      if(!this.state.searchString.trim().length){
-        this.setState({ appliedSearch: false });
-        this.getTableData();
-      }
-      else {
-        data.forEach((row) => {
-          for (const key in row) {
-            if (searchKeys.indexOf(key) !== -1 && 
-                row.hasOwnProperty(key) &&                   
-                this.matchCaseInsensitive(row[key],searchStringArray)           
-            ){                            
+    evt.preventDefault();
+    let searchedData = [];
+    let data = this.state.data;
+    let searchStringArray = this.state.searchString.trim().split(",");
+    let searchKeys = this.state.searchKeys;
+    if (!this.state.searchString.trim().length) {
+      this.setState({ appliedSearch: false });
+      this.getTableData();
+    }
+    else {
+      data.forEach((row) => {
+        for (const key in row) {
+          let search_condition =  
+            searchKeys.indexOf(key) !== -1  &&
+            row.hasOwnProperty(key)         &&
+            !searchedData.includes(row)     &&
+            this.matchCaseInsensitive(row[key], searchStringArray);
+          if (search_condition) {
               searchedData.push(row);
-            }
           }
-        })
-        this.setState({ 
-            data : searchedData, 
-            appliedSearch: true 
-        });
-      }
+        }
+      })
+      this.setState({
+        data: searchedData,
+        appliedSearch: true
+      });
+    }
   }
 
-  _clearSearch = (evt) =>{
+  _clearSearch = (evt) => {
     evt.preventDefault();
     this.setState(
-        {searchString:"", appliedSearch: false}, this.getTableData()
-      );    
+      { searchString: "", appliedSearch: false }, this.getTableData()
+    );
   }
 
   matchCaseInsensitive = (parentString, substringArray) => {
@@ -82,7 +91,7 @@ export default class Table extends React.Component {
       for( let i=0 ; i<= substringArray.length; i++){   
         let substr = String(substringArray[i]).toUpperCase().trim();
         parentString = String(parentString).toUpperCase().trim();  
-        if (parentString.includes(substr) && substr!==""){
+        if (parentString.indexOf(substr)>-1 && substr!==""){
           flag = true;
           break;
         }
@@ -92,13 +101,13 @@ export default class Table extends React.Component {
 
   getSearchParameters = () => {
     let searchKeys = [];
-    let searchBy = this.props.searchBy===undefined?[]:this.props.searchBy;
-    let header = this.props.header===undefined?[]:this.props.header;
-    searchBy.forEach(function(searchKey){
-		  if(header.indexOf(searchKey)!==-1)
+    let searchBy = this.props.searchBy === undefined ? [] : this.props.searchBy;
+    let header = this.props.header === undefined ? [] : this.props.header;
+    searchBy.forEach(function (searchKey) {
+      if (header.indexOf(searchKey) !== -1)
         searchKeys.push(searchKey);
-	  });
-	  this.setState({ searchKeys });
+    });
+    this.setState({ searchKeys });
   }
 
   getSortParameters = () => {
@@ -114,22 +123,59 @@ export default class Table extends React.Component {
 	}
   
   getTableData = () => {
-    let data = this.props.data===undefined?[]:this.props.data;
-    this.setState({ data });
+    let data = this.props.data === undefined ? [] : this.props.data;
+    let limit = this.props.limit === undefined ? null : Number(this.props.limit);
+    let tempData = [];
+    limit !== null ?
+      data.forEach((row, index) => {
+        if (index < limit) {
+          tempData.push(row);
+        }
+      })
+      :
+      data.forEach((row) => {
+        tempData.push(row);
+      })
+    this.setState({ data: tempData });
   }
 
   getDownloadableFileName = () =>{
     let fileName = this.props.fileName===undefined?"table":this.props.fileName;
+    fileName = fileName.trim()===""?"table":fileName;
     this.setState({ fileName });
   }
-
-  componentDidMount = () => {
-    this.getSortParameters();
-    this.getSearchParameters();
-    this.getTableData();
-    this.getDownloadableFileName();
-  }
   
+  generateTableRows = () => {
+    let { rowStyle, dataStyle } = this.props;
+    let header = this.props.header === undefined ? [] : this.props.header;
+    let data = this.state.data;
+    let tablebody = [];
+    data.forEach((data_row, index) => (      
+      tablebody.push(
+        <tr
+          key={index}
+          style={rowStyle}
+          className="react-table-lite-row"
+        >
+          {
+            header.length ?
+              header.map((header_key, index) => (
+                <td
+                  key={index}
+                  style={dataStyle}
+                >
+                  {data_row[header_key]}
+                </td>
+              ))
+              :
+              <td> </td>
+          }
+        </tr>
+      )
+    ));
+    return tablebody;    
+  }
+
   TableHeader = () => {
     let header = this.props.header === undefined ? [] : this.props.header;
     let sortBy = this.props.sortBy === undefined ? [] : this.props.sortBy;
@@ -161,50 +207,18 @@ export default class Table extends React.Component {
 
   TableData = () => {
     let header = this.props.header===undefined?[]:this.props.header;
-    let data = this.state.data;
-    let {       
-      limit,
-      rowStyle,
-      dataStyle
-     } = this.props;  
-
+    let data = this.state.data;     
     return(
       <tbody>
-        {data.length?
-            data.map((data_row,index)=>
-              {
-                if(index!==limit){
-                  return(
-                  <tr 
-                    key={index} 
-                    style={rowStyle}
-                    className="react-table-lite-row"
-                  >  
-                      {
-                        header.length?
-                          header.map((header_key,index)=>(
-                            <td 
-                              key={index} 
-                              style={dataStyle}
-                            >
-                                {data_row[header_key]}
-                            </td>
-                          ))     
-                          :
-                          <td> </td>               
-                      }                      
-                  </tr>     
-                  )      
-                }        
-                return "";
-              })
-            :
-            <tr>
-              <td colSpan={header.length}> 
-                No data found 
-              </td> 
-            </tr>
-        }        
+        {data.length ?
+          this.generateTableRows()
+          :
+          <tr>
+            <td colSpan={header.length}>
+              No data found
+            </td>
+          </tr>
+        }
       </tbody>
     )
   }

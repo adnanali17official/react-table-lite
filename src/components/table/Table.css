@@ -1,3 +1,5 @@
+
+
 .react-table-lite-container {
 	width: 100%;
 }
@@ -25,11 +27,11 @@
 	border-left: .0525rem solid #dadadaa8;
 }
 
-.react-table-lite-container table thead{
+.react-table-lite-container table thead {
 	background: #ececec;
 }
 
-.react-table-lite-container table th {	
+.react-table-lite-container table th {
 	border-top: 1px solid rgb(0, 0, 0);
 	border-bottom: 1px solid rgb(0, 0, 0);
 	border-right: 1px solid rgb(0, 0, 0);
@@ -69,16 +71,23 @@
 
 .rtl-table-search-form {
 	float: left;
+	position: relative;
 }
 
-.rtl-table-search-form input, .rtl-table-search-form input:focus  {
-  padding: 7px;
-  outline: none;
+.rtl-table-search-form input,
+.rtl-table-search-form input:focus {
+	padding: 7px;
+	padding-right:33px;
+	outline: none;
 }
-.rtl-table-search-form button{
-  padding: 8px;
-  cursor: pointer;  
-  border:1px solid black;
-  border-left: 0px;
-  outline: none !important;
+
+.rtl-table-search-form button {
+	right: 0;
+	height: 100%;
+	cursor: pointer;
+	position: absolute;
+	border: 1px solid black;
+	/* border-left: 0px; */
+	outline: none !important;
 }
+
