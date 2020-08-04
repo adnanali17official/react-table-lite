@@ -56,30 +56,25 @@ export default class Table extends React.Component {
 
   _applySearch = () => {         
     let searchedData = [];
-    let data = this.state.data;   
+    let data = this.state.data;
     let searchStringArray = this.state.searchString.trim().split(",");
-    let searchKeys = this.state.searchKeys;
-    if (!this.state.searchString.trim().length) {
-      this.setState({ appliedSearch: false });      
-    }
-    else {
-      data.forEach((row) => {
-        for (const key in row) {
-          let search_condition =  
+    let searchKeys = this.state.searchKeys;    
+    data.forEach((row) => {
+      for (const key in row) {
+        let search_condition =
             searchKeys.indexOf(key) !== -1  &&
             row.hasOwnProperty(key)         &&
             !searchedData.includes(row)     &&
             this.matchCaseInsensitive(row[key], searchStringArray);
-          if (search_condition) {
-              searchedData.push(row);
-          }
+        if (search_condition) {
+          searchedData.push(row);
         }
-      })
-      this.setState({
-        data: searchedData,
-        appliedSearch: true
-      });
-    }
+      }
+    })
+    this.setState({
+      data: searchedData,
+      appliedSearch: true
+    });    
   }
 
   _clearSearch = (evt) => {
@@ -139,7 +134,7 @@ export default class Table extends React.Component {
       data.forEach((row) => {
         tempData.push(row);
       })
-    this.setState({ data: tempData }, 
+    this.setState({ data: tempData, appliedSearch:false }, 
       ()=> {
         if(this.state.searchString.trim().length)
           this._applySearch();
