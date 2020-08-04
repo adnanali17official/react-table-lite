@@ -82,4 +82,5 @@ headerStyle | Style  | Style object for table header
 rowStyle    | Style  | Style object for table rows
 dataStyle   | Style  | Style object for table cells
  
+ 
 **Support**:  adnanali17official@gmail.com, daniyal_09.2005@hotmail.com
