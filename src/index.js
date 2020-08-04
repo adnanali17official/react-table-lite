@@ -5,9 +5,10 @@ ReactDOM.render(
     <Table
         limit={3}
         download={true}
+        fileName="my customers"
         header={["name", "age", "phone", "email"]}
-        sortBy={["name", "age", "phone"]}
-        searchBy={["name","age","email"]}
+        //sortBy={["age", "phone", "name"]}
+        searchBy={["age"]}
         searchable={1}
         data={[
             { id: 1, name: "John Doe", age: 25, phone: "(+23)1265463", email: "JohnDoe@gmail.com" },

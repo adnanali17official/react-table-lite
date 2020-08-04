@@ -49,10 +49,14 @@ export default class Table extends React.Component {
     this.setState({ searchString });
   }
 
-  _handleSearch = (evt) => {
+  _handleSearch(evt){
     evt.preventDefault();
+    this.getTableData();
+  }
+
+  _applySearch = () => {         
     let searchedData = [];
-    let data = this.state.data;
+    let data = this.state.data;   
     let searchStringArray = this.state.searchString.trim().split(",");
     let searchKeys = this.state.searchKeys;
     if (!this.state.searchString.trim().length) {
@@ -123,6 +127,7 @@ export default class Table extends React.Component {
 	}
   
   getTableData = () => {
+    console.log("ok");
     let data = this.props.data === undefined ? [] : this.props.data;
     let limit = this.props.limit === undefined ? null : Number(this.props.limit);
     let tempData = [];
@@ -136,7 +141,11 @@ export default class Table extends React.Component {
       data.forEach((row) => {
         tempData.push(row);
       })
-    this.setState({ data: tempData });
+    this.setState({ data: tempData }, 
+      ()=> {
+        if(this.state.searchString.trim().length)
+          this._applySearch();
+    });
   }
 
   getDownloadableFileName = () =>{
@@ -230,7 +239,7 @@ export default class Table extends React.Component {
       <div>
         {
           searchable?
-            <form className="rtl-table-search-form" onSubmit={this._handleSearch.bind(this)}>
+            <form className="rtl-table-search-form" onSubmit={this.applySearch.bind(this)}>
               <input 
                 onChange = {this._handleSearchString.bind(this)}
                 value={this.state.searchString}
