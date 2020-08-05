@@ -47,9 +47,11 @@ export default class Table extends React.Component {
     });
     sortParameters[sortKeyIndex] = true;
     direction === 'dsc'?
-      data.sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])))
-    :
-    data.sort((a, b) => String(b[sortKey]).localeCompare(String(a[sortKey])))
+      data.sort((a, b) => { return isNaN(a[sortKey]) ? a[sortKey].localeCompare(b[sortKey]) : Number(a[sortKey]) - Number(b[sortKey]) })
+      // .sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
+      :
+      data.sort((a, b) => { return isNaN(a[sortKey]) ? b[sortKey].localeCompare(a[sortKey]) : Number(b[sortKey]) - Number(a[sortKey]) })
+      // .sort((a, b) => b[sortKey].localeCompare(a[sortKey]))
     this.setState({ sortParameters });
   }  
   

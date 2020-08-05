@@ -1,6 +1,6 @@
 {
     "name": "react-table-lite",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "keywords": ["table", "react-data-table", "table-component", "react-table", "data-table", "react", "sortable", "downloadable" , "searchable", "sort", "download" , "search"],
     "main": "./dist/table.js",
     "dependencies": {
