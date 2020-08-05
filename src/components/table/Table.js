@@ -23,6 +23,15 @@ export default class Table extends React.Component {
     this.getDownloadableFileName();
     this.getTableData();    
   }
+  
+  componentDidUpdate = (prevProps,prevState) => {
+    if(prevProps !== this.props){
+      this.getSortParameters();
+      this.getSearchParameters();
+      this.getDownloadableFileName();
+      this.getTableData();    
+    }
+  }
 
   _downloadData = () => {
     var html = document.getElementById("rtl-table-table-lite").outerHTML;

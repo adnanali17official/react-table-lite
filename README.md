@@ -47,7 +47,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
            data = {Users}		
            //Array of JSONObjects(required)
            header = {["id","name","age","email"]}  
-           // Headers should be same as data JSON(required)
+           // Headers should be same as data JSON Object's keys (required)
            sortBy = {["name", "age"]}
            // keys for sorting should be present in header array
            searchable={true}
