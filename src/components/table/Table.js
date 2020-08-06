@@ -1,7 +1,19 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import "./Table.css";
 
 import { export_table_to_csv } from './../../script/download_csv';
+
+const propTypes = {
+  limit: PropTypes.number,
+  download: PropTypes.bool,
+  fileName: PropTypes.string,
+  header: PropTypes.array.isRequired,
+  sortBy: PropTypes.array,
+  searchBy: PropTypes.array,
+  searchable: PropTypes.number,
+  data: PropTypes.array.isRequired
+};
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -291,3 +303,5 @@ export default class Table extends React.Component {
     );
   }
 }
+
+Table.propTypes = propTypes;
