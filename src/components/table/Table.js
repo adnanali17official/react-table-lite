@@ -185,12 +185,44 @@ export default class Table extends React.Component {
           {
             header.length ?
               header.map((header_key, index) => (
-                <td
-                  key={index}
-                  style={dataStyle}
-                >
-                  {data_row[header_key]}
-                </td>
+                index === header.length -1 ?
+                  <>
+                    <td
+                      key={index}
+                      style={dataStyle}
+                    >
+                      {data_row[header_key]}
+                    </td>
+                    <td 
+                      key={index + 1} 
+                      className="rtl-table-actions"
+                    > 
+                      <div className="rtl-action-btn-container">
+                        <button className="rtl-action-btn-view-btn">
+                          <i>
+                            <svg fill="currentColor" style={{verticalAlign: "middle"}}width="25" height="25" display="inline-block" viewBox="0 0 20 20" > <path d="M10 4.4C3.439 4.4 0 9.232 0 10c0 .766 3.439 5.6 10 5.6 6.56 0 10-4.834 10-5.6 0-.768-3.44-5.6-10-5.6zm0 9.907c-2.455 0-4.445-1.928-4.445-4.307 0-2.379 1.99-4.309 4.445-4.309s4.444 1.93 4.444 4.309c0 2.379-1.989 4.307-4.444 4.307zM10 10c-.407-.447.663-2.154 0-2.154-1.228 0-2.223.965-2.223 2.154s.995 2.154 2.223 2.154c1.227 0 2.223-.965 2.223-2.154 0-.547-1.877.379-2.223 0z"></path> </svg>
+                          </i>
+                        </button>                         
+                        <button className="rtl-action-btn-edit-btn">
+                          <i>
+                            <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="25" height="25" display="inline-block" viewBox="0 0 24 24" > <path d="M21.561 5.318l-2.879-2.879A1.495 1.495 0 0017.621 2c-.385 0-.768.146-1.061.439L13 6H4a1 1 0 00-1 1v13a1 1 0 001 1h13a1 1 0 001-1v-9l3.561-3.561c.293-.293.439-.677.439-1.061s-.146-.767-.439-1.06zM11.5 14.672L9.328 12.5l6.293-6.293 2.172 2.172-6.293 6.293zm-2.561-1.339l1.756 1.728L9 15l-.061-1.667zM16 19H5V8h6l-3.18 3.18c-.293.293-.478.812-.629 1.289-.16.5-.191 1.056-.191 1.47V17h3.061c.414 0 1.108-.1 1.571-.29.464-.19.896-.347 1.188-.64L16 13v6zm2.5-11.328L16.328 5.5l1.293-1.293 2.171 2.172L18.5 7.672z"></path> </svg>
+                          </i>
+                        </button>
+                        <button className="rtl-action-btn-delete-btn">
+                          <i>
+                            <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="19" height="19" display="inline-block" viewBox="0 0 8 8" > <path d="M3 0c-.55 0-1 .45-1 1H1c-.55 0-1 .45-1 1h7c0-.55-.45-1-1-1H5c0-.55-.45-1-1-1H3zM1 3v4.81c0 .11.08.19.19.19h4.63c.11 0 .19-.08.19-.19V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1z"></path> </svg>
+                          </i>
+                        </button>                       
+                      </div>
+                    </td>
+                  </>
+                  :
+                  <td
+                    key={index}
+                    style={dataStyle}
+                  >
+                    {data_row[header_key]}
+                  </td>
               ))
               :
               <td> </td>

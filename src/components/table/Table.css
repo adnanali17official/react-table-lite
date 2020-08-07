@@ -91,3 +91,20 @@
 	outline: none !important;
 }
 
+.rtl-action-btn-container{
+	display: flex;
+}
+.rtl-action-btn-container button, 
+.rtl-action-btn-container button:focus,
+.rtl-action-btn-container button:hover{
+	cursor:pointer;
+	border:none;
+	background: none;
+	outline:none;
+}
+.rtl-action-btn-delete-btn, 
+.rtl-action-btn-edit-btn,
+.rtl-action-btn-view-btn{
+	color: #b9b9b9;;
+}
+
