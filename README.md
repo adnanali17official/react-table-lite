@@ -22,7 +22,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
  - **Download Table Data:**
     Use ‘download’ prop to enable a button that exports table data as .csv, button is also customizable, default is false.
 
-##### New!
+#### `New!`
 
 - **Row Actions:**
     Use ‘showAction’ prop to append a column in the end of the table which will enable user to use row operations (CRUD) like view, edit and delete, default is false.
@@ -54,7 +54,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
 
 <img src="https://1hxjtw.dm.files.1drv.com/y4mMg3xKA1o-Lsp-1Q6FX8FtQf9GvzIfJiu4ZHww81AOVUpOL8dO9GvO-l_qnOdayDUejrFSK3HbwUv5G66BxxNn67J7Jd_KkVQac87J98-Elzlyvs4xZNKHp3F5FHougKU_anL31u7uOpWJc5CuAvojRUWUNT-ofRvQpE_GVeq-jzzJVTTT0hdhKFbtNeXEyTsLN_me18p8j50WjtFvADzZQ?width=1439&height=304&cropmode=none" alt="react-table-lite-preview-2" />
 
-*Custom Styling with CSS and Actions*
+*Custom Styling and Actions*
 
 <img src="https://1hunqa.dm.files.1drv.com/y4mBTaCZHenK-IEH4nut36JXKm0lZlH_IFLXC1ItJ-DnbboszwoEQRfgrRo--0qO51WaU6ulpQPQ9agbuPbhtTGEMVkQn5ngHphLYdX6bi4Hxx4QtPk377RtAu8wMpLlf_Qaa4465ZYBQ1-bihNPh9O5hWP2muTdrcwxrhzzORmPg4-CXMHY-OI7MvPJNa9w6Xm__tRyY5nlC9EJF3rh2rAVQ?width=1258&height=339&cropmode=none" alt="react-table-lite-preview-4" />
 
@@ -130,17 +130,17 @@ searchable  | Boolean | Pass ‘true’ to enable search field |
 searchBy    | Array | Array of string which matches the headers for searching data in table body |
 download    | Boolean | Pass ‘true’ to enable download csv button |
 fileName    | String | String used as default filename for csv files when downloading 
-noDataMessage   | String | String used for 'No data' message.
+noDataMessage   | String | String used for 'No data' message
 limit       | Integer | Limit number of rows to display at a time
 containerStyle | Style  | Style object for parent container
 headerStyle | Style  | Style object for table header
 rowStyle    | Style  | Style object for table rows
 dataStyle   | Style  | Style object for table cells
 showActions | Boolean | Enable to show actions column
-actionTypes | Array | Name of action to enable and show array of string.
-onRowDelete | callback | Callback function on row delete.
-onRowEdit   | callback | Callback function on row edit.
-onRowView   | callback | Callback function on row view.
+actionTypes | Array | Name of action to enable and show array of string
+onRowDelete | callback | Callback function on row delete
+onRowEdit   | callback | Callback function on row edit
+onRowView   | callback | Callback function on row view
 
 ### CSS Classes:
 
