@@ -209,7 +209,7 @@ export default class Table extends React.Component {
                 </React.Fragment>
               ))
               :
-              <td> </td>
+              <td style={dataStyle}> </td>
           }
         </tr>
       )
@@ -253,14 +253,15 @@ export default class Table extends React.Component {
     let header = this.props.header===undefined?[]:this.props.header;
     let colSpan = this.props.showActions===undefined? header.length : header.length + 1;
     let noDataMessage = this.props.noDataMessage===undefined? "No data found" :this.props.noDataMessage;
+    let { rowStyle, dataStyle } = this.props;
     let data = this.state.data;     
     return(
       <tbody>
         {data.length ?
           this.generateTableRows()
           :
-          <tr>
-            <td colSpan={colSpan}>
+          <tr style={rowStyle}>
+            <td style={dataStyle} colSpan={colSpan}>
               {noDataMessage}
             </td>
           </tr>
@@ -312,6 +313,7 @@ export default class Table extends React.Component {
   }
 
   TableActionButtons = (index , columns_length, data_row, e) => {
+    let dataStyle = this.props.dataStyle === undefined ? {} : this.props.dataStyle;
     let showActions = this.props.showActions === undefined ? false : this.props.showActions;
     let actionTypes = this.props.actionTypes === undefined ? [] : this.props.actionTypes;
     let onRowDelete = this.props.onRowDelete === undefined ? ()=>{ return; } : this.props.onRowDelete;
@@ -336,6 +338,7 @@ export default class Table extends React.Component {
       return (
         <td 
           className="rtl-table-actions"
+          style={dataStyle}
         > 
           <div className="rtl-action-btn-container">
           {showViewBtn?
