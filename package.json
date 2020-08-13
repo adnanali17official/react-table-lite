@@ -1,12 +1,31 @@
 {
     "name": "react-table-lite",
-    "version": "1.2.3",
-    "keywords": ["table", "react-data-table", "table-component", "react-table", "data-table", "react", "sortable", "downloadable" , "searchable", "sort", "download" , "search"],
+    "version": "1.3.0",
+    "keywords": [
+        "js",
+        "javascript",
+        "react",
+        "react-table",
+        "table",
+        "table-component",
+        "data-table",
+        "react-data-table",
+        "sort",
+        "sortable",
+        "download",
+        "downloadable",
+        "search",
+        "searchable",
+        "crud",
+        "edit",
+        "delete",
+        "csv",
+        "lite",
+        "lightweight",
+        "minimal"
+    ],
     "main": "./dist/table.js",
     "dependencies": {
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.5.0",
-        "@testing-library/user-event": "^7.2.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-scripts": "3.4.1"
@@ -21,8 +40,16 @@
         "extends": "react-app"
     },
     "browserslist": {
-        "production": [">0.2%", "not dead", "not op_mini all"],
-        "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     },
     "devDependencies": {
         "@babel/core": "^7.11.0",
