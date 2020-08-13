@@ -1,6 +1,6 @@
 {
     "name": "react-table-lite",
-    "version": "1.2.3",
+    "version": "1.3.0",
     "keywords": [
         "js",
         "javascript",
@@ -21,7 +21,8 @@
         "delete",
         "csv",
         "lite",
-        "lightweight"
+        "lightweight",
+        "minimal"
     ],
     "main": "./dist/table.js",
     "dependencies": {

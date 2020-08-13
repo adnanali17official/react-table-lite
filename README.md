@@ -1,6 +1,6 @@
 # React Table Lite
 
-A lightweight easy to use and easily customizable React Component for rendering a table.
+A lightweight easy to use and easily customizable React Component for rendering a table with minimal code.
 
 ### Features:
 
@@ -52,7 +52,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
 
 *Custom Styling*
 
-<img src="https://1hxjtw.dm.files.1drv.com/y4mMg3xKA1o-Lsp-1Q6FX8FtQf9GvzIfJiu4ZHww81AOVUpOL8dO9GvO-l_qnOdayDUejrFSK3HbwUv5G66BxxNn67J7Jd_KkVQac87J98-Elzlyvs4xZNKHp3F5FHougKU_anL31u7uOpWJc5CuAvojRUWUNT-ofRvQpE_GVeq-jzzJVTTT0hdhKFbtNeXEyTsLN_me18p8j50WjtFvADzZQ?width=1439&height=304&cropmode=none" alt="react-table-lite-preview-2" />
+<img src="https://1hvkla.dm.files.1drv.com/y4mwtm17SHzMOgaB4IeaIQRjoiaX6hEtI5otNi1uckH2yVMQ0WxVFfDCBNHzWzFQn4JtHzisDnbQLSjCyPIbFWKk40MBeP4rpDe5zJ0aGwSsAIdfI67PV35aIu90OuTUN1z6DYQ8N0QKyIu4O1jfM52UbDy_o9ttf85yQA0Z5FXCEwmHzQ8QJluZCZYQJVk58Zb9ck_uUh4zHjSbBfnd3Z5OQ?width=1439&height=241&cropmode=none" alt="react-table-lite-preview-2" />
 
 *Custom Styling and Actions*
 
