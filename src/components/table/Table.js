@@ -37,6 +37,7 @@ export default class Table extends React.Component {
     this.getSearchParameters();
     this.getDownloadableFileName();
     this.getTableData();    
+    this.checkRequiredProps();
   }
   
   componentDidUpdate = (prevProps,prevState) => {
@@ -44,8 +45,18 @@ export default class Table extends React.Component {
       this.getSortParameters();
       this.getSearchParameters();
       this.getDownloadableFileName();
-      this.getTableData();    
+      this.getTableData();
+      this.checkRequiredProps();    
     }
+  }
+
+  checkRequiredProps = () => {
+    if(this.props.header === undefined)
+     console.warn("'header' is a required prop. For more details \n https://www.npmjs.com/package/react-table-lite");
+    
+    if(this.props.data === undefined)
+     console.warn("'data' is a required prop. For more details \n https://www.npmjs.com/package/react-table-lite");
+
   }
 
   _downloadData = () => {
