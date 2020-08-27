@@ -1,22 +1,8 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import "./Table.css";
 
 import { export_table_to_csv } from './../../script/download_csv';
 
-const propTypes = {
-  header: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired,
-  limit: PropTypes.number,
-  download: PropTypes.bool,
-  fileName: PropTypes.string,
-  sortBy: PropTypes.array,
-  searchBy: PropTypes.array,
-  searchable: PropTypes.bool,
-  showActions: PropTypes.bool,
-  actionTypes: PropTypes.array,
-  noDataMessage: PropTypes.string
-};
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -28,7 +14,8 @@ export default class Table extends React.Component {
       searchKeys: [],
       fileName: "table",
       searchString: "",
-      appliedSearch: false
+      appliedSearch: false,
+      enableMultiSelect:false
 	  };
   }
 
@@ -38,6 +25,7 @@ export default class Table extends React.Component {
     this.getDownloadableFileName();
     this.getTableData();    
     this.checkRequiredProps();
+    this.getMultiSelectProps();
   }
   
   componentDidUpdate = (prevProps,prevState) => {
@@ -46,7 +34,8 @@ export default class Table extends React.Component {
       this.getSearchParameters();
       this.getDownloadableFileName();
       this.getTableData();
-      this.checkRequiredProps();    
+      this.checkRequiredProps(); 
+      this.getMultiSelectProps();   
     }
   }
 
@@ -91,7 +80,8 @@ export default class Table extends React.Component {
     this.getTableData();
   }
 
-  _applySearch = () => {         
+  _applySearch = () => {    
+    this._clearAllCheckboxes();       
     let searchedData = [];
     let data = this.state.data;
     let searchStringArray = this.state.searchString.trim().split(",");
@@ -114,11 +104,42 @@ export default class Table extends React.Component {
     });    
   }
 
-  _clearSearch = (evt) => {
-    evt.preventDefault();
+  _clearSearch = (evt) => {    
+    evt.preventDefault();   
     this.setState(
-      { searchString: "", appliedSearch: false }, this.getTableData()
+      { searchString: "", appliedSearch: false }, this.getTableData() 
     );
+  }
+
+  _handleCheckboxes = (e) => {
+    let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
+    let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+    header_checkBox.checked = true;
+    row_checkBoxes.forEach((row) => {
+      if (!row.checked)
+        header_checkBox.checked = false;
+    })
+    if (!e.target.checked) {
+        header_checkBox.checked = false;
+    }
+  }
+  _handleHeaderCheckbox = (e) => {
+    let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+    row_checkBoxes.forEach(input => {
+      if (e.target.checked)
+        input.checked = true;
+      else
+        input.checked = false;
+    })    
+  }
+
+  _clearAllCheckboxes = () => {
+    let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
+    let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+    header_checkBox.checked = false;
+    row_checkBoxes.forEach((row) => {
+      row.checked= false;        
+    })    
   }
 
   matchCaseInsensitive = (parentString, substringArray) => {
@@ -132,6 +153,11 @@ export default class Table extends React.Component {
         }
       }
       return flag;        
+  }
+
+  getMultiSelectProps = () => {
+    let enableMultiSelect = this.props.enableMultiSelect === undefined ? false : this.props.enableMultiSelect;
+    this.setState({ enableMultiSelect : enableMultiSelect});
   }
 
   getSearchParameters = () => {
@@ -172,9 +198,11 @@ export default class Table extends React.Component {
         tempData.push(row);
       })
     this.setState({ data: tempData, appliedSearch:false }, 
-      ()=> {
-        if(this.state.searchString.trim().length)
-          this._applySearch();
+      ()=> {  
+        this._clearAllCheckboxes();      
+        if(this.state.searchString.trim().length){
+          this._applySearch();        
+        }
     });
   }
 
@@ -187,6 +215,7 @@ export default class Table extends React.Component {
   generateTableRows = () => {
     let { rowStyle, dataStyle } = this.props;
     let header = this.props.header === undefined ? [] : this.props.header;
+    let onRowSelect = this.props.onRowSelect === undefined ? ()=>{ return; } : this.props.onRowSelect;
     let data = this.state.data;
     let tablebody = [];
     data.forEach((data_row, index) => (      
@@ -196,10 +225,24 @@ export default class Table extends React.Component {
           style={rowStyle}
           className="react-table-lite-row"
         >
+          {this.state.enableMultiSelect?
+            <td colSpan={1}>
+              <input 
+                type="checkbox" 
+                className="rcv-row-checkbox"
+                onChange={(e,...args)=>{     
+                  this._handleCheckboxes(e);
+                  onRowSelect(...args,e,data_row)}
+                }
+              />
+            </td> 
+            :
+            <></>
+          }
           {
             header.length ?
               header.map((header_key, index) => (
-                 <React.Fragment key={index}>               
+                 <React.Fragment key={index}>                               
                   <td
                     style={dataStyle}
                   >
@@ -220,10 +263,27 @@ export default class Table extends React.Component {
   TableHeader = () => {
     let header = this.props.header === undefined ? [] : this.props.header;
     let sortBy = this.props.sortBy === undefined ? [] : this.props.sortBy;
+    let onAllRowSelect = this.props.onAllRowSelect === undefined ? ()=>{ return; } : this.props.onAllRowSelect;
     let { headerStyle } = this.props;
     return (
       <thead className="react-table-lite-header" style={headerStyle}>
         <tr>
+          {this.state.enableMultiSelect?
+            <th
+              style={{ width: '21px' }}
+              colSpan={1}>
+              <input
+                className="rcv-super-checkbox"
+                type="checkbox"
+                onChange={(e, ...args) => {
+                  this._handleHeaderCheckbox(e);
+                  onAllRowSelect(...args, e, this.state.data)
+                }}
+              />
+            </th>
+            :
+            <></>
+          }
           {header.length ?
             header.map((heading, index) => (
               <React.Fragment key={index}>
@@ -260,7 +320,7 @@ export default class Table extends React.Component {
         {data.length ?
           this.generateTableRows()
           :
-          <tr style={rowStyle}>
+          <tr style={rowStyle}>            
             <td style={dataStyle} colSpan={colSpan}>
               {noDataMessage}
             </td>
@@ -318,7 +378,7 @@ export default class Table extends React.Component {
     let actionTypes = this.props.actionTypes === undefined ? [] : this.props.actionTypes;
     let onRowDelete = this.props.onRowDelete === undefined ? ()=>{ return; } : this.props.onRowDelete;
     let onRowEdit = this.props.onRowEdit === undefined ? ()=>{ return; } : this.props.onRowEdit;
-    let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;
+    let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;    
     let showDeleteBtn = false;
     let showEditBtn = false;
     let showViewBtn = false;
@@ -405,4 +465,3 @@ export default class Table extends React.Component {
   }
 }
 
-Table.propTypes = propTypes;

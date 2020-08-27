@@ -16,6 +16,7 @@ ReactDOM.render(
         searchBy={["age"]}
         searchable={true}
         showActions={true}
+        enableMultiSelect={true}
         data={[
             { id: 1, name: "John Doe", age: 25, phone: "(+23)1265463", email: "JohnDoe@gmail.com" },
             { id: 2, name: "Kazuki Yashiro", age: 35, phone: "(+23)0000463", email: "Y_Kazuki@gmail.com" },
@@ -27,4 +28,6 @@ ReactDOM.render(
         onRowEdit={someFunction.bind(this)}
         onRowView={someFunction.bind(this)}
         noDataMessage={"my custom no no"}
+        onRowSelect={someFunction.bind(this)}
+        onAllRowSelect={someFunction.bind(this)}
     />, document.getElementById("root"));
