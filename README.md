@@ -2,6 +2,8 @@
 
 A lightweight easy to use and easily customizable React Component for rendering a table from JSON with minimal code.
 
+<img src="https://s8.gifyu.com/images/rtl-animated-1.gif" alt="preview" />
+
 ### Features:
 
  - **Fully Customizable:**
@@ -22,8 +24,6 @@ A lightweight easy to use and easily customizable React Component for rendering 
  - **Download Table Data:**
     Use ‘download’ prop to enable a button that exports table data as .csv, button is also customizable, default is false.
 
-#### `New!`
-
 - **Row Actions:**
     Use ‘showAction’ prop to append a column in the end of the table which will enable user to use row operations (CRUD) like view, edit and delete, default is false.
 
@@ -36,23 +36,16 @@ A lightweight easy to use and easily customizable React Component for rendering 
 - **Customize no data message:**
     Use ‘noDataMessage’ prop to provide empty data message.
 
+#### `New!`
+
+- **Multi Select:**
+    Use ‘enableMultiSelect’ prop to enable checkboxes for each row. Provide ‘defaultCheckedKey’ for selected rows in data json object.
+    Provide ‘disableCheckedKey’ for non selectable rows in data json object.
+
+
 ### Preview:  
  
-*Default View*
 
-<img src="https://1hvwng.dm.files.1drv.com/y4mKkLste69u9HLEPbqBxtQiSohJoLUeaOFHSqACla5g2p89YcZ1iRhIuO2Rtxcg1G27Cjg9xk3trgYpNwHvPul3683kDwtSFFb-rxEChStH-Q97DmH5KaJXEP-CWFkbnVzKNAzbXWPX8OzZ18Y4YBRmmRjxXtA_ggQHnh1jMXBfNZZLUsIcwIr06YnIveG_GOHN3bmvPm8N16eJFxhC_VICw?width=1439&height=429&cropmode=none" alt="react-table-lite-preview-1"/>
-
-*Default View with Customized No Message*
-
-<img src="https://1hxcca.dm.files.1drv.com/y4mW8steaXrZS01mZwkXeVmFVltWTMDUsbGHRniaNMj3ADqBnz7IE5c9zkAMzaUBw5j9U1_7MyQx13VtSgkOUp-CCVU0xNox_wsVZ5QoxaPPhBme3cA5RujT4WM493RnbjtymDZATLtmDI1JYlS1mA_wW7u3Ze4WMDEuLuA-h4GCfcqCS1I0yH7HWJEUl2ANmJfSbTRF377XInSgX1Q60C4iQ?width=1386&height=119&cropmode=none" alt="react-table-lite-preview-5" />
-
-*Default View with Actions*
-
-<img src="https://1hx4wq.dm.files.1drv.com/y4mQd3Rh6pTL13_ZbAjZhTYgbwLgRwcThxRWifiGFvve_ESDxsYo31nEzLcLvLaEqMd1rSMKpubDMUGHjc9A63ttjNOrkvyTYdR2Ev1FSqOuPXurKRs0dcPynMkbG4CyUhawkm6Ba8WkF0731kor9-13Q-NKRXwHhzm8NXe9Xrgs8SG1DcYjc9W3pU4-hg1_YiFFD_bOnRcD7wLKJqV4LQuHQ?width=1386&height=450&cropmode=none" alt="react-table-lite-preview-3" />
-
-*Custom Styling*
-
-<img src="https://1hvkla.dm.files.1drv.com/y4mwtm17SHzMOgaB4IeaIQRjoiaX6hEtI5otNi1uckH2yVMQ0WxVFfDCBNHzWzFQn4JtHzisDnbQLSjCyPIbFWKk40MBeP4rpDe5zJ0aGwSsAIdfI67PV35aIu90OuTUN1z6DYQ8N0QKyIu4O1jfM52UbDy_o9ttf85yQA0Z5FXCEwmHzQ8QJluZCZYQJVk58Zb9ck_uUh4zHjSbBfnd3Z5OQ?width=1439&height=241&cropmode=none" alt="react-table-lite-preview-2" />
 
 *Custom Styling and Actions*
 
