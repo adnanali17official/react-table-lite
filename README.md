@@ -129,11 +129,11 @@ function UserData(props){
            // Enable Row Operation
            actionTypes={["edit","delete","view"]} 
            // Type of Row Operation (case insensitive)
-           enableMultiselect = {true}
+           enableMultiSelect  = {true}
            // Enable Multi-select
            defaultCheckedKey={"selected"}
            // Key present in data to mark row checked
-           defaultDisabledKey={"selectDisabled"}
+           disableCheckedKey={"selectDisabled"}
            // Key present in data to make row checkbox disabled
            onRowSelect={(args, event, row)=>{
             // 'row' returns row object 
