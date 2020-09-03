@@ -2,6 +2,8 @@
 
 A lightweight easy to use and easily customizable React Component for rendering a table from JSON with minimal code.
 
+<img src="https://s8.gifyu.com/images/rtl-animated-1.gif" alt="react-table-lite-preview-1" />
+
 ### Features:
 
  - **Fully Customizable:**
@@ -22,8 +24,6 @@ A lightweight easy to use and easily customizable React Component for rendering 
  - **Download Table Data:**
     Use ‘download’ prop to enable a button that exports table data as .csv, button is also customizable, default is false.
 
-#### `New!`
-
 - **Row Actions:**
     Use ‘showAction’ prop to append a column in the end of the table which will enable user to use row operations (CRUD) like view, edit and delete, default is false.
 
@@ -36,23 +36,20 @@ A lightweight easy to use and easily customizable React Component for rendering 
 - **Customize no data message:**
     Use ‘noDataMessage’ prop to provide empty data message.
 
+#### `New!`
+
+- **Multi Select:**
+    Use ‘enableMultiSelect’ prop to enable checkboxes for each row. Provide ‘defaultCheckedKey’ for selected rows in data json object.
+    Provide ‘disableCheckedKey’ for non selectable rows in data json object.
+
+
 ### Preview:  
  
-*Default View*
+*Plain View*
+<img src="https://qnae0a.dm.files.1drv.com/y4m5WNQquJC22nigTy5CKrAPRBbVhiFc3d5Re9nqhBFKeK7p9EYPJq-hKe5Z5ESDjAna6r7sbRqBHqMqCK7L03aD7Hnjhj_SdzglIlqzGYDUAe12hC1uHlrQQVtqjhx1Hs0vO7qNAHBSDwFsC3e9vtPVhCzvWrpKNs9imS3h7cN7n2kQTvA6PDWn-adtDeRrrUzqxsh4zy9FynmPjgAFx0EYQ?width=1221&height=311&cropmode=none" alt="react-table-lite-preview-2" />
+*With Actions Enabled*
 
-<img src="https://1hvwng.dm.files.1drv.com/y4mKkLste69u9HLEPbqBxtQiSohJoLUeaOFHSqACla5g2p89YcZ1iRhIuO2Rtxcg1G27Cjg9xk3trgYpNwHvPul3683kDwtSFFb-rxEChStH-Q97DmH5KaJXEP-CWFkbnVzKNAzbXWPX8OzZ18Y4YBRmmRjxXtA_ggQHnh1jMXBfNZZLUsIcwIr06YnIveG_GOHN3bmvPm8N16eJFxhC_VICw?width=1439&height=429&cropmode=none" alt="react-table-lite-preview-1"/>
-
-*Default View with Customized No Message*
-
-<img src="https://1hxcca.dm.files.1drv.com/y4mW8steaXrZS01mZwkXeVmFVltWTMDUsbGHRniaNMj3ADqBnz7IE5c9zkAMzaUBw5j9U1_7MyQx13VtSgkOUp-CCVU0xNox_wsVZ5QoxaPPhBme3cA5RujT4WM493RnbjtymDZATLtmDI1JYlS1mA_wW7u3Ze4WMDEuLuA-h4GCfcqCS1I0yH7HWJEUl2ANmJfSbTRF377XInSgX1Q60C4iQ?width=1386&height=119&cropmode=none" alt="react-table-lite-preview-5" />
-
-*Default View with Actions*
-
-<img src="https://1hx4wq.dm.files.1drv.com/y4mQd3Rh6pTL13_ZbAjZhTYgbwLgRwcThxRWifiGFvve_ESDxsYo31nEzLcLvLaEqMd1rSMKpubDMUGHjc9A63ttjNOrkvyTYdR2Ev1FSqOuPXurKRs0dcPynMkbG4CyUhawkm6Ba8WkF0731kor9-13Q-NKRXwHhzm8NXe9Xrgs8SG1DcYjc9W3pU4-hg1_YiFFD_bOnRcD7wLKJqV4LQuHQ?width=1386&height=450&cropmode=none" alt="react-table-lite-preview-3" />
-
-*Custom Styling*
-
-<img src="https://1hvkla.dm.files.1drv.com/y4mwtm17SHzMOgaB4IeaIQRjoiaX6hEtI5otNi1uckH2yVMQ0WxVFfDCBNHzWzFQn4JtHzisDnbQLSjCyPIbFWKk40MBeP4rpDe5zJ0aGwSsAIdfI67PV35aIu90OuTUN1z6DYQ8N0QKyIu4O1jfM52UbDy_o9ttf85yQA0Z5FXCEwmHzQ8QJluZCZYQJVk58Zb9ck_uUh4zHjSbBfnd3Z5OQ?width=1439&height=241&cropmode=none" alt="react-table-lite-preview-2" />
+<img src="https://qnc5ra.dm.files.1drv.com/y4m2rcN5UDu-DHJryQ3IwphGw1THRoOvO7kwe2a3SO_pt109ANgBt1Vh89iirlj39cY2ZwtmLs848BzfaK1ohf2kkhULQyGJdvVZOzScBiKlRB5vS8L0NpaB35me9CRXFL5RCy3jEREUbzaVBRHhsxsSGXaUG8sc4SHcWjY73TWXwyuBZ3tmD8wfRk7st2LEAweQWrNAwlUYQGvzcldjnCm3w?width=1196&height=319&cropmode=none" alt="react-table-lite-preview-3" />
 
 *Custom Styling and Actions*
 
@@ -60,50 +57,92 @@ A lightweight easy to use and easily customizable React Component for rendering 
 
 ### Example:
 ```js  
-    import React from 'react';
-    import Table from "react-table-lite";
-    
-    function UserData(props){
-      let Users = 
-       [
-         {id:1 , name:"John Doe", age:"25", email:"JohnDoe@gmail.com"},
-         {id:2 , name:"Kazuki Yashiro", age:"35", email:"Y_Kazuki@gmail.com"},
-         {id:3 , name:"Eddie Memon", age:"22", email:"Eddie254@gmail.com"},
-         {id:4 , name:"Barood Khan", age:"45", email:"BK5454@gmail.com"},
-       ];
-	
+import React from 'react';
+import Table from "react-table-lite";
+
+function UserData(props){
+     let Users = [
+      {
+        id: 1,
+        name: "John Doe",
+        age: "25",
+        email: "JohnDoe@gmail.com",
+        selected: true,
+        selectDisabled: false,
+      },
+      {
+        id: 2,
+        name: "Kazuki Yashiro",
+        age: "35",
+        email: "Y_Kazuki@gmail.com",
+        selected: true,
+        selectDisabled: false,
+      },
+      {
+        id: 3,
+        name: "Eddie Memon",
+        age: "22",
+        email: "Eddie254@gmail.com",
+        selected: false,
+        selectDisabled: false,
+      },
+      {
+        id: 4,
+        name: "Barood Khan",
+        age: "45",
+        email: "BK5454@gmail.com",
+        selected: false,
+        selectDisabled: true,
+      },
+    ];
       return(
         <Table
            data = {Users}		
-           //Array of JSONObjects(required)
+           // Array of JSONObjects(required)
            header = {["id","name","age","email"]}  
            // Headers should be same as data JSON Object's keys (required)
            sortBy = {["name", "age"]}
            // keys for sorting should be present in header array
            searchable={true}
-           //Enable table search field
+           // Enable table search field
            searchBy={["name", "email"]}
            // keys for sorting should be present in header array
            download = {true}
-           //Downloadable data 
+           // Pass true to enable download button 
+           // note: If multiselect is enabled,
+           // only checked rows will be downloaded
            fileName = {"Table_Data"}
-           //Default name of downloaded csv file
+           // Default name of downloaded csv file
            noDataMessage={"my custom no data"}
-           //Custom no data string.            
+           // Custom no data string.            
            limit = {10}
-           //No of rows to display at a time
+           // No of rows to display at a time
            containerStyle = {}
-           //Customize table container style           
+           // Customize table container style           
            headerStyle = {}
-           //Customize table header style
+           // Customize table header style
            rowStyle = {}
-           //Customize table row style
+           // Customize table row style
            dataStyle = {}
-           //Customize table data cell style
+           // Customize table data cell style
            showActions = {true}
-           //Enable Row Operation
+           // Enable Row Operation
            actionTypes={["edit","delete","view"]} 
-           //Type of Row Operation (case insensitive)
+           // Type of Row Operation (case insensitive)
+           enableMultiselect = {true}
+           // Enable Multi-select
+           defaultCheckedKey={"selected"}
+           // Key present in data to mark row checked
+           defaultDisabledKey={"selectDisabled"}
+           // Key present in data to make row checkbox disabled
+           onRowSelect={(args, event, row)=>{
+            // 'row' returns row object 
+            // any arguments passed will be before 'event' and 'row'
+           }}
+           onAllRowSelect={(args, event, allrows)=>{
+            // 'allrows' returns JSON objects of all rows of table
+            // any arguments passed will be before 'event' and 'allrows'
+           }}
            onRowDelete={(args, event, row)=>{
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
@@ -128,7 +167,7 @@ data        | Array | Array of JSON objects to be rendered in table, keys should
 sortBy      | Array | Array of string which matches the headers for sorting data in table body |
 searchable  | Boolean | Pass ‘true’ to enable search field |
 searchBy    | Array | Array of string which matches the headers for searching data in table body |
-download    | Boolean | Pass ‘true’ to enable download csv button |
+download    | Boolean | Pass ‘true’ to enable download csv button <br/> *note: If multiselect is enabled, <br/> only checked rows will be downloaded* |
 fileName    | String | String used as default filename for csv files when downloading 
 noDataMessage   | String | String used for 'No data' message
 limit       | Integer | Limit number of rows to display at a time
@@ -138,9 +177,14 @@ rowStyle    | Style  | Style object for table rows
 dataStyle   | Style  | Style object for table cells
 showActions | Boolean | Enable to show actions column
 actionTypes | Array | Name of action to enable and show array of string
+enableMultiSelect | Boolean | Enable to show multi select
+defaultCheckedKey | String | Key in JSON data object to 'check' the row.
+disableCheckedKey | String | Key in JSON data object to disable selection of that row.
 onRowDelete | callback | Callback function on row delete
 onRowEdit   | callback | Callback function on row edit
 onRowView   | callback | Callback function on row view
+onRowSelect    | callback | Callback function on row select
+onAllRowSelect | callback | Callback function on all row select
 
 ### CSS Classes:
 

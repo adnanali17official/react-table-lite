@@ -50,7 +50,7 @@ export default class Table extends React.Component {
 
   _downloadData = () => {
     var html = document.getElementById("rtl-table-table-lite").outerHTML;
-    export_table_to_csv(html, this.state.fileName+".csv");
+    export_table_to_csv(html, this.state.fileName+".csv", this.state.enableMultiSelect);
   }
 
   _onSort = (sortKey, direction) => {
@@ -81,7 +81,7 @@ export default class Table extends React.Component {
   }
 
   _applySearch = () => {    
-    this._clearAllCheckboxes();       
+    // this._clearAllCheckboxes();
     let searchedData = [];
     let data = this.state.data;
     let searchStringArray = this.state.searchString.trim().split(",");
@@ -112,35 +112,37 @@ export default class Table extends React.Component {
   }
 
   _handleCheckboxes = (e) => {
-    let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
-    let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
-    header_checkBox.checked = true;
-    row_checkBoxes.forEach((row) => {
-      if (!row.checked)
-        header_checkBox.checked = false;
-    })
-    if (!e.target.checked) {
-        header_checkBox.checked = false;
+    if(!this.state.appliedSearch){
+      let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
+      let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+      header_checkBox.checked = true;
+      row_checkBoxes.forEach((row) => {
+        if (!row.checked)
+          header_checkBox.checked = false;
+      })
+      if (!e.target.checked) {
+          header_checkBox.checked = false;
+      }
     }
   }
   _handleHeaderCheckbox = (e) => {
     let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
     row_checkBoxes.forEach(input => {
-      if (e.target.checked)
-        input.checked = true;
-      else
-        input.checked = false;
+      if (!input.disabled)
+        input.checked = e.target.checked;
+      // else
+      //   input.checked = false;
     })    
   }
 
-  _clearAllCheckboxes = () => {
-    let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
-    let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
-    header_checkBox.checked = false;
-    row_checkBoxes.forEach((row) => {
-      row.checked= false;        
-    })    
-  }
+  // _clearAllCheckboxes = () => {
+  //   let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
+  //   let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+  //   header_checkBox.checked = false;
+  //   row_checkBoxes.forEach((row) => {
+  //     row.checked= false;        
+  //   })    
+  // }
 
   matchCaseInsensitive = (parentString, substringArray) => {
       let flag = false;         
@@ -199,7 +201,7 @@ export default class Table extends React.Component {
       })
     this.setState({ data: tempData, appliedSearch:false }, 
       ()=> {  
-        this._clearAllCheckboxes();      
+        // this._clearAllCheckboxes();      
         if(this.state.searchString.trim().length){
           this._applySearch();        
         }
@@ -215,10 +217,12 @@ export default class Table extends React.Component {
   generateTableRows = () => {
     let { rowStyle, dataStyle } = this.props;
     let header = this.props.header === undefined ? [] : this.props.header;
+    let defaultCheckedKey = this.props.defaultCheckedKey;
+    let disableCheckedKey = this.props.disableCheckedKey;
     let onRowSelect = this.props.onRowSelect === undefined ? ()=>{ return; } : this.props.onRowSelect;
     let data = this.state.data;
     let tablebody = [];
-    data.forEach((data_row, index) => (      
+    data.forEach((data_row, index) => {
       tablebody.push(
         <tr
           key={index}
@@ -229,6 +233,8 @@ export default class Table extends React.Component {
             <td colSpan={1}>
               <input 
                 type="checkbox" 
+                checked={data_row[defaultCheckedKey] === undefined? false: data_row[defaultCheckedKey]}
+                disabled={data_row[disableCheckedKey] === undefined? false: data_row[disableCheckedKey]}
                 className="rcv-row-checkbox"
                 onChange={(e,...args)=>{     
                   this._handleCheckboxes(e);
@@ -256,7 +262,7 @@ export default class Table extends React.Component {
           }
         </tr>
       )
-    ));
+    });
     return tablebody;    
   }
 
@@ -264,7 +270,7 @@ export default class Table extends React.Component {
     let header = this.props.header === undefined ? [] : this.props.header;
     let sortBy = this.props.sortBy === undefined ? [] : this.props.sortBy;
     let onAllRowSelect = this.props.onAllRowSelect === undefined ? ()=>{ return; } : this.props.onAllRowSelect;
-    let { headerStyle } = this.props;
+    let headerStyle = this.props.headerStyle;
     return (
       <thead className="react-table-lite-header" style={headerStyle}>
         <tr>
@@ -272,14 +278,16 @@ export default class Table extends React.Component {
             <th
               style={{ width: '21px' }}
               colSpan={1}>
-              <input
-                className="rcv-super-checkbox"
-                type="checkbox"
-                onChange={(e, ...args) => {
-                  this._handleHeaderCheckbox(e);
-                  onAllRowSelect(...args, e, this.state.data)
-                }}
-              />
+              {!this.state.appliedSearch?
+                <input
+                  className="rcv-super-checkbox"
+                  type="checkbox"
+                  onChange={(e, ...args) => {
+                    // this._handleHeaderCheckbox(e);
+                    onAllRowSelect(...args, e, this.state.data)
+                  }}
+                />
+              :""}
             </th>
             :
             <></>
