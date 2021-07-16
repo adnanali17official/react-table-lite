@@ -128,10 +128,7 @@ class MyTable extends React.Component {
           fileName="my customers"
           header={["name", "age", "phone", "email"]}
           sortBy={["age", "phone", "name"]}
-          customHeaders={[]}
-          // header={["name", "runtime", "status", "officialSite"]}
-          // sortBy={["status"]}
-          // searchBy={["email"]}
+          customHeaders={[]}        
           searchBy={["email"]}
           searchable={true}
           showActions={true}

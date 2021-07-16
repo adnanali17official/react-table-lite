@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOMServer from 'react-dom/server';
 import "./Table.css";
 
 import { export_table_to_csv } from './../../script/download_csv';
@@ -52,8 +53,11 @@ export default class Table extends React.Component {
   }
 
   _downloadData = () => {
-    var html = document.getElementById("rtl-table-table-lite").outerHTML;    
-    export_table_to_csv(html, this.state.fileName+".csv", this.state.enableMultiSelect);
+    // var html = document.getElementById("rtl-table-table-lite").outerHTML;
+    let downloadbleData = document.createElement('table');    
+    downloadbleData.innerHTML = ReactDOMServer.renderToStaticMarkup(this.TableHeader());
+    downloadbleData.innerHTML += ReactDOMServer.renderToStaticMarkup(this.TableData());      
+    export_table_to_csv(downloadbleData, this.state.fileName+".csv", this.state.enableMultiSelect);    
   }
 
   _onSort = (sortKey, direction) => {
@@ -382,7 +386,8 @@ export default class Table extends React.Component {
         }
         {
           download?
-            <button id="rtl-table-download-btn" className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
+            // <button id="rtl-table-download-btn" className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
+            <button className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
              <i>
                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 512 512" > <path fill="#61729b" d="M481 68.699V512h-60l-128.699-63.6L256 459.8 91 512H31V0h90l101.4 129.899 33.6-31.5L361 0h51.301z" ></path> <path fill="#47568c" d="M481 68.699V512h-60l-128.699-63.6L256 459.8V98.399L361 0h51.301z" ></path> <path fill="#e0f4ff" d="M91 242v270h330V242z"></path> <path fill="#bbdcff" d="M256 242h165v270H256z"></path> <path fill="#979fef" d="M151 332h210v30H151zM151 392h210v30H151z"></path> <path fill="#e0f4ff" d="M361 0v180H121V0h150l17.401 22.5L301 0z"></path> <path fill="#bbdcff" d="M361 0v180H256V0h15l17.401 22.5L301 0z"></path> <path fill="#737ee6" d="M256 332h105v30H256zM256 392h105v30H256z"></path> <path fill="#47568c" d="M271 0h30v120h-30z"></path> </svg>
              </i>

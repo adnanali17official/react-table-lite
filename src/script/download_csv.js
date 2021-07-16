@@ -11,14 +11,18 @@ function download_csv(csv, filename) {
     downloadLink.style.display = "none";
     document.body.appendChild(downloadLink);
     downloadLink.click();
+    downloadLink.remove();
 }
 
-export function export_table_to_csv(html, filename, multiselect) {
+export function export_table_to_csv(html, filename, multiselect) {  
     var csv = [];
-    var rows = document.querySelectorAll("#rtl-table-table-lite tr");
+    var rows = html;
+    rows = rows.querySelectorAll("tr");    
+    // var rows = document.querySelectorAll("#rtl-table-table-lite tr");
     for (var i = 0; i < rows.length; i++) {
         var row = [], cols = rows[i].querySelectorAll("td, th");
         for (var j = 0; j < cols.length; j++){
+            cols[j].innerText = cols[j].innerText.replace(','," ")
             if (cols[j].innerText === "Actions") {
               continue;
             }
