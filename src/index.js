@@ -48,11 +48,12 @@ class MyTable extends React.Component {
     
     let data=[]
     for(let i=0;i<50;i++){
-      data[i] =  Object.create(this.state.data[parseInt((Math.random() * 100) % 3)])
+      // data[i] =  Object.create(this.state.data[parseInt((Math.random() * 100) % 3)])
+      data[i] = {...this.state.data[parseInt((Math.random() * 100) % 3)]}
       data[i].id = i;
       data[i].name += " "+i;
     }
-    this.setState({data})
+    this.setState({data})    
   }
 
   getLiveApiData() {
@@ -120,29 +121,58 @@ class MyTable extends React.Component {
 
   render() {
     return (
-      <Table
-        // limit={3}
-        download={true}
-        fileName="my customers"
-        header={["name", "age", "phone", "email"]}
-        sortBy={["age", "phone", "name"]}
-        // header={["name", "runtime", "status", "officialSite"]}
-        // sortBy={["status"]}
-        searchBy={["name"]}
-        searchable={true}
-        showActions={true}
-        enableMultiSelect={false}
-        defaultCheckedKey={"checked"}
-        disableCheckedKey={"disabled"}
-        data={this.state.data}
-        actionTypes={["edit", "delete", "view"]}
-        onRowDelete={this.onRowDelete.bind(this)}
-        onRowEdit={this.onRowEdit.bind(this)}
-        onRowView={this.onRowView.bind(this)}
-        noDataMessage={"my custom no no"}
-        onRowSelect={this.onRowSelect.bind(this)}
-        onAllRowSelect={this.onAllRowSelect.bind(this)}
-      />
+      <>
+        <Table
+          // limit={3}
+          download={true}
+          fileName="my customers"
+          header={["name", "age", "phone", "email"]}
+          sortBy={["age", "phone", "name"]}
+          customHeaders={[]}
+          // header={["name", "runtime", "status", "officialSite"]}
+          // sortBy={["status"]}
+          // searchBy={["email"]}
+          searchBy={["email"]}
+          searchable={true}
+          showActions={true}
+          enableMultiSelect={false}
+          defaultCheckedKey={"checked"}
+          disableCheckedKey={"disabled"}
+          data={this.state.data}
+          actionTypes={["edit", "delete", "view"]}
+          onRowDelete={this.onRowDelete.bind(this)}
+          onRowEdit={this.onRowEdit.bind(this)}
+          onRowView={this.onRowView.bind(this)}
+          noDataMessage={"my custom no no"}
+          onRowSelect={this.onRowSelect.bind(this)}
+          onAllRowSelect={this.onAllRowSelect.bind(this)}
+        />
+
+          <Table
+          // limit={3}
+          download={true}
+          fileName="my customers"
+          header={["phone", "email"]}
+          sortBy={["age", "phone", "name"]}
+          customHeaders={[]}
+          // header={["name", "runtime", "status", "officialSite"]}
+          // sortBy={["status"]}
+          searchBy={["email"]}
+          searchable={true}
+          showActions={true}
+          enableMultiSelect={false}
+          defaultCheckedKey={"checked"}
+          disableCheckedKey={"disabled"}
+          data={this.state.data}
+          actionTypes={["edit", "delete", "view"]}
+          onRowDelete={this.onRowDelete.bind(this)}
+          onRowEdit={this.onRowEdit.bind(this)}
+          onRowView={this.onRowView.bind(this)}
+          noDataMessage={"my custom no no"}
+          onRowSelect={this.onRowSelect.bind(this)}
+          onAllRowSelect={this.onAllRowSelect.bind(this)}
+        />
+      </>
     );
   }
 }

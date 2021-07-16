@@ -12,6 +12,7 @@ export default class Table extends React.Component {
       sortParameters : [],
       sortKeys : [],
       searchKeys: [],
+      customHeaders:{},
       fileName: "table",
       searchString: "",
       appliedSearch: false,
@@ -26,6 +27,7 @@ export default class Table extends React.Component {
     this.getTableData();    
     this.checkRequiredProps();
     this.getMultiSelectProps();
+    this.getCustomHeadersProps();
   }
   
   componentDidUpdate = (prevProps,prevState) => {
@@ -35,7 +37,8 @@ export default class Table extends React.Component {
       this.getDownloadableFileName();
       this.getTableData();
       this.checkRequiredProps(); 
-      this.getMultiSelectProps();   
+      this.getMultiSelectProps();  
+      this.getCustomHeadersProps(); 
     }
   }
 
@@ -49,7 +52,7 @@ export default class Table extends React.Component {
   }
 
   _downloadData = () => {
-    var html = document.getElementById("rtl-table-table-lite").outerHTML;
+    var html = document.getElementById("rtl-table-table-lite").outerHTML;    
     export_table_to_csv(html, this.state.fileName+".csv", this.state.enableMultiSelect);
   }
 
@@ -83,11 +86,11 @@ export default class Table extends React.Component {
   _applySearch = () => {    
     // this._clearAllCheckboxes();
     let searchedData = [];
-    let data = this.state.data;
+    let data = this.state.data;    
     let searchStringArray = this.state.searchString.trim().split(",");
-    let searchKeys = this.state.searchKeys;    
+    let searchKeys = this.state.searchKeys;        
     data.forEach((row) => {
-      for (const key in row) {
+      for (const key in row) {      
         let search_condition =
             searchKeys.indexOf(key) !== -1  &&
             row.hasOwnProperty(key)         &&
@@ -186,7 +189,7 @@ export default class Table extends React.Component {
 	}
   
   getTableData = () => {    
-    let data = this.props.data === undefined ? [] : this.props.data;
+    let data = this.props.data === undefined ? [] : this.props.data;    
     let limit = this.props.limit === undefined ? null : Number(this.props.limit);
     let tempData = [];
     limit !== null ?
@@ -198,7 +201,7 @@ export default class Table extends React.Component {
       :
       data.forEach((row) => {
         tempData.push(row);
-      })
+      })      
     this.setState({ data: tempData, appliedSearch:false }, 
       ()=> {  
         // this._clearAllCheckboxes();      
@@ -214,6 +217,11 @@ export default class Table extends React.Component {
     this.setState({ fileName });
   }
   
+  getCustomHeadersProps = () => {
+    let customHeaders = this.props.customHeaders===undefined?{}:this.props.customHeaders;    
+    this.setState({ customHeaders });
+  }
+
   generateTableRows = () => {
     let { rowStyle, dataStyle } = this.props;
     let header = this.props.header === undefined ? [] : this.props.header;
@@ -270,7 +278,8 @@ export default class Table extends React.Component {
     let header = this.props.header === undefined ? [] : this.props.header;
     let sortBy = this.props.sortBy === undefined ? [] : this.props.sortBy;
     let onAllRowSelect = this.props.onAllRowSelect === undefined ? ()=>{ return; } : this.props.onAllRowSelect;
-    let headerStyle = this.props.headerStyle;
+    let customHeaders = this.state.customHeaders;
+    let headerStyle = this.props.headerStyle;    
     return (
       <thead className="react-table-lite-header" style={headerStyle}>
         <tr>
@@ -298,7 +307,12 @@ export default class Table extends React.Component {
                 <th>
                   {sortBy.indexOf(heading) !== -1 ?
                     <span className="rtl-table-sortable-header">
-                      {heading}
+                      {
+                        customHeaders[heading]===undefined?
+                          heading
+                        :
+                        customHeaders[heading]
+                      }
                       <span onClick={this._onSort.bind(this, heading, 'dsc')} > ▲ </span>
                       <span onClick={this._onSort.bind(this, heading, 'asc')}>  ▼ </span>
                     </span>
