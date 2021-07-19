@@ -120,19 +120,26 @@ export default class Table extends React.Component {
 
   _handleCheckboxes = (e) => {
     if(!this.state.appliedSearch){
-      let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
-      let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+      let parentTable = e.target.parentNode.closest("table")
+      let row_checkBoxes = parentTable.querySelector(("tbody"))
+      let header_checkBox = parentTable.querySelector((".rcv-super-checkbox"))
+      row_checkBoxes = Array.from(row_checkBoxes.getElementsByClassName("rcv-row-checkbox"));            
       header_checkBox.checked = true;
       row_checkBoxes.forEach((row) => {
-        if (!row.checked)
+        if (!row.checked){
           header_checkBox.checked = false;
+          // row.parentElement.parentElement.classList.remove('rcv-highlighted-row');
+        }
+        // else
+        //   row.parentElement.parentElement.classList.add('rcv-highlighted-row') ;                  
       })
       if (!e.target.checked) {
           header_checkBox.checked = false;
+          // e.target.parentElement.parentElement.classList.remove('rcv-highlighted-row');
       }
     }
   }
-  _handleHeaderCheckbox = (e) => {
+  _handleHeaderCheckbox = (e) => {    
     let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
     row_checkBoxes.forEach(input => {
       if (!input.disabled)
@@ -239,7 +246,12 @@ export default class Table extends React.Component {
         <tr
           key={index}
           style={rowStyle}
-          className="react-table-lite-row"
+          className={
+            data_row[defaultCheckedKey] === undefined ||
+            data_row[defaultCheckedKey] === false
+              ? 
+              "react-table-lite-row":
+              "react-table-lite-row rcv-highlighted-row"}              
         >
           {this.state.enableMultiSelect?
             <td colSpan={1}>
@@ -295,8 +307,7 @@ export default class Table extends React.Component {
                 <input
                   className="rcv-super-checkbox"
                   type="checkbox"
-                  onChange={(e, ...args) => {
-                    // this._handleHeaderCheckbox(e);
+                  onChange={(e, ...args) => {                  
                     onAllRowSelect(...args, e, this.state.data)
                   }}
                 />

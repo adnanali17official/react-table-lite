@@ -90,12 +90,12 @@ function TestTable (){
 				actionTypes={["edit","delete","view"]}
 				sortBy={["population","name", "age"]}		
 				headerStyle={style?{color:"white",background:"red"}:{}}
-        rowStyle={style?{color:"black",background: 'rgb(230,200,200)'}:{}}
-        enableMultiSelect={multiSelect}
-        defaultCheckedKey={"checked"}
-        disableCheckedKey={"disabled"}
-        onRowSelect={(e,row)=>onRowSelect(e,row)}
-        onAllRowSelect={()=>onAllRowSelect()}		
+				rowStyle={style?{color:"black",background: 'rgb(230,200,200)'}:{}}
+				enableMultiSelect={multiSelect}
+				defaultCheckedKey={"checked"}
+				disableCheckedKey={"disabled"}
+				onRowSelect={(e,row)=>onRowSelect(e,row)}
+				onAllRowSelect={()=>onAllRowSelect()}		
 			/>			
 		</div>
 	)
