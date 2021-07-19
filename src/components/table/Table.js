@@ -122,25 +122,26 @@ export default class Table extends React.Component {
     if(!this.state.appliedSearch){
       let parentTable = e.target.parentNode.closest("table")
       let row_checkBoxes = parentTable.querySelector(("tbody"))
-      let header_checkBox = parentTable.querySelector((".rcv-super-checkbox"))
-      row_checkBoxes = Array.from(row_checkBoxes.getElementsByClassName("rcv-row-checkbox"));            
+      let header_checkBox = parentTable.querySelector((".rtl-super-checkbox"))
+      row_checkBoxes = Array.from(row_checkBoxes.getElementsByClassName("rtl-row-checkbox"));            
       header_checkBox.checked = true;
       row_checkBoxes.forEach((row) => {
         if (!row.checked){
           header_checkBox.checked = false;
-          // row.parentElement.parentElement.classList.remove('rcv-highlighted-row');
+          // row.parentElement.parentElement.classList.remove('rtl-highlighted-row');
         }
         // else
-        //   row.parentElement.parentElement.classList.add('rcv-highlighted-row') ;                  
+        //   row.parentElement.parentElement.classList.add('rtl-highlighted-row') ;                  
       })
       if (!e.target.checked) {
           header_checkBox.checked = false;
-          // e.target.parentElement.parentElement.classList.remove('rcv-highlighted-row');
+          // e.target.parentElement.parentElement.classList.remove('rtl-highlighted-row');
       }
     }
   }
+
   _handleHeaderCheckbox = (e) => {    
-    let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+    let row_checkBoxes = Array.from(document.getElementsByClassName("rtl-row-checkbox"));
     row_checkBoxes.forEach(input => {
       if (!input.disabled)
         input.checked = e.target.checked;
@@ -150,8 +151,8 @@ export default class Table extends React.Component {
   }
 
   // _clearAllCheckboxes = () => {
-  //   let header_checkBox = Array.from(document.getElementsByClassName("rcv-super-checkbox"))[0];
-  //   let row_checkBoxes = Array.from(document.getElementsByClassName("rcv-row-checkbox"));
+  //   let header_checkBox = Array.from(document.getElementsByClassName("rtl-super-checkbox"))[0];
+  //   let row_checkBoxes = Array.from(document.getElementsByClassName("rtl-row-checkbox"));
   //   header_checkBox.checked = false;
   //   row_checkBoxes.forEach((row) => {
   //     row.checked= false;        
@@ -238,6 +239,7 @@ export default class Table extends React.Component {
     let header = this.props.header === undefined ? [] : this.props.header;
     let defaultCheckedKey = this.props.defaultCheckedKey;
     let disableCheckedKey = this.props.disableCheckedKey;
+    let selectedClassName = this.props.selectedClassName === undefined ? "rtl-highlighted-row" : this.props.selectedClassName;
     let onRowSelect = this.props.onRowSelect === undefined ? ()=>{ return; } : this.props.onRowSelect;
     let data = this.state.data;
     let tablebody = [];
@@ -251,7 +253,8 @@ export default class Table extends React.Component {
             data_row[defaultCheckedKey] === false
               ? 
               "react-table-lite-row":
-              "react-table-lite-row rcv-highlighted-row"}              
+              "react-table-lite-row " + selectedClassName
+          }              
         >
           {this.state.enableMultiSelect?
             <td colSpan={1}>
@@ -259,7 +262,7 @@ export default class Table extends React.Component {
                 type="checkbox" 
                 checked={data_row[defaultCheckedKey] === undefined? false: data_row[defaultCheckedKey]}
                 disabled={data_row[disableCheckedKey] === undefined? false: data_row[disableCheckedKey]}
-                className="rcv-row-checkbox"
+                className="rtl-row-checkbox"
                 onChange={(e,...args)=>{     
                   this._handleCheckboxes(e);
                   onRowSelect(...args,e,data_row)}
@@ -305,7 +308,7 @@ export default class Table extends React.Component {
               colSpan={1}>
               {!this.state.appliedSearch?
                 <input
-                  className="rcv-super-checkbox"
+                  className="rtl-super-checkbox"
                   type="checkbox"
                   onChange={(e, ...args) => {                  
                     onAllRowSelect(...args, e, this.state.data)

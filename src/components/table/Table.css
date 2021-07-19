@@ -108,18 +108,18 @@
 	color: #b9b9b9;;
 }
 
-/* .rcv-highlighted-row{
+/* .rtl-highlighted-row{
 	background: #cfcfcf;
 	color:black;
 } */
 
-.rcv-highlighted-row{
+.rtl-highlighted-row{
 	background: #cfcfcf;
 	color: #000000;
 }
-.rcv-highlighted-row .rtl-action-btn-view-btn,
-.rcv-highlighted-row .rtl-action-btn-delete-btn, 
-.rcv-highlighted-row .rtl-action-btn-edit-btn
+.rtl-highlighted-row .rtl-action-btn-view-btn,
+.rtl-highlighted-row .rtl-action-btn-delete-btn, 
+.rtl-highlighted-row .rtl-action-btn-edit-btn
 {
 	color:inherit;
 }

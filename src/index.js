@@ -154,6 +154,7 @@ class MyTable extends React.Component {
           disableCheckedKey={"disabled"}
           data={this.state.data}
           actionTypes={["edit", "delete", "view"]}
+          // selectedClassName={"my-selected-class"}
           onRowDelete={this.onRowDelete.bind(this)}
           onRowEdit={this.onRowEdit.bind(this)}
           onRowView={this.onRowView.bind(this)}
