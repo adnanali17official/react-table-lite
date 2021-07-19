@@ -82,9 +82,23 @@ export default class Table extends React.Component {
     this.setState({ searchString });
   }
 
-  _handleSearch(evt){
-    evt.preventDefault();
+  _handleSearch(){    
     this.getTableData();
+  }
+
+  _searchCallback = (evt) => {
+    evt.preventDefault();
+    if(this.state.searchString.trim().length)
+      this.setState({appliedSearch:true});    
+    else
+      this.setState({appliedSearch:false});
+    
+    if (this.props.onSearch === undefined) {
+      this._handleSearch();      
+    }
+    else {
+      this.props.onSearch();      
+    }
   }
 
   _applySearch = () => {    
@@ -106,16 +120,22 @@ export default class Table extends React.Component {
       }
     })
     this.setState({
-      data: searchedData,
-      appliedSearch: true
+      data: searchedData,      
     });    
   }
 
-  _clearSearch = (evt) => {    
-    evt.preventDefault();   
-    this.setState(
-      { searchString: "", appliedSearch: false }, this.getTableData() 
-    );
+  _clearSearch = (evt) => {
+    evt.preventDefault();
+    if (this.props.onSearch === undefined) {
+      this.setState(
+        { searchString: "", appliedSearch: false }, this.getTableData()
+      );
+    }
+    else {
+      this.setState(
+        { searchString: "", appliedSearch: false }, this.props.onSearch()
+      );
+    }
   }
 
   _handleCheckboxes = (e) => {
@@ -214,9 +234,8 @@ export default class Table extends React.Component {
       data.forEach((row) => {
         tempData.push(row);
       })      
-    this.setState({ data: tempData, appliedSearch:false }, 
-      ()=> {  
-        // this._clearAllCheckboxes();      
+    this.setState({ data: tempData }, 
+      ()=> {              
         if(this.state.searchString.trim().length){
           this._applySearch();        
         }
@@ -377,7 +396,7 @@ export default class Table extends React.Component {
       <div>
         {
           searchable?
-            <form className="rtl-table-search-form" onSubmit={this._handleSearch.bind(this)}>
+            <form className="rtl-table-search-form" onSubmit={ this._searchCallback.bind(this) }>
               <input 
                 onChange = {this._handleSearchString.bind(this)}
                 value={this.state.searchString}

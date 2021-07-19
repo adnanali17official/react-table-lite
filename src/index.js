@@ -186,6 +186,7 @@ class MyTable extends React.Component {
           noDataMessage={"my custom no no"}
           onRowSelect={this.onRowSelect2.bind(this)}
           onAllRowSelect={this.onAllRowSelect2.bind(this)}
+          onSearch={()=>{console.log("Hi")}}
         />
       </>
     );
