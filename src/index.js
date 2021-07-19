@@ -142,6 +142,7 @@ class MyTable extends React.Component {
         <Table
           // limit={3}
           download={true}
+          // downloadButtonID="my-download-1"
           fileName="my customers"
           header={["name", "age", "phone", "email"]}
           sortBy={["age", "phone", "name"]}

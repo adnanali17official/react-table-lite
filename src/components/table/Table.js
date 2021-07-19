@@ -40,6 +40,7 @@ export default class Table extends React.Component {
       this.checkRequiredProps(); 
       this.getMultiSelectProps();  
       this.getCustomHeadersProps(); 
+      this._initCustomDownloadListener(prevProps.downloadButtonID); 
     }
   }
 
@@ -60,6 +61,21 @@ export default class Table extends React.Component {
       downloadbleData.innerHTML = ReactDOMServer.renderToStaticMarkup(this.TableHeader());
       downloadbleData.innerHTML += ReactDOMServer.renderToStaticMarkup(this.TableData());      
       export_table_to_csv(downloadbleData, this.state.fileName+".csv", this.state.enableMultiSelect);
+    }
+  }
+
+  _initCustomDownloadListener = (prevID) => {
+    if(Boolean(this.props.downloadButtonID)){
+      let customDownloadButton = document.getElementById(this.props.downloadButtonID);
+      if(customDownloadButton){
+        if(prevID !== this.props.downloadButtonID){
+          let prevCustomDownloadButton = document.getElementById(prevID);
+          if(prevCustomDownloadButton){
+            prevCustomDownloadButton.removeEventListener("click",this._downloadData);
+          }
+        }
+        customDownloadButton.addEventListener("click",this._downloadData);
+      }
     }
   }
 
@@ -395,6 +411,7 @@ export default class Table extends React.Component {
   TableOperations = () =>{
     let download = this.props.download === undefined? false : Boolean(this.props.download);
     let searchable = this.props.searchable === undefined? false : Boolean(this.props.searchable);
+    let downloadButtonID =  this.props.downloadButtonID;
     return(
       <div>
         {
@@ -421,7 +438,7 @@ export default class Table extends React.Component {
           ""
         }
         {
-          download?
+          download && !Boolean(downloadButtonID)?
             // <button id="rtl-table-download-btn" className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
             <button className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
              <i>
