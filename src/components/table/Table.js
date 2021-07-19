@@ -54,10 +54,13 @@ export default class Table extends React.Component {
 
   _downloadData = () => {
     // var html = document.getElementById("rtl-table-table-lite").outerHTML;
-    let downloadbleData = document.createElement('table');    
-    downloadbleData.innerHTML = ReactDOMServer.renderToStaticMarkup(this.TableHeader());
-    downloadbleData.innerHTML += ReactDOMServer.renderToStaticMarkup(this.TableData());      
-    export_table_to_csv(downloadbleData, this.state.fileName+".csv", this.state.enableMultiSelect);    
+    let onDownload = this.props.onDownload === undefined ? ()=>{ return true; } : this.props.onDownload;
+    if(onDownload()){
+      let downloadbleData = document.createElement('table');    
+      downloadbleData.innerHTML = ReactDOMServer.renderToStaticMarkup(this.TableHeader());
+      downloadbleData.innerHTML += ReactDOMServer.renderToStaticMarkup(this.TableData());      
+      export_table_to_csv(downloadbleData, this.state.fileName+".csv", this.state.enableMultiSelect);
+    }
   }
 
   _onSort = (sortKey, direction) => {

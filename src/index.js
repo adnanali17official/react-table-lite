@@ -158,6 +158,10 @@ class MyTable extends React.Component {
           onRowDelete={this.onRowDelete.bind(this)}
           onRowEdit={this.onRowEdit.bind(this)}
           onRowView={this.onRowView.bind(this)}
+          onDownload={()=>{
+            console.log("you get download")
+            return true;
+          }}
           noDataMessage={"my custom no no"}
           onRowSelect={this.onRowSelect.bind(this)}
           onAllRowSelect={this.onAllRowSelect.bind(this)}
