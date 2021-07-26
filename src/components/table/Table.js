@@ -54,7 +54,6 @@ export default class Table extends React.Component {
   }
 
   _downloadData = () => {
-    // var html = document.getElementById("rtl-table-table-lite").outerHTML;
     let onDownload = this.props.onDownload === undefined ? ()=>{ return true; } : this.props.onDownload;
     if(onDownload()){
       let downloadbleData = document.createElement('table');    
@@ -89,10 +88,8 @@ export default class Table extends React.Component {
     sortParameters[sortKeyIndex] = true;
     direction === 'dsc'?
       data.sort((a, b) => { return isNaN(a[sortKey]) ? a[sortKey].localeCompare(b[sortKey]) : Number(a[sortKey]) - Number(b[sortKey]) })
-      // .sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
       :
       data.sort((a, b) => { return isNaN(a[sortKey]) ? b[sortKey].localeCompare(a[sortKey]) : Number(b[sortKey]) - Number(a[sortKey]) })
-      // .sort((a, b) => b[sortKey].localeCompare(a[sortKey]))
     this.setState({ sortParameters });
   }  
   
@@ -121,7 +118,6 @@ export default class Table extends React.Component {
   }
 
   _applySearch = () => {    
-    // this._clearAllCheckboxes();
     let searchedData = [];
     let data = this.state.data;    
     let searchStringArray = this.state.searchString.trim().split(",");
@@ -167,14 +163,10 @@ export default class Table extends React.Component {
       row_checkBoxes.forEach((row) => {
         if (!row.checked){
           header_checkBox.checked = false;
-          // row.parentElement.parentElement.classList.remove('rtl-highlighted-row');
         }
-        // else
-        //   row.parentElement.parentElement.classList.add('rtl-highlighted-row') ;                  
       })
       if (!e.target.checked) {
-          header_checkBox.checked = false;
-          // e.target.parentElement.parentElement.classList.remove('rtl-highlighted-row');
+        header_checkBox.checked = false;
       }
     }
   }
@@ -184,19 +176,8 @@ export default class Table extends React.Component {
     row_checkBoxes.forEach(input => {
       if (!input.disabled)
         input.checked = e.target.checked;
-      // else
-      //   input.checked = false;
     })    
   }
-
-  // _clearAllCheckboxes = () => {
-  //   let header_checkBox = Array.from(document.getElementsByClassName("rtl-super-checkbox"))[0];
-  //   let row_checkBoxes = Array.from(document.getElementsByClassName("rtl-row-checkbox"));
-  //   header_checkBox.checked = false;
-  //   row_checkBoxes.forEach((row) => {
-  //     row.checked= false;        
-  //   })    
-  // }
 
   matchCaseInsensitive = (parentString, substringArray) => {
       let flag = false;         
@@ -439,7 +420,6 @@ export default class Table extends React.Component {
         }
         {
           download && !Boolean(downloadButtonID)?
-            // <button id="rtl-table-download-btn" className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
             <button className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
              <i>
                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 512 512" > <path fill="#61729b" d="M481 68.699V512h-60l-128.699-63.6L256 459.8 91 512H31V0h90l101.4 129.899 33.6-31.5L361 0h51.301z" ></path> <path fill="#47568c" d="M481 68.699V512h-60l-128.699-63.6L256 459.8V98.399L361 0h51.301z" ></path> <path fill="#e0f4ff" d="M91 242v270h330V242z"></path> <path fill="#bbdcff" d="M256 242h165v270H256z"></path> <path fill="#979fef" d="M151 332h210v30H151zM151 392h210v30H151z"></path> <path fill="#e0f4ff" d="M361 0v180H121V0h150l17.401 22.5L301 0z"></path> <path fill="#bbdcff" d="M361 0v180H256V0h15l17.401 22.5L301 0z"></path> <path fill="#737ee6" d="M256 332h105v30H256zM256 392h105v30H256z"></path> <path fill="#47568c" d="M271 0h30v120h-30z"></path> </svg>
