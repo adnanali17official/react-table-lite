@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import ReactDOMServer from 'react-dom/server';
 import "./Table.css";
 
@@ -40,7 +41,9 @@ export default class Table extends React.Component {
       this.checkRequiredProps(); 
       this.getMultiSelectProps();  
       this.getCustomHeadersProps(); 
-      this._initCustomDownloadListener(prevProps.downloadButtonID); 
+      this._initCustomDownloadListener(prevProps.downloadButtonID);
+      this._initCustomSearchListener(prevProps); 
+      this._initActionButtonListener(); 
     }
   }
 
@@ -76,6 +79,75 @@ export default class Table extends React.Component {
         customDownloadButton.addEventListener("click",this._downloadData);
       }
     }
+  } 
+  
+  _initCustomSearchListener = (prevProps) => {
+    let { prevSearchInputID, prevSearchFormID } = prevProps;
+    if(Boolean(this.props.searchInputID)){
+      let customSearchInput = document.getElementById(this.props.searchInputID);
+      if(customSearchInput){
+        if(prevSearchInputID !== this.props.searchInputID){
+          let prevCustomSearchInput = document.getElementById(prevSearchInputID);
+          if(prevCustomSearchInput){
+            prevCustomSearchInput.removeEventListener("input",this._handleSearchString);
+          }
+        }
+        customSearchInput.addEventListener("input",this._handleSearchString);
+      }
+    }
+    if(Boolean(this.props.searchFormID)){
+      let customSearchInputForm = document.getElementById(this.props.searchFormID);
+      if(customSearchInputForm){
+        if(prevSearchFormID !== this.props.searchFormID){
+          let prevCustomSearchInputForm = document.getElementById(prevSearchFormID);
+          if(prevCustomSearchInputForm){
+            prevCustomSearchInputForm.removeEventListener("submit",this._searchCallback);
+          }
+        }
+        customSearchInputForm.addEventListener("submit",this._searchCallback);
+      }
+    }
+  }
+  
+  _initActionButtonListener = () => {
+    let { renderView, renderEdit, renderDelete } = this.props;
+    let data_row = this.state.data;
+    if(renderView){
+      if(renderView.render){
+        if(renderView.render.$$typeof === Symbol.for('react.element')){
+            let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;    
+            let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderView.className)
+            Array.from(table_rows)
+            .forEach((element, index)=>{
+              element.onclick = (e,...args) => onRowView(...args,e,data_row[index]);
+            })
+        }
+      }
+    }
+    if(renderDelete){
+      if(renderDelete.render){
+        if(renderDelete.render.$$typeof === Symbol.for('react.element')){
+            let onRowDelete = this.props.onRowDelete === undefined ? ()=>{ return; } : this.props.onRowDelete;    
+            let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderDelete.className)
+            Array.from(table_rows)
+            .forEach((element, index)=>{
+              element.onclick = (e,...args) => onRowDelete(...args,e,data_row[index]);
+            })
+        }
+      }
+    }
+    if(renderEdit){
+      if(renderEdit.render){
+        if(renderEdit.render.$$typeof === Symbol.for('react.element')){
+            let onRowEdit = this.props.onRowEdit === undefined ? ()=>{ return; } : this.props.onRowEdit;    
+            let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderEdit.className)
+            Array.from(table_rows)
+            .forEach((element, index)=>{
+              element.onclick = (e,...args) => onRowEdit(...args,e,data_row[index]);
+            })
+        }
+      }
+    }
   }
 
   _onSort = (sortKey, direction) => {
@@ -104,6 +176,11 @@ export default class Table extends React.Component {
 
   _searchCallback = (evt) => {
     evt.preventDefault();
+    if(document.activeElement.classList.contains("rtl-search-clear")){
+      document.getElementById(this.props.searchInputID).value = "";
+      this._clearSearch(evt);
+    }
+
     if(this.state.searchString.trim().length)
       this.setState({appliedSearch:true});    
     else
@@ -393,10 +470,11 @@ export default class Table extends React.Component {
     let download = this.props.download === undefined? false : Boolean(this.props.download);
     let searchable = this.props.searchable === undefined? false : Boolean(this.props.searchable);
     let downloadButtonID =  this.props.downloadButtonID;
+    let searchInputID =  this.props.searchInputID;
     return(
       <div>
         {
-          searchable?
+          searchable && !Boolean(searchInputID)?
             <form className="rtl-table-search-form" onSubmit={ this._searchCallback.bind(this) }>
               <input 
                 onChange = {this._handleSearchString.bind(this)}
@@ -442,6 +520,32 @@ export default class Table extends React.Component {
     let showDeleteBtn = false;
     let showEditBtn = false;
     let showViewBtn = false;
+    
+    let customViewAction, customEditAction, customDeleteAction;
+    let { renderView, renderEdit, renderDelete } = this.props;
+    if(renderView){
+      if(renderView.render){
+        if(renderView.render.$$typeof === Symbol.for('react.element')){
+          customViewAction = renderView.render;
+        }
+      }
+    }
+    if(renderEdit){
+      if(renderEdit.render){
+        if(renderEdit.render.$$typeof === Symbol.for('react.element')){
+          customEditAction = renderEdit.render;
+        }
+      }
+    }
+    if(renderDelete){
+      if(renderDelete.render){
+        if(renderDelete.render.$$typeof === Symbol.for('react.element')){
+          customDeleteAction = renderDelete.render;
+        }
+      }
+    }
+
+
     actionTypes.length > 0 ?
       actionTypes.forEach((action)=>{
         if(action.toUpperCase() === "VIEW")
@@ -462,36 +566,45 @@ export default class Table extends React.Component {
         > 
           <div className="rtl-action-btn-container">
           {showViewBtn?
-            <button 
-              className="rtl-action-btn-view-btn"
-              onClick={(e,...args)=>{onRowView(...args,e,data_row)}}
-            >
-              <i>
-                <svg fill="currentColor" style={{verticalAlign: "middle"}}width="25" height="25" display="inline-block" viewBox="0 0 20 20" > <path d="M10 4.4C3.439 4.4 0 9.232 0 10c0 .766 3.439 5.6 10 5.6 6.56 0 10-4.834 10-5.6 0-.768-3.44-5.6-10-5.6zm0 9.907c-2.455 0-4.445-1.928-4.445-4.307 0-2.379 1.99-4.309 4.445-4.309s4.444 1.93 4.444 4.309c0 2.379-1.989 4.307-4.444 4.307zM10 10c-.407-.447.663-2.154 0-2.154-1.228 0-2.223.965-2.223 2.154s.995 2.154 2.223 2.154c1.227 0 2.223-.965 2.223-2.154 0-.547-1.877.379-2.223 0z"></path> </svg>
-              </i>
-            </button>                         
+            customViewAction?
+              customViewAction
+              :
+              <button 
+                className="rtl-action-btn-view-btn"
+                onClick={(e,...args)=>{onRowView(...args,e,data_row)}}
+              >
+                <i>
+                  <svg fill="currentColor" style={{verticalAlign: "middle"}} width="25" height="25" display="inline-block" viewBox="0 0 20 20" > <path d="M10 4.4C3.439 4.4 0 9.232 0 10c0 .766 3.439 5.6 10 5.6 6.56 0 10-4.834 10-5.6 0-.768-3.44-5.6-10-5.6zm0 9.907c-2.455 0-4.445-1.928-4.445-4.307 0-2.379 1.99-4.309 4.445-4.309s4.444 1.93 4.444 4.309c0 2.379-1.989 4.307-4.444 4.307zM10 10c-.407-.447.663-2.154 0-2.154-1.228 0-2.223.965-2.223 2.154s.995 2.154 2.223 2.154c1.227 0 2.223-.965 2.223-2.154 0-.547-1.877.379-2.223 0z"></path> </svg>
+                </i>
+              </button>                         
           :""}
             
           {showEditBtn?
-            <button 
-              className="rtl-action-btn-edit-btn"
-              onClick={(e,...args)=>{onRowEdit(...args,e,data_row)}}
-            >
-              <i>
-                <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="25" height="25" display="inline-block" viewBox="0 0 24 24" > <path d="M21.561 5.318l-2.879-2.879A1.495 1.495 0 0017.621 2c-.385 0-.768.146-1.061.439L13 6H4a1 1 0 00-1 1v13a1 1 0 001 1h13a1 1 0 001-1v-9l3.561-3.561c.293-.293.439-.677.439-1.061s-.146-.767-.439-1.06zM11.5 14.672L9.328 12.5l6.293-6.293 2.172 2.172-6.293 6.293zm-2.561-1.339l1.756 1.728L9 15l-.061-1.667zM16 19H5V8h6l-3.18 3.18c-.293.293-.478.812-.629 1.289-.16.5-.191 1.056-.191 1.47V17h3.061c.414 0 1.108-.1 1.571-.29.464-.19.896-.347 1.188-.64L16 13v6zm2.5-11.328L16.328 5.5l1.293-1.293 2.171 2.172L18.5 7.672z"></path> </svg>
-              </i>
-            </button>
+            customEditAction?
+              customEditAction
+              :
+              <button 
+                className="rtl-action-btn-edit-btn"
+                onClick={(e,...args)=>{onRowEdit(...args,e,data_row)}}
+              >
+                <i>
+                  <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="25" height="25" display="inline-block" viewBox="0 0 24 24" > <path d="M21.561 5.318l-2.879-2.879A1.495 1.495 0 0017.621 2c-.385 0-.768.146-1.061.439L13 6H4a1 1 0 00-1 1v13a1 1 0 001 1h13a1 1 0 001-1v-9l3.561-3.561c.293-.293.439-.677.439-1.061s-.146-.767-.439-1.06zM11.5 14.672L9.328 12.5l6.293-6.293 2.172 2.172-6.293 6.293zm-2.561-1.339l1.756 1.728L9 15l-.061-1.667zM16 19H5V8h6l-3.18 3.18c-.293.293-.478.812-.629 1.289-.16.5-.191 1.056-.191 1.47V17h3.061c.414 0 1.108-.1 1.571-.29.464-.19.896-.347 1.188-.64L16 13v6zm2.5-11.328L16.328 5.5l1.293-1.293 2.171 2.172L18.5 7.672z"></path> </svg>
+                </i>
+              </button>
           :""}
             
-          {showDeleteBtn? 
-            <button 
-              className="rtl-action-btn-delete-btn"
-              onClick={(e,...args)=>{onRowDelete(...args,e,data_row)}}
-            >
-              <i>
-                <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="19" height="19" display="inline-block" viewBox="0 0 8 8" > <path d="M3 0c-.55 0-1 .45-1 1H1c-.55 0-1 .45-1 1h7c0-.55-.45-1-1-1H5c0-.55-.45-1-1-1H3zM1 3v4.81c0 .11.08.19.19.19h4.63c.11 0 .19-.08.19-.19V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1z"></path> </svg>
-              </i>
-            </button>                       
+          {showDeleteBtn?
+            customDeleteAction?
+              customDeleteAction
+              : 
+              <button 
+                className="rtl-action-btn-delete-btn"
+                onClick={(e,...args)=>{onRowDelete(...args,e,data_row)}}
+              >
+                <i>
+                  <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="19" height="19" display="inline-block" viewBox="0 0 8 8" > <path d="M3 0c-.55 0-1 .45-1 1H1c-.55 0-1 .45-1 1h7c0-.55-.45-1-1-1H5c0-.55-.45-1-1-1H3zM1 3v4.81c0 .11.08.19.19.19h4.63c.11 0 .19-.08.19-.19V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1z"></path> </svg>
+                </i>
+              </button>                       
           :""}
           
           
@@ -514,9 +627,13 @@ export default class Table extends React.Component {
 
   render() {
     return (
-      <div className="react-table-lite-container" style={this.props.containerStyle}>              
+      <div 
+        className="react-table-lite-container" 
+        // style={{display: "none"}}
+        style={this.props.containerStyle}
+      >              
         <>{this.TableOperations()}</>      
-        <table id="rtl-table-table-lite" cellSpacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
+        <table cellSpacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
           {this.TableHeader()}
           {this.TableData()}
         </table>
