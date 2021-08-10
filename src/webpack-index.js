@@ -1,4 +1,4 @@
 
-import Table from "./components/table/Table";
-export default Table;
+// import Table from "./components/table/Table";
+export const Table = {"name": "mod"};
 

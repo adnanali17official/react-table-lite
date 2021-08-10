@@ -52,7 +52,7 @@ var config = {
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
-        use: "babel-loader",
+        use: "babel-loader"
       },
       {
         test: /\.css$/i,
@@ -80,6 +80,7 @@ module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.entry = "./src/index.js";
     config.mode = "development";
+    config.output.path = path.resolve(__dirname, "public");
   }
   // if (argv.mode === 'production') {
 

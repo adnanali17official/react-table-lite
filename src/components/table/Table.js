@@ -6,7 +6,7 @@ import "./Table.css";
 import { export_table_to_csv } from './../../script/download_csv';
 
 
-export default class Table extends React.Component {
+class Table extends React.Component {
   constructor(props) {
     super(props);    
     this.state = {
@@ -642,3 +642,4 @@ export default class Table extends React.Component {
   }
 }
 
+export default Table;
