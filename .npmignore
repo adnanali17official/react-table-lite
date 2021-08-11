@@ -1,4 +1,6 @@
 src
 dist/table.js.LICENSE.txt
 .babelrc
-webpack.config.js
+serve.config.js
+build.config.js
+public
