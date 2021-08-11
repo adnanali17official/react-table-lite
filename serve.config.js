@@ -30,7 +30,7 @@ export default {
     }),
     commonjs(),
     serve({
-      open: true,
+      // open: true,
       verbose: true,
       contentBase: ["", "public"],
       host: "localhost",

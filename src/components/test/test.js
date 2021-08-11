@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Table from '../../../dist/table';
-console.log(Table)
+import Table from '../../../dist/table.esm';
 function TestTable (){
 	const [data, _dataHandler] = useState([]);
 	const [limit, _limit] = useState(10);

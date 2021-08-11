@@ -28,18 +28,21 @@
         "javascript",
         "minimal"
     ],
-    "main": "./dist/table.js",
+    "main": "./dist/table.cjs.js",
+    "module": "dist/table.esm.js",
+    "source": "src/build-index.js",
     "dependencies": {
         "react": "^16.14.0",
         "react-dom": "^16.14.0"
     },
     "peerDependencies": {
         "react": "^16.14.0",
-        "react-dom": "^16.14.0"
+        "react-dom": "^16.14.0",
+        "@babel/runtime": "^7.15.3"
     },
     "scripts": {
-        "build": "rollup -c build.config.js",
-        "start": "rollup -c serve.config.js -w"
+        "build": "rollup -c build.config.js --exports auto",
+        "watch": "rollup -c serve.config.js -w"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -58,6 +61,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.15.0",
+        "@babel/plugin-transform-runtime": "^7.15.0",
         "@babel/preset-env": "^7.15.0",
         "@babel/preset-react": "^7.14.5",
         "@rollup/plugin-babel": "^5.3.0",
