@@ -36,12 +36,32 @@ A lightweight easy to use and easily customizable React Component for rendering 
 - **Customize no data message:**
     Use ‘noDataMessage’ prop to provide empty data message.
 
-#### `New!`
-
 - **Multi Select:**
     Use ‘enableMultiSelect’ prop to enable checkboxes for each row. Provide ‘defaultCheckedKey’ for selected rows in data json object.
     Provide ‘disableCheckedKey’ for non selectable rows in data json object.
 
+#### `New!`
+
+- **Custom Search:**
+    Create your own search elements and give the id to ‘searchInputID’ and/or ‘searchFormID’ prop for same functionality like the built-in search.
+
+- **Custom Download:**
+    Create your own Download button and give the id to ‘downloadButtonID’ prop for same functionality like the built-in download.
+
+- **Custom Headers Labels:**
+    Use ‘customHeaders’ prop to give custom text in table header.
+
+- **Highlight Selected:**
+    Checked data can now be highlighted and customized with ‘selectedClassName’ prop.
+
+- **Custom JSX for Action buttons:**
+    Action buttons are now fully customizable with ‘renderView’, ‘renderEdit’ and ‘renderDelete’ props.
+
+- **Custom Download listener:**
+    Use ‘onDownload’ props to implement custom download, built-in download is usable too if the function returns true.
+
+- **Sort Listener:**
+    Use ‘onSort’ props to receive the updated data state after sorting.
 
 ### Preview:  
  

@@ -167,7 +167,7 @@ class MyTable extends React.Component {
           fileName="my customers"
           header={["name", "age", "phone", "email"]}
           sortBy={["age", "phone", "name", "email"]}
-          customHeaders={{"name":"employee"}}        
+          // customHeaders={{"name":"employee"}}        
           searchBy={["email","phone"]}
           searchable={true}
           showActions={true}
@@ -177,28 +177,6 @@ class MyTable extends React.Component {
           data={this.state.data}
           actionTypes={["edit", "delete", "view"]}
           // selectedClassName={"my-selected-class"}
-          // renderDelete={{
-          //   render:
-          //     <button 
-          //       style={{background: "red", color: "white"}} 
-          //       className={"my-delete-"+id+ " other"}
-          //     >
-          //       delete
-          //     </button>
-          //   ,
-          //   className: "my-delete-" + id
-          // }}
-          // renderEdit={{
-          //   render:
-          //     <button 
-          //       style={{background: "red", color: "white"}} 
-          //       className={"my-edit-"+id+ " other"}
-          //     >
-          //       edit
-          //     </button>
-          //   ,
-          //   className: "my-edit-" + id
-          // }}
           // renderView={{
           //   render:
           //     <button 
@@ -210,11 +188,33 @@ class MyTable extends React.Component {
           //   ,
           //   className: "my-view-" + id
           // }}
-          onRowDelete={this.onRowDelete.bind(this)}
-          onRowEdit={this.onRowEdit.bind(this)}
+           // renderEdit={{
+          //   render:
+          //     <button 
+          //       style={{background: "red", color: "white"}} 
+          //       className={"my-edit-"+id+ " other"}
+          //     >
+          //       edit
+          //     </button>
+          //   ,
+          //   className: "my-edit-" + id
+          // }}
+          // renderDelete={{
+          //   render:
+          //     <button 
+          //       style={{background: "red", color: "white"}} 
+          //       className={"my-delete-"+id+ " other"}
+          //     >
+          //       delete
+          //     </button>
+          //   ,
+          //   className: "my-delete-" + id
+          // }}
           onRowView={this.onRowView.bind(this)}
+          onRowEdit={this.onRowEdit.bind(this)}
+          onRowDelete={this.onRowDelete.bind(this)}
           // onDownload={this.onDownload.bind(this)}
-          onSort={this.onSort.bind(this)}
+          // onSort={this.onSort.bind(this)}
           noDataMessage={"my custom no no"}
           onRowSelect={this.onRowSelect.bind(this)}
           onAllRowSelect={this.onAllRowSelect.bind(this)}
