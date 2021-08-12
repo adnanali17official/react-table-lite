@@ -436,7 +436,10 @@ class Table extends React.Component {
                       <span onClick={this._onSort.bind(this, heading, 'asc')}>  ▼ </span>
                     </span>
                     :
-                    heading
+                    customHeaders[heading]===undefined?
+                      heading
+                      :
+                      customHeaders[heading]
                   }
                 </th>
                 {this.TableActionHeader(index, header.length)}

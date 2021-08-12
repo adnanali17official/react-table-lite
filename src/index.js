@@ -165,9 +165,9 @@ class MyTable extends React.Component {
           // searchInputID={"my-search"+id}
           // searchFormID={"my-form"+id}
           fileName="my customers"
-          header={["name_1", "age", "phone", "email"]}
-          sortBy={["age", "phone", "name_1", "email"]}
-          customHeaders={{"name_1":"employeeee"}}        
+          header={["name", "age", "phone", "email"]}
+          sortBy={["age", "phone", "name", "email"]}
+          customHeaders={{"name":"employee"}}        
           searchBy={["email","phone"]}
           searchable={true}
           showActions={true}
