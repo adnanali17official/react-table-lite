@@ -16,6 +16,7 @@
 
 # dev
 /public/table.js
+/public/table.js.map
 /public/*.txt
 
 # misc

@@ -151,7 +151,7 @@ class Table extends React.Component {
   }
 
   _onSort = (sortKey, direction) => {
-    let data = this.state.data;
+    let data = [...this.state.data];
     let sortKeyIndex = this.state.sortKeys.indexOf(sortKey);
     let sortParameters = this.state.sortParameters;
     sortParameters.forEach((parameter) => {
@@ -163,6 +163,11 @@ class Table extends React.Component {
       :
       data.sort((a, b) => { return isNaN(a[sortKey]) ? b[sortKey].localeCompare(a[sortKey]) : Number(b[sortKey]) - Number(a[sortKey]) })
     this.setState({ sortParameters });
+    if(typeof this.props.onSort === "function"){
+      this.props.onSort(data);
+    } else {
+      this.setState({ data });
+    }
   }  
   
   _handleSearchString = (evt) => {

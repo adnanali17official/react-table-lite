@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Table from "./components/table/Table";
-import TestTable from "./components/test/test";
+// import TestTable from "./components/test/test";
 class MyTable extends React.Component {
   constructor(props) {
     super(props);
@@ -139,6 +139,10 @@ class MyTable extends React.Component {
   onDownload(){
     console.log("you get download")
     return true;
+  } 
+  
+  onSort(data){
+    this.setState({ data });
   }
 
   RenderSingleTable(id = 1) {
@@ -161,9 +165,9 @@ class MyTable extends React.Component {
           // searchInputID={"my-search"+id}
           // searchFormID={"my-form"+id}
           fileName="my customers"
-          header={["name", "age", "phone", "email"]}
-          sortBy={["age", "phone", "name", "email"]}
-          customHeaders={{"name":"employ"}}        
+          header={["name_1", "age", "phone", "email"]}
+          sortBy={["age", "phone", "name_1", "email"]}
+          customHeaders={{"name_1":"employeeee"}}        
           searchBy={["email","phone"]}
           searchable={true}
           showActions={true}
@@ -210,6 +214,7 @@ class MyTable extends React.Component {
           onRowEdit={this.onRowEdit.bind(this)}
           onRowView={this.onRowView.bind(this)}
           // onDownload={this.onDownload.bind(this)}
+          onSort={this.onSort.bind(this)}
           noDataMessage={"my custom no no"}
           onRowSelect={this.onRowSelect.bind(this)}
           onAllRowSelect={this.onAllRowSelect.bind(this)}
@@ -268,5 +273,5 @@ class MyTable extends React.Component {
   }
 }
 
-// ReactDOM.render(<MyTable />, document.getElementById("root"));
-ReactDOM.render(<TestTable />, document.getElementById("root"));
+ReactDOM.render(<MyTable />, document.getElementById("root"));
+// ReactDOM.render(<TestTable />, document.getElementById("root"));

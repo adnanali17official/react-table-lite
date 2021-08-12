@@ -1,6 +1,6 @@
 {
     "name": "react-table-lite",
-    "version": "1.4.1",
+    "version": "2.0.0-alpha1",
     "license": "MIT",
     "author": "Daniyal Hasan Shah, Adnan Ali",
     "description": "A lite React component for rendering table with JSON data.",
