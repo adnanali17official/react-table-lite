@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ReactDOMServer from 'react-dom/server';
 import "./Table.css";
+import Pagination from "../pagination/Pagination";
 
 import { export_table_to_csv } from './../../script/download_csv';
 
@@ -633,6 +634,25 @@ class Table extends React.Component {
     }
   }
 
+  Pagination = () => {
+    let showPagination = this.props.showPagination === undefined ? false: true
+    let { totalPages, currentPage, range, onPaginate } = this.props;
+    return (
+      <>
+        {showPagination? 
+          <Pagination 
+            totalPages={totalPages}
+            currentPage={currentPage}
+            range={range}
+            onPaginate={onPaginate}
+          />
+          :
+          ""
+        }
+      </>
+    );
+  }
+
   render() {
     return (
       <div 
@@ -645,6 +665,7 @@ class Table extends React.Component {
           {this.TableHeader()}
           {this.TableData()}
         </table>
+        {this.Pagination()}
       </div>  
     );
   }
