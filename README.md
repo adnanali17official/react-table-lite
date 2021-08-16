@@ -63,6 +63,9 @@ A lightweight easy to use and easily customizable React Component for rendering 
 - **Sort Listener:**
     Use ‘onSort’ props to receive the updated data state after sorting.
 
+- **Pagination:**
+    Use ‘showPagination’ prop to enable pagination with custom range. Can be customized by css.
+
 ### Preview:  
  
 *Plain View*
@@ -123,6 +126,8 @@ function UserData(props){
            // Headers should be same as data JSON Object's keys (required)
            sortBy = {["name", "age"]}
            // keys for sorting should be present in header array
+           customHeaders={{"name":"employee"}}
+           // custom header label in JSON        
            searchable={true}
            // Enable table search field
            searchBy={["name", "email"]}
@@ -131,6 +136,13 @@ function UserData(props){
            // Pass true to enable download button 
            // note: If multiselect is enabled,
            // only checked rows will be downloaded
+           downloadButtonID="my-download"
+           // id of download button
+           searchInputID={"my-search"}
+           // id of input element used for search
+           searchFormID={"my-form"}
+           // id of form element used for search
+           // with reset and search button feature
            fileName = {"Table_Data"}
            // Default name of downloaded csv file
            noDataMessage={"my custom no data"}
@@ -145,8 +157,18 @@ function UserData(props){
            // Customize table row style
            dataStyle = {}
            // Customize table data cell style
+           selectedClassName={"my-selected-class"}
+           // Assign className to checked row
            showActions = {true}
            // Enable Row Operation
+           showPagination={true}
+           // Enable Pagination
+           totalPages={10} 
+           // Total Pages of data
+           currentPage={1}
+           // Current Page number
+           range={5}
+           // range for show page number 
            actionTypes={["edit","delete","view"]} 
            // Type of Row Operation (case insensitive)
            enableMultiSelect  = {true}
@@ -155,6 +177,48 @@ function UserData(props){
            // Key present in data to mark row checked
            disableCheckedKey={"selectDisabled"}
            // Key present in data to make row checkbox disabled
+           renderView={{
+             "render":
+               <button 
+                 style={{"background": "red", "color": "white"}} 
+                 className={"my-view"}
+               >
+                 view
+               </button>
+             ,
+             "className": "my-view" 
+           }}
+           // Custom JSX and className in JSON Object
+           // to render custom 'view' action button
+           // className required for onClick event binding  
+           renderEdit={{
+             "render":
+               <button 
+                 style={{"background": "red", "color": "white"}} 
+                 className={"my-edit"}
+               >
+                 edit
+               </button>
+             ,
+             "className": "my-edit" 
+           }}
+           // Custom JSX and className in JSON Object
+           // to render custom 'edit' action button
+           // className required for onClick event binding 
+           renderDelete={{
+             "render":
+               <button 
+                 style={{"background": "red", "color": "white"}} 
+                 className={"my-delete"}
+               >
+                 delete
+               </button>
+             ,
+             "className": "my-delete" 
+           }}
+           // Custom JSX and className in JSON Object
+           // to render custom 'delete' action button
+           // className required for onClick event binding 
            onRowSelect={(args, event, row)=>{
             // 'row' returns row object 
             // any arguments passed will be before 'event' and 'row'
@@ -175,6 +239,16 @@ function UserData(props){
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
+          onDownload={()=>{
+            // return true to use built-in download functionality
+            return true;
+          }}
+          onSort={(data)=>{
+            // 'data' returns new sorted data
+          })}
+          onPaginate={(currentPage)=>{
+           // 'currentPage' returns updated current page;
+          }}
         />
       )
   }
@@ -185,26 +259,41 @@ Prop | Type | Description
 header      | Array | Array of string will be rendered as table headers (required)|
 data        | Array | Array of JSON objects to be rendered in table, keys should match with table headers (required)|
 sortBy      | Array | Array of string which matches the headers for sorting data in table body |
+customHeaders | JSON | key  is from header props, value is string that to be replaced |
 searchable  | Boolean | Pass ‘true’ to enable search field |
 searchBy    | Array | Array of string which matches the headers for searching data in table body |
 download    | Boolean | Pass ‘true’ to enable download csv button <br/> *note: If multiselect is enabled, <br/> only checked rows will be downloaded* |
 fileName    | String | String used as default filename for csv files when downloading 
+downloadButtonID    | String | id of button element 
+searchInputID    | String | id of input element for search 
+searchFormID    | String | id of form element used for search with reset and search button feature
 noDataMessage   | String | String used for 'No data' message
 limit       | Integer | Limit number of rows to display at a time
 containerStyle | Style  | Style object for parent container
 headerStyle | Style  | Style object for table header
 rowStyle    | Style  | Style object for table rows
 dataStyle   | Style  | Style object for table cells
+selectedClassName   | String  | className for checked rows
 showActions | Boolean | Enable to show actions column
+showPagination | Boolean | Enable to show pagination
+totalPages | Number | Total Pages of data
+currentPage | Number | Current Page number
+range | Number |range for show page number 
 actionTypes | Array | Name of action to enable and show array of string
 enableMultiSelect | Boolean | Enable to show multi select
 defaultCheckedKey | String | Key in JSON data object to 'check' the row.
 disableCheckedKey | String | Key in JSON data object to disable selection of that row.
+renderView | JSON | Custom JSX and className in JSON Object to render custom 'view' action button className required for onClick event binding.
+renderEdit | JSON | Custom JSX and className in JSON Object to render custom 'view' action button className required for onClick event binding.
+renderDelete | JSON | Custom JSX and className in JSON Object to render custom 'view' action button className required for onClick event binding.
 onRowDelete | callback | Callback function on row delete
 onRowEdit   | callback | Callback function on row edit
 onRowView   | callback | Callback function on row view
 onRowSelect    | callback | Callback function on row select
 onAllRowSelect | callback | Callback function on all row select
+onDownload | callback | Callback function for download, return true for built-in download functionality.
+onSort | callback | Callback function after sort.
+onPaginate | callback | Callback function for pagination
 
 ### CSS Classes:
 
