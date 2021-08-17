@@ -284,8 +284,8 @@ enableMultiSelect | Boolean | Enable to show multi select
 defaultCheckedKey | String | Key in JSON data object to 'check' the row.
 disableCheckedKey | String | Key in JSON data object to disable selection of that row.
 renderView | JSON | Custom JSX and className in JSON Object to render custom 'view' action button className required for onClick event binding.
-renderEdit | JSON | Custom JSX and className in JSON Object to render custom 'view' action button className required for onClick event binding.
-renderDelete | JSON | Custom JSX and className in JSON Object to render custom 'view' action button className required for onClick event binding.
+renderEdit | JSON | Custom JSX and className in JSON Object to render custom 'edit' action button className required for onClick event binding.
+renderDelete | JSON | Custom JSX and className in JSON Object to render custom 'delete' action button className required for onClick event binding.
 onRowDelete | callback | Callback function on row delete
 onRowEdit   | callback | Callback function on row edit
 onRowView   | callback | Callback function on row view
@@ -309,6 +309,7 @@ rtl-action-btn-container   | For action button container.
 rtl-action-btn-delete-btn  | For delete action button. 
 rtl-action-btn-edit-btn    | For edit action button.
 rtl-action-btn-view-btn    | For view action button.
+rtl-pagination-container   | For pagination container.
  
 
 ### Support:  

@@ -2,6 +2,7 @@
 
 .react-table-lite-container {
 	width: 100%;
+	font-family: sans-serif;
 }
 
 .react-table-lite-container table {

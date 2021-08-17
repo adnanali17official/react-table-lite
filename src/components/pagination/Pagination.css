@@ -1,24 +1,42 @@
 .rtl-paginate-ul{
 	list-style-type:none;
 	display: flex;
+	padding-left: 0;
+
+	-webkit-touch-callout: none; 
+		-webkit-user-select: none; 
+		 -khtml-user-select: none; 
+	 		 -moz-user-select: none; 
+				-ms-user-select: none; 
+						user-select: none; 
 }
 .rtl-pagination-next,
 .rtl-pagination-back{
-	cursor:pointer;
+	cursor: pointer;
 	padding: 5px 2px;
+	color: #424242;
 }
 .rtl-pagination-item{
-	border: 1px solid grey;
-	padding: 5px 2px;
-	min-width:26px;
-	cursor:pointer;
-	text-align:center;
+	padding: 6px 5px;
+	min-width: 20px;
+	cursor: pointer;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+.rtl-pagination-item:hover{
+	background: #e0dfdf;
+	border-radius: 5px;
+	color: #404040;
 }
 .rtl-pagination-item:first-child{
 	border-left: 0px;
 }
 .rtl-pagination-active{
-	font-weight:bold;
+	font-weight: bold;
+	background: #4a4a4a;
+	color: #fff4f4;
+	border-radius: 5px;
 }
 .rtl-pagination-last,
 .rtl-pagination-first{

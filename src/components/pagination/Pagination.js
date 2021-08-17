@@ -82,7 +82,7 @@ class Pagination extends React.Component{
   render(){
     let Found = false;
     return(
-      <div>
+      <div className="rtl-pagination-container">
         <ul className="rtl-paginate-ul">
           <li 
             className="rtl-pagination-next" 							

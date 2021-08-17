@@ -176,11 +176,11 @@ class MyTable extends React.Component {
           searchBy={["email","phone"]}
           searchable={true}
           showActions={true}
-          // showPagination={true}
-          // totalPages={10} 
-          // currentPage={this.state.currentPage}
-          // range={5}
-          // onPaginate={this.onPaginate.bind(this)}
+          showPagination={true}
+          totalPages={10} 
+          currentPage={this.state.currentPage}
+          range={5}
+          onPaginate={this.onPaginate.bind(this)}
           enableMultiSelect={true}
           defaultCheckedKey={"checked"}
           disableCheckedKey={"disabled"}
