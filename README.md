@@ -1,6 +1,7 @@
 # React Table Lite
 
 A lightweight easy to use and easily customizable React Component for rendering a table from JSON with minimal code.
+##### <a href="https://react-azmat-components.web.app/#/react-table-lite" target="_blank">Click here for demo</a>
 
 <img src="https://s8.gifyu.com/images/rtl-animated-1.gif" alt="react-table-lite-preview-1" />
 
