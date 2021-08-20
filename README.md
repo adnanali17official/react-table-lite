@@ -246,7 +246,7 @@ function UserData(props){
           }}
           onSort={(data)=>{
             // 'data' returns new sorted data
-          })}
+          }}
           onPaginate={(currentPage)=>{
            // 'currentPage' returns updated current page;
           }}

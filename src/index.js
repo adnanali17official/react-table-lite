@@ -187,39 +187,39 @@ class MyTable extends React.Component {
           data={this.state.data}
           actionTypes={["edit", "delete", "view"]}
           // selectedClassName={"my-selected-class"}
-          // renderView={{
-          //   render:
-          //     <button 
-          //       style={{background: "red", color: "white"}} 
-          //       className={"my-view-"+id+ " other"}
-          //     >
-          //       view
-          //     </button>
-          //   ,
-          //   className: "my-view-" + id
-          // }}
-           // renderEdit={{
-          //   render:
-          //     <button 
-          //       style={{background: "red", color: "white"}} 
-          //       className={"my-edit-"+id+ " other"}
-          //     >
-          //       edit
-          //     </button>
-          //   ,
-          //   className: "my-edit-" + id
-          // }}
-          // renderDelete={{
-          //   render:
-          //     <button 
-          //       style={{background: "red", color: "white"}} 
-          //       className={"my-delete-"+id+ " other"}
-          //     >
-          //       delete
-          //     </button>
-          //   ,
-          //   className: "my-delete-" + id
-          // }}
+          renderView={{
+            render:
+              <button 
+                style={{background: "red", color: "white"}} 
+                className={"my-view-"+id+ " other"}
+              >
+                view
+              </button>
+            ,
+            className: "my-view-" + id
+          }}
+           renderEdit={{
+            render:
+              <button 
+                style={{background: "red", color: "white"}} 
+                className={"my-edit-"+id+ " other"}
+              >
+                edit
+              </button>
+            ,
+            className: "my-edit-" + id
+          }}
+          renderDelete={{
+            render:
+              <button 
+                style={{background: "red", color: "white"}} 
+                className={"my-delete-"+id+ " other"}
+              >
+                delete
+              </button>
+            ,
+            className: "my-delete-" + id
+          }}
           onRowView={this.onRowView.bind(this)}
           onRowEdit={this.onRowEdit.bind(this)}
           onRowDelete={this.onRowDelete.bind(this)}

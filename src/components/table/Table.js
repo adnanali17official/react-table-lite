@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import ReactDOMServer from 'react-dom/server';
 import "./Table.css";
 import Pagination from "../pagination/Pagination";
@@ -21,6 +21,7 @@ class Table extends React.Component {
       appliedSearch: false,
       enableMultiSelect:false
 	  };
+    this.TableRef = React.createRef();
   }
 
   componentDidMount = () => {
@@ -117,7 +118,8 @@ class Table extends React.Component {
       if(renderView.render){
         if(renderView.render.$$typeof === Symbol.for('react.element')){
             let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;    
-            let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderView.className)
+            // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderView.className)
+            let table_rows = this.TableRef.current.getElementsByClassName(renderView.className)
             Array.from(table_rows)
             .forEach((element, index)=>{
               element.onclick = (e,...args) => onRowView(...args,e,data_row[index]);
@@ -129,7 +131,8 @@ class Table extends React.Component {
       if(renderDelete.render){
         if(renderDelete.render.$$typeof === Symbol.for('react.element')){
             let onRowDelete = this.props.onRowDelete === undefined ? ()=>{ return; } : this.props.onRowDelete;    
-            let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderDelete.className)
+            // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderDelete.className)
+            let table_rows = this.TableRef.current.getElementsByClassName(renderDelete.className)
             Array.from(table_rows)
             .forEach((element, index)=>{
               element.onclick = (e,...args) => onRowDelete(...args,e,data_row[index]);
@@ -141,7 +144,8 @@ class Table extends React.Component {
       if(renderEdit.render){
         if(renderEdit.render.$$typeof === Symbol.for('react.element')){
             let onRowEdit = this.props.onRowEdit === undefined ? ()=>{ return; } : this.props.onRowEdit;    
-            let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderEdit.className)
+            // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderEdit.className)
+            let table_rows = this.TableRef.current.getElementsByClassName(renderEdit.className)
             Array.from(table_rows)
             .forEach((element, index)=>{
               element.onclick = (e,...args) => onRowEdit(...args,e,data_row[index]);
@@ -659,6 +663,7 @@ class Table extends React.Component {
         className="react-table-lite-container" 
         // style={{display: "none"}}
         style={this.props.containerStyle}
+        ref={this.TableRef}
       >              
         <>{this.TableOperations()}</>      
         <table cellSpacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
