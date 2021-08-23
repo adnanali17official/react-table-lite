@@ -1,6 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import ReactDOMServer from 'react-dom/server';
+// import ReactDOM from "react-dom";
+// import ReactDOMServer from 'react-dom/server';
 import "./Pagination.css";
 
 class Pagination extends React.Component{		

@@ -240,16 +240,16 @@ function UserData(props){
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-          onDownload={()=>{
-            // return true to use built-in download functionality
-            return true;
-          }}
-          onSort={(data)=>{
-            // 'data' returns new sorted data
-          }}
-          onPaginate={(currentPage)=>{
-           // 'currentPage' returns updated current page;
-          }}
+           onDownload={()=>{
+             // return true to use built-in download functionality
+             return true;
+           }}
+           onSort={(data)=>{
+             // 'data' returns new sorted data
+           }}
+           onPaginate={(currentPage)=>{
+            // 'currentPage' returns updated current page;
+           }}
         />
       )
   }
