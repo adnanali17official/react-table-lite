@@ -8,7 +8,7 @@ export default {
     input: pkg.source,
     output: [
         { file: pkg.main, format: 'cjs', plugins: [terser()] },
-        // { file: pkg.module, format: 'esm', plugins: [terser()] }
+        // { file: "./dist/table.esm.js", format: 'esm', plugins: [terser()] } // for testing build
     ],
     plugins: [
         styles(),

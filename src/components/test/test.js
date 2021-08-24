@@ -53,6 +53,36 @@ function TestTable (){
     // this.setState({ data: newData });
   }
 
+	let customViewButton = {
+    "className": "my-view",
+    "render":
+        <button 
+            style={{"background": "#007bff", "color": "white", "margin":"0 2px"}} 
+            className={"my-view"}
+        >
+            View
+        </button>                   
+		}
+		const customEditButton = {
+				"className": "my-edit",
+				"render":
+						<button 
+								style={{"background": "#218838", "color": "white", "margin":"0 2px"}} 
+								className={"my-edit"}
+						>
+								Edit
+						</button>                   
+		}            
+		const customDeleteButton = {
+				"className": "my-delete",
+				"render":
+						<button 
+								style={{"background": "#c82333", "color": "white", "margin":"0 2px"}} 
+								className={"my-delete"}
+						>
+								Delete
+						</button>                   
+		}
 	return(
 		<div>
 			<div style={{display:"flex"}}>
@@ -95,7 +125,12 @@ function TestTable (){
 				defaultCheckedKey={"checked"}
 				disableCheckedKey={"disabled"}
 				onRowSelect={(e,row)=>onRowSelect(e,row)}
-				onAllRowSelect={()=>onAllRowSelect()}		
+				onAllRowSelect={()=>onAllRowSelect()}	
+				
+				onRowView = {(event, row)=>{ console.log(event, row) }}
+				renderDelete={customDeleteButton}                               
+				renderView={customViewButton} 
+				renderEdit={customEditButton}  
 			/>			
 		</div>
 	)

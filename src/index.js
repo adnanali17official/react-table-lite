@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Table from "./components/table/Table";
-// import TestTable from "./components/test/test";
+import TestTable from "./components/test/test";
 class MyTable extends React.Component {
   constructor(props) {
     super(props);
@@ -283,5 +283,5 @@ class MyTable extends React.Component {
   }
 }
 
-ReactDOM.render(<MyTable />, document.getElementById("root"));
-// ReactDOM.render(<TestTable />, document.getElementById("root"));
+// ReactDOM.render(<MyTable />, document.getElementById("root"));
+ReactDOM.render(<TestTable />, document.getElementById("root"));

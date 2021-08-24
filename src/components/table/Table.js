@@ -45,7 +45,7 @@ class Table extends React.Component {
       this.getCustomHeadersProps(); 
       this._initCustomDownloadListener(prevProps.downloadButtonID);
       this._initCustomSearchListener(prevProps); 
-      this._initActionButtonListener(); 
+      // this._initActionButtonListener(); 
     }
   }
 
@@ -113,13 +113,13 @@ class Table extends React.Component {
   
   _initActionButtonListener = () => {
     let { renderView, renderEdit, renderDelete } = this.props;
-    let data_row = this.state.data;
+    let data_row = [...this.state.data];
     if(renderView){
       if(renderView.render){
         if(renderView.render.$$typeof === Symbol.for('react.element')){
             let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;    
             // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderView.className)
-            let table_rows = this.TableRef.current.getElementsByClassName(renderView.className)
+            let table_rows = this.TableRef.current.getElementsByClassName(renderView.className)            
             Array.from(table_rows)
             .forEach((element, index)=>{
               element.onclick = (e,...args) => onRowView(...args,e,data_row[index]);
@@ -326,7 +326,9 @@ class Table extends React.Component {
         if(this.state.searchString.trim().length){
           this._applySearch();        
         }
-    });
+        this._initActionButtonListener();
+      }
+    );
   }
 
   getDownloadableFileName = () =>{
