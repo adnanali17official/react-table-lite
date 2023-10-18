@@ -1,0 +1,60 @@
+.react-table-lite-container {
+	width: 100%;
+	font-family: sans-serif;
+}
+
+.react-table-lite-table {
+	width: 100%;
+    border-collapse: collapse;
+}
+
+.react-table-lite-header,
+.react-table-lite-cell {
+	text-align: left;
+    border-top: 1px solid #dee2e6;
+    padding: 0.3em 0;
+}
+
+.react-table-lite-header{
+    cursor: default;
+}
+
+.react-table-lite-action-btn-view-btn,
+.react-table-lite-action-btn-edit-btn {
+    margin-right: 3px;
+}
+
+.react-table-lite-bottom-section{
+	display: flex;
+	flex-wrap: wrap;
+    align-items: center;
+	justify-content: space-between;
+}
+
+.react-table-lite-perpage-option-select{
+    padding: 0.3em;
+    width: 4em;
+}
+
+.react-table-lite-top-section{
+    display: flex;
+}
+
+.react-table-lite-action-btn-icon{
+    width: 20px;
+    height: 20px;
+}
+
+.react-table-lite-search-form-button-icon,
+.react-table-lite-download-csv-button-icon{
+    width: 17px;
+    height: 17px;
+}
+.react-table-lite-search-form-input {
+    padding: 0.3rem 0.6rem;
+    height: 1.8em;
+}
+
+.react-table-lite-action-btn-container {
+    width: fit-content;
+}

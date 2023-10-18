@@ -1,14 +1,15 @@
 import babel from '@rollup/plugin-babel';
+import terser from '@rollup/plugin-terser';
 import external from 'rollup-plugin-peer-deps-external';
-import {terser} from 'rollup-plugin-terser';
+import commonjs from '@rollup/plugin-commonjs';
 import styles from "rollup-plugin-styles";
 import pkg from './package.json';
 
 export default {
     input: pkg.source,
     output: [
-        { file: pkg.main, format: 'cjs', plugins: [terser()] },
-        // { file: "./dist/table.esm.js", format: 'esm', plugins: [terser()] } // for testing build
+        // { file: pkg.main, format: 'cjs', plugins: [terser()] },
+        { file: "./dist/table.esm.js", format: 'esm', plugins: [terser()] } // for testing build
     ],
     plugins: [
         styles(),
@@ -17,7 +18,8 @@ export default {
             exclude: 'node_modules/**',
             babelHelpers: 'runtime',
             plugins: ["@babel/plugin-transform-runtime"], 
-        })        
+        }),
+        commonjs({ include: ["./index.js", "node_modules/**"] })   
     ],
     external: Object.keys(pkg.peerDependencies || {}),
 };

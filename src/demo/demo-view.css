@@ -1,0 +1,53 @@
+
+.container{
+    display: flex;
+    width: 100%;
+}
+
+.sidebar{
+    width: 200px;
+}
+
+.content{
+    width: calc(100% - 200px);
+}
+
+#New-Row-Form {
+    font-family: sans-serif;
+    border: 1px solid grey;
+    width: fit-content;
+    padding: 0.3em 1em;
+}
+
+#New-Row-Form > div{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#New-Row-Form button{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.3em 1em;
+}
+#New-Row-Form input,
+#New-Row-Form select{
+    padding: 0.2em;
+}
+
+.department{
+    border-radius: 2em;
+    width: 100%;
+    padding: 0.5em;
+}
+
+.Cu{
+    background-color: #fffdcc;
+}
+
+.Fi{
+    background-color: #d7e3fa;
+}
+
+.Hu{
+    background-color: #e0ffea;
+}

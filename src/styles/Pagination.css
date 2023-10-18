@@ -1,0 +1,32 @@
+.react-table-lite-pagination-container{
+	display: flex;
+	align-items: center;
+}
+
+.react-table-lite-pagination-jump-icon-left,
+.react-table-lite-pagination-jump-icon-right{
+	width: 1.3em;
+	height: 1.3em;
+	cursor: pointer;
+}
+.react-table-lite-pagination-toggle-icon-left,
+.react-table-lite-pagination-toggle-icon-right{
+	width: 1em;
+	height: 1em;
+	cursor: pointer;
+}
+
+.react-table-lite-pagination-toggle-icon-left,
+.react-table-lite-pagination-jump-icon-left {
+	transform: rotate(180deg);
+}
+
+.react-table-lite-pagination-item{
+	padding: 0 0.3em;
+	cursor: pointer;
+}
+
+.react-table-lite-pagination-active-item{
+	font-weight: bold;
+}
+

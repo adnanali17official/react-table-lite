@@ -1,0 +1,141 @@
+import React, {useState} from 'react';
+import Table from '../../../dist/table.esm';
+function TestView (){
+	const [data, _dataHandler] = useState([]);
+	const [limit, _limit] = useState(10);
+	const [download, _download] = useState(true);
+	const [searchable, _searchable] = useState(true);
+	const [style, _style] = useState(false);
+	const [actions, _actions] = useState(true);
+	const [filename, _filename] = useState("");
+	const [multiSelect, _multiSelect] = useState(true);
+	const TestDataEmployees = [
+		{id:1 , name:"John Doe", age:"25", email:"JohnDoe@gmail.com"},
+		{id:2 , name:"Kazuki Yashiro", age:"35", email:"Y_Kazuki@gmail.com"},
+		{id:3 , name:"Eddie Memon", age:"22", email:"Eddie254@gmail.com"},
+		{id:4 , name:"Barood Khan", age:"45", email:"BK5454@gmail.com"},
+		{id:5 , name:"Minh Han", age:"30", email:"Minh@gmail.com"},
+	  ];
+  
+  function onRowSelect(e, row) {
+    // console.log("e",e);
+    console.log("row", row);
+    
+    let newData = data;
+    newData.forEach((obj, index) => {
+      if (row.id === obj.id) {
+        newData[index].checked = e.target.checked;
+      }
+    });
+    _dataHandler( newData );
+  }
+
+  function onAllRowSelect(e, data) {
+    // console.log("e",e);
+    // console.log("data",data);
+    // let newData = this.state.data;
+    // newData.forEach((obj, index) => {
+    //   if (!newData[index].disabled) newData[index].checked = e.target.checked;
+    // });
+    // this.setState({ data: newData });
+  }
+
+	let customViewButton = {
+    "className": "my-view",
+    "render":
+        <button 
+            style={{"background": "#007bff", "color": "white", "margin":"0 2px"}} 
+            className={"my-view"}
+        >
+            View
+        </button>                   
+		}
+		const customEditButton = {
+				"className": "my-edit",
+				"render":
+						<button 
+								style={{"background": "#218838", "color": "white", "margin":"0 2px"}} 
+								className={"my-edit"}
+						>
+								Edit
+						</button>                   
+		}            
+		const customDeleteButton = {
+				"className": "my-delete",
+				"render":
+						<button 
+								style={{"background": "#c82333", "color": "white", "margin":"0 2px"}} 
+								className={"my-delete"}
+						>
+								Delete
+						</button>                   
+		}
+	return(
+		<div>
+			<div style={{display:"flex"}}>
+				<button onClick={()=>_download(!download)}> Enable/Disable Download </button>
+				<button onClick={()=>_searchable(!searchable)}> Enable/Disable search </button>
+				<button onClick={()=>_style(!style)}> Enable/Disable style </button>
+				<button onClick={()=>_actions(!actions)}> Enable/Disable actions </button>
+				<button onClick={()=>_multiSelect(!multiSelect)}> Enable/Disable Multi Select </button>
+				<input 
+					type="number" 
+					value={limit}
+					placeholder="set limit" 
+					onChange={(e)=>_limit(e.target.value)}
+				/>		
+				<input 
+					type="text" 
+					value={filename}
+					placeholder="filename" 
+					onChange={(e)=>_filename(e.target.value)}
+				/>
+			</div>	 
+			<p> { " " } </p>
+			<Table
+				//data={data}
+				//header={["name", "capital", "region", "population", "subregion"]}
+				data = {TestDataEmployees}
+				header={["id", "name", "age", "email"]}
+				customHeaders={[{"id": "id"}]}
+				limit={limit}		
+				download={download}	
+				searchable={searchable}	
+				fileName={filename}
+				searchBy={["name", "capital"]}	
+				showActions = {actions}
+				showPagination={true}
+				totalPages={40}
+				currentPage={12}
+				showNumberofPages={10}
+				onPaginate={(evt, page) => console.log(evt, page)}
+				//Enable Row Operation
+				actionTypes={["edit","delete","view"]}
+				sortBy={["population","name", "age"]}		
+				headerStyle={style?{color:"white",background:"red"}:{}}
+				rowStyle={style?{color:"black",background: 'rgb(230,200,200)'}:{}}
+				enableMultiSelect={multiSelect}
+				defaultCheckedKey={"checked"}
+				disableCheckedKey={"disabled"}
+				// onRowSelect={(e,row)=>onRowSelect(e,row)}
+				// onAllRowSelect={()=>onAllRowSelect()}	
+				
+				onRowView = {(event, row)=>{ console.log(event, row) }}
+				onRowDelete = {(event, row)=>{ console.log(event, row) }}
+				onRowEdit = {(event, row)=>{ console.log(event, row) }}
+				renderDelete={customDeleteButton}                               
+				renderView={customViewButton} 
+				renderEdit={customEditButton}  
+				// customRenderActions = {{
+				// 	view: (row) => <button onClick={e => console.log(row)}> View </button>,
+				// 	edit: (row) => <button onClick={e => console.log(row)}> Edit </button>,
+				// 	delete: (row) => <button onClick={e => console.log(row)}> Delete </button>
+				// }}
+				customRenderCell={{
+					email: (row) => <input defaultValue={row?.email} onChange={e => console.log(e.target.value)} />
+				}}
+			/>			
+		</div>
+	)
+}
+export default TestView;

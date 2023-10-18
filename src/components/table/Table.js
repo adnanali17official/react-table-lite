@@ -1,681 +1,621 @@
-import React from "react";
-// import ReactDOM from "react-dom";
-import ReactDOMServer from 'react-dom/server';
-import "./Table.css";
+
+// Packages
+import React, { useEffect, useState, useRef } from "react";
+import PropTypes from 'prop-types';
+
+// Components
+import ActionButtons from "../action-buttons/ActionButtons";
 import Pagination from "../pagination/Pagination";
+import SearchBar from "../search-bar/SearchBar";
+import PerPageOptions from '../perpage-options/PerPageOptions';
+import DownloadCsvButton from '../download-csv-button/DownloadCsvButton';
 
-import { export_table_to_csv } from './../../script/download_csv';
+// Utils
+import matchCaseInsensitiveSearch from "../../script/match_case_insensitive_search";
+import export_table_to_csv from "../../script/download_csv";
 
+// Styles
+import '../../styles/Table.css';
 
-class Table extends React.Component {
-  constructor(props) {
-    super(props);    
-    this.state = {
-      data:[],
-      sortParameters : [],
-      sortKeys : [],
-      searchKeys: [],
-      customHeaders:{},
-      fileName: "table",
-      searchString: "",
-      appliedSearch: false,
-      enableMultiSelect:false
-	  };
-    this.TableRef = React.createRef();
-  }
+const Table = ({
 
-  componentDidMount = () => {
-    this.getSortParameters();
-    this.getSearchParameters();
-    this.getDownloadableFileName();
-    this.getTableData();    
-    this.checkRequiredProps();
-    this.getMultiSelectProps();
-    this.getCustomHeadersProps();
-  }
-  
-  componentDidUpdate = (prevProps,prevState) => {
-    if(prevProps !== this.props){
-      this.getSortParameters();
-      this.getSearchParameters();
-      this.getDownloadableFileName();
-      this.getTableData();
-      this.checkRequiredProps(); 
-      this.getMultiSelectProps();  
-      this.getCustomHeadersProps(); 
-      this._initCustomDownloadListener(prevProps.downloadButtonID);
-      this._initCustomSearchListener(prevProps); 
-      // this._initActionButtonListener(); 
-    }
-  }
+	// Objects
+	data,
+	headers,
+	customHeaders,
+	actionTypes,
+	sortBy,
+	searchBy,
+	csvKeys,
+	perPageLimitOptions,
+	customRenderCell,
+	customRenderActions,
+	searchFormRef,
+	downloadCsvButtonRef,
 
-  checkRequiredProps = () => {
-    if(this.props.header === undefined)
-     console.warn("'header' is a required prop. For more details \n https://www.npmjs.com/package/react-table-lite");
-    
-    if(this.props.data === undefined)
-     console.warn("'data' is a required prop. For more details \n https://www.npmjs.com/package/react-table-lite");
+	// Alpha Numeric
+	noDataMessage,
+	checkedKey,
+	disableCheckedKey,
+	totalPages,
+	showNumberofPages,
+	currentPage,
+	fileName,
 
-  }
+	// Boolean
+	showActions,
+	searchable,
+	downloadable,
+	showMultiSelect,
+	showPagination,
+	showPerpageLimitOptions,
 
-  _downloadData = () => {
-    let onDownload = this.props.onDownload === undefined ? ()=>{ return true; } : this.props.onDownload;
-    if(onDownload()){
-      let downloadbleData = document.createElement('table');    
-      downloadbleData.innerHTML = ReactDOMServer.renderToStaticMarkup(this.TableHeader());
-      downloadbleData.innerHTML += ReactDOMServer.renderToStaticMarkup(this.TableData());      
-      export_table_to_csv(downloadbleData, this.state.fileName+".csv", this.state.enableMultiSelect);
-    }
-  }
+	// Functions
+	onSort,
+	onRowSelect,
+	onAllRowSelect,
+	onRowView,
+	onRowEdit,
+	onRowDelete,
+	onPaginate,
+	onDownload,
+	onPerPageLimitSelect,
 
-  _initCustomDownloadListener = (prevID) => {
-    if(Boolean(this.props.downloadButtonID)){
-      let customDownloadButton = document.getElementById(this.props.downloadButtonID);
-      if(customDownloadButton){
-        if(prevID !== this.props.downloadButtonID){
-          let prevCustomDownloadButton = document.getElementById(prevID);
-          if(prevCustomDownloadButton){
-            prevCustomDownloadButton.removeEventListener("click",this._downloadData);
-          }
-        }
-        customDownloadButton.addEventListener("click",this._downloadData);
-      }
-    }
-  } 
-  
-  _initCustomSearchListener = (prevProps) => {
-    let { prevSearchInputID, prevSearchFormID } = prevProps;
-    if(Boolean(this.props.searchInputID)){
-      let customSearchInput = document.getElementById(this.props.searchInputID);
-      if(customSearchInput){
-        if(prevSearchInputID !== this.props.searchInputID){
-          let prevCustomSearchInput = document.getElementById(prevSearchInputID);
-          if(prevCustomSearchInput){
-            prevCustomSearchInput.removeEventListener("input",this._handleSearchString);
-          }
-        }
-        customSearchInput.addEventListener("input",this._handleSearchString);
-      }
-    }
-    if(Boolean(this.props.searchFormID)){
-      let customSearchInputForm = document.getElementById(this.props.searchFormID);
-      if(customSearchInputForm){
-        if(prevSearchFormID !== this.props.searchFormID){
-          let prevCustomSearchInputForm = document.getElementById(prevSearchFormID);
-          if(prevCustomSearchInputForm){
-            prevCustomSearchInputForm.removeEventListener("submit",this._searchCallback);
-          }
-        }
-        customSearchInputForm.addEventListener("submit",this._searchCallback);
-      }
-    }
-  }
-  
-  _initActionButtonListener = () => {
-    let { renderView, renderEdit, renderDelete } = this.props;
-    let data_row = [...this.state.data];
-    if(renderView){
-      if(renderView.render){
-        if(renderView.render.$$typeof === Symbol.for('react.element')){
-            let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;    
-            // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderView.className)
-            let table_rows = this.TableRef.current.getElementsByClassName(renderView.className)            
-            Array.from(table_rows)
-            .forEach((element, index)=>{
-              element.onclick = (e,...args) => onRowView(...args,e,data_row[index]);
-            })
-        }
-      }
-    }
-    if(renderDelete){
-      if(renderDelete.render){
-        if(renderDelete.render.$$typeof === Symbol.for('react.element')){
-            let onRowDelete = this.props.onRowDelete === undefined ? ()=>{ return; } : this.props.onRowDelete;    
-            // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderDelete.className)
-            let table_rows = this.TableRef.current.getElementsByClassName(renderDelete.className)
-            Array.from(table_rows)
-            .forEach((element, index)=>{
-              element.onclick = (e,...args) => onRowDelete(...args,e,data_row[index]);
-            })
-        }
-      }
-    }
-    if(renderEdit){
-      if(renderEdit.render){
-        if(renderEdit.render.$$typeof === Symbol.for('react.element')){
-            let onRowEdit = this.props.onRowEdit === undefined ? ()=>{ return; } : this.props.onRowEdit;    
-            // let table_rows = ReactDOM.findDOMNode(this).getElementsByClassName(renderEdit.className)
-            let table_rows = this.TableRef.current.getElementsByClassName(renderEdit.className)
-            Array.from(table_rows)
-            .forEach((element, index)=>{
-              element.onclick = (e,...args) => onRowEdit(...args,e,data_row[index]);
-            })
-        }
-      }
-    }
-  }
+	// Classes
+	containerClass,
+	tableClass,
+	headerClass,
+	checkboxClass,
+	cellClass,
+	rowClass,
+	perpageLimitOptionClass,
+	actionButtonContainerClass,
+	actionButtonClass,
+	actionButtonIconClass,
+	searchFormClass,
+	searchFormInputClass,
+	searchFormButtonClass,
+	searchFormButtonIconClass,
+	downloadCsvButtonClass,
+	downloadCsvButtonIconClass,
+	paginationContainerClass,
+	paginationIconClass,
+	paginationItemClass,
+	paginationActiveItemClass
 
-  _onSort = (sortKey, direction) => {
-    let data = [...this.state.data];
-    let sortKeyIndex = this.state.sortKeys.indexOf(sortKey);
-    let sortParameters = this.state.sortParameters;
-    sortParameters.forEach((parameter) => {
-      parameter = false;
-    });
-    sortParameters[sortKeyIndex] = true;
-    direction === 'dsc'?
-      data.sort((a, b) => { return isNaN(a[sortKey]) ? a[sortKey].localeCompare(b[sortKey]) : Number(a[sortKey]) - Number(b[sortKey]) })
-      :
-      data.sort((a, b) => { return isNaN(a[sortKey]) ? b[sortKey].localeCompare(a[sortKey]) : Number(b[sortKey]) - Number(a[sortKey]) })
-    this.setState({ sortParameters });
-    if(typeof this.props.onSort === "function"){
-      this.props.onSort(data);
-    } else {
-      this.setState({ data });
-    }
-  }  
-  
-  _handleSearchString = (evt) => {
-    let searchString = evt.target.value;
-    this.setState({ searchString });
-  }
+}) => {
 
-  _handleSearch(){    
-    this.getTableData();
-  }
+	const react_table_ref = useRef(null);
+	const [rtlData, _rtlData] = useState([]);
+	const [currentSorting, _currentSorting] = useState({});
+	const [checkedRows, _checkedRows] = useState([]);
+	const [search, _search] = useState({
+		searchString: '',
+		appliedSearch: 0,
+	});
 
-  _searchCallback = (evt) => {
-    evt.preventDefault();
-    if(document.activeElement.classList.contains("rtl-search-clear")){
-      document.getElementById(this.props.searchInputID).value = "";
-      this._clearSearch(evt);
-    }
+	// Map a local state of the data prop
+	useEffect(() => {
+		if (data && headers && data?.length && headers?.length) {
+			resetData();
+		}
+	}, [data, headers]);
 
-    if(this.state.searchString.trim().length)
-      this.setState({appliedSearch:true});    
-    else
-      this.setState({appliedSearch:false});
-    
-    if (this.props.onSearch === undefined) {
-      this._handleSearch();      
-    }
-    else {
-      this.props.onSearch();      
-    }
-  }
+	// Reset the super checkbox if rtlData is changed 
+	useEffect(() => {
+		if (showMultiSelect) {
+			const parentTable = react_table_ref?.current;
+			let header_checkBox = parentTable.querySelector((".react-table-lite-super-checkbox"))
+			let row_checkBoxes = parentTable.querySelector(("tbody"))
+			row_checkBoxes = Array.from(row_checkBoxes.getElementsByClassName("react-table-lite-row-checkbox"));
+			if (row_checkBoxes?.every(Row => Row.checked)) {
+				header_checkBox.checked = true;
+			} else {
+				header_checkBox.checked = false;
+			}
+		}
+	}, [rtlData])
 
-  _applySearch = () => {    
-    let searchedData = [];
-    let data = this.state.data;    
-    let searchStringArray = this.state.searchString.trim().split(",");
-    let searchKeys = this.state.searchKeys;        
-    data.forEach((row) => {
-      for (const key in row) {      
-        let search_condition =
-            searchKeys.indexOf(key) !== -1  &&
-            row.hasOwnProperty(key)         &&
-            !searchedData.includes(row)     &&
-            this.matchCaseInsensitive(row[key], searchStringArray);
-        if (search_condition) {
-          searchedData.push(row);
-        }
-      }
-    })
-    this.setState({
-      data: searchedData,      
-    });    
-  }
+	// If a custom searchFormRef is provided
+	// attach the custom search submit handler to it
+	useEffect(() => {
+		if (searchFormRef && searchFormRef?.current && searchable) {
+			searchFormRef.current.addEventListener("submit", handleCustomSearchBarOnSearch);
+			return () => {
+				searchFormRef.current.removeEventListener("submit", handleCustomSearchBarOnSearch);
+			};
+		}
+	}, [searchFormRef, searchable]);
 
-  _clearSearch = (evt) => {
-    evt.preventDefault();
-    if (this.props.onSearch === undefined) {
-      this.setState(
-        { searchString: "", appliedSearch: false }, this.getTableData()
-      );
-    }
-    else {
-      this.setState(
-        { searchString: "", appliedSearch: false }, this.props.onSearch()
-      );
-    }
-  }
+	// If a custom downloadCsvButtonRef is provided
+	// attach the download file handler to it
+	useEffect(() => {
+		if (downloadCsvButtonRef && downloadCsvButtonRef?.current && downloadable && rtlData) {
+			downloadCsvButtonRef.current.addEventListener("click", handleOnCSVDownload);
+			return () => {
+				downloadCsvButtonRef.current.removeEventListener("click", handleOnCSVDownload);
+			};
+		}
+	}, [downloadCsvButtonRef, downloadable, rtlData, fileName, csvKeys]);
 
-  _handleCheckboxes = (e) => {
-    if(!this.state.appliedSearch){
-      let parentTable = e.target.parentNode.closest("table")
-      let row_checkBoxes = parentTable.querySelector(("tbody"))
-      let header_checkBox = parentTable.querySelector((".rtl-super-checkbox"))
-      row_checkBoxes = Array.from(row_checkBoxes.getElementsByClassName("rtl-row-checkbox"));            
-      header_checkBox.checked = true;
-      row_checkBoxes.forEach((row) => {
-        if (!row.checked){
-          header_checkBox.checked = false;
-        }
-      })
-      if (!e.target.checked) {
-        header_checkBox.checked = false;
-      }
-    }
-  }
+	const resetData = () => {
+		const dataArray = [...data];
+		// Apply the same applied sorting to the data if the rows are updated
+		if (currentSorting && currentSorting?.sortKey && currentSorting?.direction) {
+			if (currentSorting?.direction === 'dsc') {
+				dataArray.sort((a, b) => {
+					return isNaN(a[currentSorting?.sortKey]) && isNaN(b[currentSorting?.sortKey])
+						? a[currentSorting?.sortKey].localeCompare(b[currentSorting?.sortKey])
+						: Number(a[currentSorting?.sortKey]) - Number(b[currentSorting?.sortKey])
+				});
+			} else {
+				dataArray.sort((a, b) => {
+					return isNaN(a[currentSorting?.sortKey]) && isNaN(b[currentSorting?.sortKey])
+						? b[currentSorting?.sortKey].localeCompare(a[currentSorting?.sortKey])
+						: Number(b[currentSorting?.sortKey]) - Number(a[currentSorting?.sortKey])
+				});
+			}
+		}
+		_rtlData([...dataArray]);
+		// Reset the searches
+		_search(old => ({
+			appliedSearch: 0,
+			searchString: '',
+		}));
+	};
 
-  _handleHeaderCheckbox = (e) => {    
-    let row_checkBoxes = Array.from(document.getElementsByClassName("rtl-row-checkbox"));
-    row_checkBoxes.forEach(input => {
-      if (!input.disabled)
-        input.checked = e.target.checked;
-    })    
-  }
+	// ******Event Handlers******
 
-  matchCaseInsensitive = (parentString, substringArray) => {
-      let flag = false;         
-      for( let i=0 ; i<= substringArray.length; i++){   
-        let substr = String(substringArray[i]).toUpperCase().trim();
-        parentString = String(parentString).toUpperCase().trim();  
-        if (parentString.indexOf(substr)>-1 && substr!==""){
-          flag = true;
-          break;
-        }
-      }
-      return flag;        
-  }
+	const handleOnSort = (e, sortKey, direction) => {
+		const dataArray = [...rtlData];
+		if (onSort) {
+			onSort(e, dataArray, sortKey, direction);
+		} else {
+			if (direction === 'dsc') {
+				dataArray.sort((a, b) => {
+					return isNaN(a[sortKey]) && isNaN(b[sortKey])
+						? a[sortKey].localeCompare(b[sortKey])
+						: Number(a[sortKey]) - Number(b[sortKey])
+				});
+			} else {
+				dataArray.sort((a, b) => {
+					return isNaN(a[sortKey]) && isNaN(b[sortKey])
+						? b[sortKey].localeCompare(a[sortKey])
+						: Number(b[sortKey]) - Number(a[sortKey])
+				});
+			}
+			_currentSorting({ sortKey, direction });
+			_rtlData([...dataArray]);
+		}
+	};
 
-  getMultiSelectProps = () => {
-    let enableMultiSelect = this.props.enableMultiSelect === undefined ? false : this.props.enableMultiSelect;
-    this.setState({ enableMultiSelect : enableMultiSelect});
-  }
+	const handleOnClickCheckBoxes = (e, item = undefined) => {
+		// const parentTable = e.target.parentNode.closest("table");
+		const parentTable = react_table_ref?.current;
+		let header_checkBox = parentTable.querySelector((".react-table-lite-super-checkbox"))
+		let row_checkBoxes = parentTable.querySelector(("tbody"))
+		row_checkBoxes = Array.from(row_checkBoxes.getElementsByClassName("react-table-lite-row-checkbox"));
 
-  getSearchParameters = () => {
-    let searchKeys = [];
-    let searchBy = this.props.searchBy === undefined ? [] : this.props.searchBy;
-    let header = this.props.header === undefined ? [] : this.props.header;
-    searchBy.forEach(function (searchKey) {
-      if (header.indexOf(searchKey) !== -1)
-        searchKeys.push(searchKey);
-    });
-    this.setState({ searchKeys });
-  }
+		if (e.target.classList.contains('react-table-lite-super-checkbox')) {
+			// If the header checkbox is clicked, use it's value to assign checked to all other checkboxes
+			_checkedRows(old => {
+				if (header_checkBox?.checked)
+					return [...rtlData?.map(Row => `select-${JSON.stringify(Row)}`)]
+				else (header_checkBox?.checked)
+				return []
+			});
+			return;
+		}
+		// If any of the rows checkbox is clicked use it to set checkedRows array and also 
+		// mark the super checkbox either checked or unchecked
+		let newCheckedRows = [];
+		if (e.target.checked) {
+			newCheckedRows = [...checkedRows, `select-${JSON.stringify(item)}`];
+		} else {
+			newCheckedRows = [...checkedRows?.filter(Row => Row != `select-${JSON.stringify(item)}`)];
+		} if (newCheckedRows.length === rtlData?.length) {
+			header_checkBox.checked = true;
+		} else {
+			header_checkBox.checked = false;
+		}
+		_checkedRows(newCheckedRows);
+	};
 
-  getSortParameters = () => {
-	  let sortKeys = [];
-	  let sortParameters = [];	  
-	  let sortBy = this.props.sortBy===undefined?[]:this.props.sortBy;
-	  let header = this.props.header===undefined?[]:this.props.header;
-	  sortBy.forEach(function(sortKey){
-		  if(header.indexOf(sortKey)!==-1)
-			  sortParameters.push(false);
-	  });
-	  this.setState({ sortParameters, sortKeys });
-	}
-  
-  getTableData = () => {    
-    let data = this.props.data === undefined ? [] : this.props.data;    
-    let limit = this.props.limit === undefined ? null : Number(this.props.limit);
-    let tempData = [];
-    limit !== null ?
-      data.forEach((row, index) => {
-        if (index < limit) {
-          tempData.push(row);
-        }
-      })
-      :
-      data.forEach((row) => {
-        tempData.push(row);
-      })      
-    this.setState({ data: tempData }, 
-      ()=> {              
-        if(this.state.searchString.trim().length){
-          this._applySearch();        
-        }
-        this._initActionButtonListener();
-      }
-    );
-  }
+	const handleSearchStringChange = (e) => {
+		e.persist();
+		_search(old => ({ ...old, searchString: e?.target?.value }));
+	};
 
-  getDownloadableFileName = () =>{
-    let fileName = this.props.fileName===undefined?"table":this.props.fileName;
-    fileName = fileName.trim()===""?"table":fileName;
-    this.setState({ fileName });
-  }
-  
-  getCustomHeadersProps = () => {
-    let customHeaders = this.props.customHeaders===undefined?{}:this.props.customHeaders;    
-    this.setState({ customHeaders });
-  }
+	const handleOnSearch = (e) => {
+		e.preventDefault();
+		let searchedData = [];
+		let dataArray = [...data];
+		if (search?.searchString &&
+			search?.searchString?.trim() &&
+			searchBy
+		) {
+			let searchStringArray = search?.searchString.trim().split(",");
+			let searchKeys = searchBy;
+			dataArray.forEach((row) => {
+				for (const key in row) {
+					let search_condition =
+						searchKeys.indexOf(key) !== -1 &&
+						row.hasOwnProperty(key) &&
+						!searchedData.includes(row) &&
+						matchCaseInsensitiveSearch(String(row[key]), searchStringArray);
+					if (search_condition) {
+						searchedData.push(row);
+					}
+				}
+			})
+		}
+		if (!search?.searchString.trim()) {
+			resetData();
+		} else {
+			_rtlData(old => search?.searchString.trim() ? [...searchedData] : [...data]);
+			_search(old => ({
+				...old,
+				searchString: old?.searchString?.trim(),
+				appliedSearch: old?.searchString?.trim()?.length
+			}));
+		}
 
-  generateTableRows = () => {
-    let { rowStyle, dataStyle } = this.props;
-    let header = this.props.header === undefined ? [] : this.props.header;
-    let defaultCheckedKey = this.props.defaultCheckedKey;
-    let disableCheckedKey = this.props.disableCheckedKey;
-    let selectedClassName = this.props.selectedClassName === undefined ? "rtl-highlighted-row" : this.props.selectedClassName;
-    let onRowSelect = this.props.onRowSelect === undefined ? ()=>{ return; } : this.props.onRowSelect;
-    let data = this.state.data;
-    let tablebody = [];
-    data.forEach((data_row, index) => {
-      tablebody.push(
-        <tr
-          key={index}
-          style={rowStyle}
-          className={
-            data_row[defaultCheckedKey] === undefined ||
-            data_row[defaultCheckedKey] === false
-              ? 
-              "react-table-lite-row":
-              "react-table-lite-row " + selectedClassName
-          }              
-        >
-          {this.state.enableMultiSelect?
-            <td colSpan={1}>
-              <input 
-                type="checkbox" 
-                checked={data_row[defaultCheckedKey] === undefined? false: data_row[defaultCheckedKey]}
-                disabled={data_row[disableCheckedKey] === undefined? false: data_row[disableCheckedKey]}
-                className="rtl-row-checkbox"
-                onChange={(e,...args)=>{     
-                  this._handleCheckboxes(e);
-                  onRowSelect(...args,e,data_row)}
-                }
-              />
-            </td> 
-            :
-            <></>
-          }
-          {
-            header.length ?
-              header.map((header_key, index) => (
-                 <React.Fragment key={index}>                               
-                  <td
-                    style={dataStyle}
-                  >
-                    {data_row[header_key]}
-                  </td>
-                  {this.TableActionButtons(index, header.length,data_row)}
-                </React.Fragment>
-              ))
-              :
-              <td style={dataStyle}> </td>
-          }
-        </tr>
-      )
-    });
-    return tablebody;    
-  }
+	};
 
-  TableHeader = () => {
-    let header = this.props.header === undefined ? [] : this.props.header;
-    let sortBy = this.props.sortBy === undefined ? [] : this.props.sortBy;
-    let onAllRowSelect = this.props.onAllRowSelect === undefined ? ()=>{ return; } : this.props.onAllRowSelect;
-    let customHeaders = this.state.customHeaders;
-    let headerStyle = this.props.headerStyle;    
-    return (
-      <thead className="react-table-lite-header" style={headerStyle}>
-        <tr>
-          {this.state.enableMultiSelect?
-            <th
-              style={{ width: '21px' }}
-              colSpan={1}>
-              {!this.state.appliedSearch?
-                <input
-                  className="rtl-super-checkbox"
-                  type="checkbox"
-                  onChange={(e, ...args) => {                  
-                    onAllRowSelect(...args, e, this.state.data)
-                  }}
-                />
-              :""}
-            </th>
-            :
-            <></>
-          }
-          {header.length ?
-            header.map((heading, index) => (
-              <React.Fragment key={index}>
-                <th>
-                  {sortBy.indexOf(heading) !== -1 ?
-                    <span className="rtl-table-sortable-header">
-                      {
-                        customHeaders[heading]===undefined?
-                          heading
-                        :
-                        customHeaders[heading]
-                      }
-                      <span onClick={this._onSort.bind(this, heading, 'dsc')} > ▲ </span>
-                      <span onClick={this._onSort.bind(this, heading, 'asc')}>  ▼ </span>
-                    </span>
-                    :
-                    customHeaders[heading]===undefined?
-                      heading
-                      :
-                      customHeaders[heading]
-                  }
-                </th>
-                {this.TableActionHeader(index, header.length)}
-              </React.Fragment>
-            ))
-            :
-            <th></th>
-          }
-        </tr>
-      </thead>
-    )
-  }
+	const handleCustomSearchBarOnSearch = (e) => {
+		e.preventDefault();
+		let searchedData = [];
+		let dataArray = [...data];
+		const searchString = searchFormRef?.current?.querySelector('input')?.value || '';
+		if (searchString &&
+			searchBy
+		) {
+			let searchStringArray = searchString.trim().split(",");
+			let searchKeys = searchBy;
+			dataArray.forEach((row) => {
+				for (const key in row) {
+					let search_condition =
+						searchKeys.indexOf(key) !== -1 &&
+						row.hasOwnProperty(key) &&
+						!searchedData.includes(row) &&
+						matchCaseInsensitiveSearch(String(row[key]), searchStringArray);
+					if (search_condition) {
+						searchedData.push(row);
+					}
+				}
+			})
+		}
+		if (!searchString.trim()) {
+			resetData();
+		} else {
+			_rtlData(old => searchString?.trim() ? [...searchedData] : [...data]);
+			_search(old => ({
+				...old,
+				searchString: searchString?.trim(),
+				appliedSearch: Boolean(searchString?.trim())
+			}));
+		}
 
-  TableData = () => {
-    let header = this.props.header===undefined?[]:this.props.header;
-    let colSpan = this.props.showActions===undefined? header.length : header.length + 1;
-    let noDataMessage = this.props.noDataMessage===undefined? "No data found" :this.props.noDataMessage;
-    let { rowStyle, dataStyle } = this.props;
-    let data = this.state.data;     
-    return(
-      <tbody>
-        {data.length ?
-          this.generateTableRows()
-          :
-          <tr style={rowStyle}>            
-            <td style={dataStyle} colSpan={colSpan}>
-              {noDataMessage}
-            </td>
-          </tr>
-        }
-      </tbody>
-    )
-  }
+	};
 
-  TableOperations = () =>{
-    let download = this.props.download === undefined? false : Boolean(this.props.download);
-    let searchable = this.props.searchable === undefined? false : Boolean(this.props.searchable);
-    let downloadButtonID =  this.props.downloadButtonID;
-    let searchInputID =  this.props.searchInputID;
-    return(
-      <div>
-        {
-          searchable && !Boolean(searchInputID)?
-            <form className="rtl-table-search-form" onSubmit={ this._searchCallback.bind(this) }>
-              <input 
-                onChange = {this._handleSearchString.bind(this)}
-                value={this.state.searchString}
-                placeholder = "Search"
-                type="text" 
-                name="rtl-table-search" 
-              />              
-              {!this.state.appliedSearch ?
-                <button type="submit">
-                  <svg width="14" height="13" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" display="inline-block" viewBox="2 2 21 21" style={{ verticalAlign: "middle" }}> <circle cx="11" cy="11" r="8"></circle> <path d="M21 21L16.65 16.65"></path> </svg>
-                </button>
-                :
-                <button type="button" onClick={this._clearSearch.bind(this)}>
-                  <svg width="14" height="13" fill="currentColor" viewBox="12 13 40 40" style={{ verticalAlign: "middle" }} display="inline-block" > <g> <g> <path d="M36.243 32l11.879-11.879a3 3 0 00-4.243-4.242L32 27.757 20.121 15.879a3 3 0 10-4.242 4.242L27.757 32 15.879 43.879a3 3 0 104.242 4.242L32 36.243l11.879 11.879a3 3 0 004.242-4.243L36.243 32z"></path> </g> </g> </svg>
-                </button>
-              }
-            </form>           
-          :
-          ""
-        }
-        {
-          download && !Boolean(downloadButtonID)?
-            <button className="rtl-table-download-btn-css" onClick={this._downloadData.bind(this)}> 
-             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 512 512" > <path fill="#61729b" d="M481 68.699V512h-60l-128.699-63.6L256 459.8 91 512H31V0h90l101.4 129.899 33.6-31.5L361 0h51.301z" ></path> <path fill="#47568c" d="M481 68.699V512h-60l-128.699-63.6L256 459.8V98.399L361 0h51.301z" ></path> <path fill="#e0f4ff" d="M91 242v270h330V242z"></path> <path fill="#bbdcff" d="M256 242h165v270H256z"></path> <path fill="#979fef" d="M151 332h210v30H151zM151 392h210v30H151z"></path> <path fill="#e0f4ff" d="M361 0v180H121V0h150l17.401 22.5L301 0z"></path> <path fill="#bbdcff" d="M361 0v180H256V0h15l17.401 22.5L301 0z"></path> <path fill="#737ee6" d="M256 332h105v30H256zM256 392h105v30H256z"></path> <path fill="#47568c" d="M271 0h30v120h-30z"></path> </svg>
-             </i>
-            </button>            
-          :
-          ""
-        }        
-      </div>
-    )
-  }
+	const handleOnCSVDownload = () => {
+		if (onDownload) {
+			onDownload();
+		}
+		export_table_to_csv(rtlData, fileName, csvKeys);
+	};
 
-  TableActionButtons = (index , columns_length, data_row, e) => {
-    let dataStyle = this.props.dataStyle === undefined ? {} : this.props.dataStyle;
-    let showActions = this.props.showActions === undefined ? false : this.props.showActions;
-    let actionTypes = this.props.actionTypes === undefined ? [] : this.props.actionTypes;
-    let onRowDelete = this.props.onRowDelete === undefined ? ()=>{ return; } : this.props.onRowDelete;
-    let onRowEdit = this.props.onRowEdit === undefined ? ()=>{ return; } : this.props.onRowEdit;
-    let onRowView = this.props.onRowView === undefined ? ()=>{ return; } : this.props.onRowView;    
-    let showDeleteBtn = false;
-    let showEditBtn = false;
-    let showViewBtn = false;
-    
-    let customViewAction, customEditAction, customDeleteAction;
-    let { renderView, renderEdit, renderDelete } = this.props;
-    if(renderView){
-      if(renderView.render){
-        if(renderView.render.$$typeof === Symbol.for('react.element')){
-          customViewAction = renderView.render;
-        }
-      }
-    }
-    if(renderEdit){
-      if(renderEdit.render){
-        if(renderEdit.render.$$typeof === Symbol.for('react.element')){
-          customEditAction = renderEdit.render;
-        }
-      }
-    }
-    if(renderDelete){
-      if(renderDelete.render){
-        if(renderDelete.render.$$typeof === Symbol.for('react.element')){
-          customDeleteAction = renderDelete.render;
-        }
-      }
-    }
+	// ******Render Functions******
 
+	const TABLE_HEADER = () => {
+		// Map table headers from headers props 
+		// Display the header text either from the value in customHeaders or use the headers value instead 
+		return (
+			<thead>
+				<tr className={`react-table-lite-row ${rowClass}`}>
+					{ /****  Main Checkbox  ****/
+						showMultiSelect &&
+						<th
+							className={`react-table-lite-header ${headerClass}`}
+						>
+							<input
+								type="checkbox"
+								className={`react-table-lite-super-checkbox ${checkboxClass}`}
+								checked={rtlData && rtlData?.every(item => item[checkedKey]) || undefined}
+								onChange={(e, ...args) => onAllRowSelect ? onAllRowSelect(...args, e, rtlData) : handleOnClickCheckBoxes(e)}
+							/>
+						</th>
+					}
+					{  /****  Headers text  ****/
+						headers &&
+						headers?.map((heading, index) => (
+							<th
+								key={index}
+								className={`react-table-lite-header ${headerClass}`}
+							>
+								<span>
+									{
+										customHeaders &&
+											customHeaders?.[heading]
+											? customHeaders?.[heading]
+											: heading
+									}
+								</span>
+								{ /****  Headers sorting  ****/
+									sortBy &&
+										sortBy?.find(sortHeader => sortHeader == heading)
+										? <span>
+											<span onClick={e => handleOnSort(e, heading, 'dsc')} > ▲ </span>
+											<span onClick={e => handleOnSort(e, heading, 'asc')}>  ▼ </span>
+										</span>
+										: null
+								}
+							</th>
+						))
+					}
+					{ /****  Actions header  ****/
+						showActions
+							? <th
+								className={`react-table-lite-header ${headerClass}`}
+							>
+								<span> Actions </span>
+							</th>
+							: null
+					}
+				</tr>
+			</thead>
+		);
+	};
 
-    actionTypes.length > 0 ?
-      actionTypes.forEach((action)=>{
-        if(action.toUpperCase() === "VIEW")
-        showViewBtn = true;
-        if(action.toUpperCase() === "DELETE")
-          showDeleteBtn = true;
-        if(action.toUpperCase() === "EDIT")
-          showEditBtn = true;               
-      })
-    : 
-    showDeleteBtn = showEditBtn = showViewBtn = true;
+	const TABLE_BODY = () => {
+		// Map table body from local rtlData state if both data and header props are present and not empty
+		return (
+			<tbody>
+				{
+					rtlData &&
+					headers?.length &&
+					rtlData?.map((item, index) => (
+						<tr key={`row-${index}-${JSON.stringify(item)}`} className={`react-table-lite-row ${rowClass}`}>
+							{showMultiSelect
+								? <td
+									className={`react-table-lite-cell ${cellClass}`}
+								>
+									<input
+										type="checkbox"
+										value={`select-${JSON.stringify(item)}`}
+										className={`react-table-lite-row-checkbox ${checkboxClass}`}
+										disabled={item[disableCheckedKey] ? item[disableCheckedKey] : false}
+										checked={item[checkedKey] ? item[checkedKey] : checkedRows?.includes(`select-${JSON.stringify(item)}`)}
+										onChange={(e, ...args) => onRowSelect ? onRowSelect(...args, e, item) : handleOnClickCheckBoxes(e, item)}
+									/>
+								</td>
+								: null
+							}
+							{headers.map((header_key, index) => (
+								<React.Fragment key={`value-${index}`}>
+									<td
+										className={`react-table-lite-cell ${cellClass}`}
+									>
+										{/* Render either the element from customRender prop or directly render the item's value */}
+										{customRenderCell &&
+											customRenderCell[header_key]
+											? customRenderCell[header_key]?.(item)
+											: item?.[header_key] || '-'
+										}
+									</td>
+								</React.Fragment>
+							))
+							}
+							{showActions &&
+								<ActionButtons
+									dataRow={item}
+									showActions={showActions}
+									actionTypes={actionTypes}
+									customRenderActions={customRenderActions}
+									onRowView={onRowView}
+									onRowEdit={onRowEdit}
+									onRowDelete={onRowDelete}
+									cellClass={cellClass}
+									actionButtonContainerClass={actionButtonContainerClass}
+									actionButtonClass={actionButtonClass}
+									actionButtonIconClass={actionButtonIconClass}
+								/>
+							}
+						</tr>
+					))
+				}
+				{
+					!rtlData || rtlData?.length < 1
+						? <tr className={`react-table-lite-row ${rowClass}`}>
+							<td colSpan={showActions ? headers?.length + 1 : headers?.length} className={`react-table-lite-cell ${cellClass}`}>
+								{noDataMessage}
+							</td>
+						</tr>
+						: null
+				}
+			</tbody>
+		);
+	};
 
-    if(index === columns_length - 1 && showActions){
-      return (
-        <td 
-          className="rtl-table-actions"
-          style={dataStyle}
-        > 
-          <div className="rtl-action-btn-container">
-          {showViewBtn?
-            customViewAction?
-              customViewAction
-              :
-              <button 
-                className="rtl-action-btn-view-btn"
-                onClick={(e,...args)=>{onRowView(...args,e,data_row)}}
-              >
-                <i>
-                  <svg fill="currentColor" style={{verticalAlign: "middle"}} width="25" height="25" display="inline-block" viewBox="0 0 20 20" > <path d="M10 4.4C3.439 4.4 0 9.232 0 10c0 .766 3.439 5.6 10 5.6 6.56 0 10-4.834 10-5.6 0-.768-3.44-5.6-10-5.6zm0 9.907c-2.455 0-4.445-1.928-4.445-4.307 0-2.379 1.99-4.309 4.445-4.309s4.444 1.93 4.444 4.309c0 2.379-1.989 4.307-4.444 4.307zM10 10c-.407-.447.663-2.154 0-2.154-1.228 0-2.223.965-2.223 2.154s.995 2.154 2.223 2.154c1.227 0 2.223-.965 2.223-2.154 0-.547-1.877.379-2.223 0z"></path> </svg>
-                </i>
-              </button>                         
-          :""}
-            
-          {showEditBtn?
-            customEditAction?
-              customEditAction
-              :
-              <button 
-                className="rtl-action-btn-edit-btn"
-                onClick={(e,...args)=>{onRowEdit(...args,e,data_row)}}
-              >
-                <i>
-                  <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="25" height="25" display="inline-block" viewBox="0 0 24 24" > <path d="M21.561 5.318l-2.879-2.879A1.495 1.495 0 0017.621 2c-.385 0-.768.146-1.061.439L13 6H4a1 1 0 00-1 1v13a1 1 0 001 1h13a1 1 0 001-1v-9l3.561-3.561c.293-.293.439-.677.439-1.061s-.146-.767-.439-1.06zM11.5 14.672L9.328 12.5l6.293-6.293 2.172 2.172-6.293 6.293zm-2.561-1.339l1.756 1.728L9 15l-.061-1.667zM16 19H5V8h6l-3.18 3.18c-.293.293-.478.812-.629 1.289-.16.5-.191 1.056-.191 1.47V17h3.061c.414 0 1.108-.1 1.571-.29.464-.19.896-.347 1.188-.64L16 13v6zm2.5-11.328L16.328 5.5l1.293-1.293 2.171 2.172L18.5 7.672z"></path> </svg>
-                </i>
-              </button>
-          :""}
-            
-          {showDeleteBtn?
-            customDeleteAction?
-              customDeleteAction
-              : 
-              <button 
-                className="rtl-action-btn-delete-btn"
-                onClick={(e,...args)=>{onRowDelete(...args,e,data_row)}}
-              >
-                <i>
-                  <svg fill="currentColor" style={{ verticalAlign: "middle" }} width="19" height="19" display="inline-block" viewBox="0 0 8 8" > <path d="M3 0c-.55 0-1 .45-1 1H1c-.55 0-1 .45-1 1h7c0-.55-.45-1-1-1H5c0-.55-.45-1-1-1H3zM1 3v4.81c0 .11.08.19.19.19h4.63c.11 0 .19-.08.19-.19V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1v3.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V3h-1z"></path> </svg>
-                </i>
-              </button>                       
-          :""}
-          
-          
-          </div>
-        </td>
-      );
-    }
-  }
+	const PAGINATION = () => {
+		return (
+			<React.Fragment>
+				{showPagination ?
+					<Pagination
+						totalPages={totalPages}
+						showNumberofPages={showNumberofPages}
+						currentPage={currentPage}
+						onPaginate={onPaginate}
+						paginationContainerClass={paginationContainerClass}
+						paginationIconClass={paginationIconClass}
+						paginationItemClass={paginationItemClass}
+						paginationActiveItemClass={paginationActiveItemClass}
+					/>
+					:
+					null
+				}
+			</React.Fragment>
+		);
+	};
 
-  TableActionHeader = (index , columns_length) => {
-    let showActions = this.props.showActions === undefined ? false : this.props.showActions;
-    if(index === columns_length - 1 && showActions){
-      return (
-        <th className="rtl-table-actions-header"> 
-          Actions
-        </th>
-      );
-    }
-  }
+	const PERPAGE = () => {
+		return (
+			<React.Fragment>
+				{showPerpageLimitOptions
+					? <PerPageOptions
+						onPerPageLimitSelect={onPerPageLimitSelect}
+						perPageLimitOptions={perPageLimitOptions}
+						perpageLimitOptionClass={perpageLimitOptionClass}
+					/>
+					: null
+				}
+			</React.Fragment>
+		);
+	};
 
-  Pagination = () => {
-    let showPagination = this.props.showPagination === undefined ? false: true
-    let { totalPages, currentPage, range, onPaginate } = this.props;
-    return (
-      <>
-        {showPagination? 
-          <Pagination 
-            totalPages={totalPages}
-            currentPage={currentPage}
-            range={range}
-            onPaginate={onPaginate}
-          />
-          :
-          ""
-        }
-      </>
-    );
-  }
+	const SEARCHBAR = () => {
+		return (
+			<React.Fragment>
+				{searchable && !searchFormRef
+					? <SearchBar
+						searchString={search?.searchString}
+						handleSearchStringChange={handleSearchStringChange}
+						handleOnSearch={handleOnSearch}
+						searchFormClass={searchFormClass}
+						searchFormInputClass={searchFormInputClass}
+						searchFormButtonClass={searchFormButtonClass}
+						searchFormButtonIconClass={searchFormButtonIconClass}
+					/>
+					: null
+				}
+			</React.Fragment>
+		);
+	};
 
-  render() {
-    return (
-      <div 
-        className="react-table-lite-container" 
-        // style={{display: "none"}}
-        style={this.props.containerStyle}
-        ref={this.TableRef}
-      >              
-        <>{this.TableOperations()}</>      
-        <table cellSpacing={0} className="react-table-lite-main" style={this.props.tableStyle}>
-          {this.TableHeader()}
-          {this.TableData()}
-        </table>
-        {this.Pagination()}
-      </div>  
-    );
-  }
-}
+	const DOWNLOAD_CSV_BUTTON = () => {
+		return (
+			<React.Fragment>
+				{downloadable && !downloadCsvButtonRef
+					? <DownloadCsvButton
+						handleOnCSVDownload={handleOnCSVDownload}
+						downloadCsvButtonClass={downloadCsvButtonClass}
+						downloadCsvButtonIconClass={downloadCsvButtonIconClass}
+					/>
+					: null
+				}
+			</React.Fragment>
+		);
+	};
+
+	return (
+		<div className={`react-table-lite-container ${containerClass}`}>
+			<div className={`react-table-lite-top-section`}>
+				{SEARCHBAR()}
+				{DOWNLOAD_CSV_BUTTON()}
+			</div>
+			<table ref={react_table_ref} className={`react-table-lite-table ${tableClass}`}>
+				{TABLE_HEADER()}
+				{TABLE_BODY()}
+			</table>
+			<div className={`react-table-lite-bottom-section`}>
+				{PAGINATION()}
+				{PERPAGE()}
+			</div>
+		</div>
+	);
+};
+
+Table.propTypes = {
+	data: PropTypes.array.isRequired,
+	headers: PropTypes.array.isRequired,
+	customHeaders: PropTypes.object,
+	actionTypes: PropTypes.arrayOf(PropTypes.string),
+	sortBy: PropTypes.arrayOf(PropTypes.string),
+	searchBy: PropTypes.arrayOf(PropTypes.string),
+	csvKeys: PropTypes.arrayOf(PropTypes.string),
+	perPageLimitOptions: PropTypes.arrayOf(PropTypes.number),
+	customRenderCell: PropTypes.object,
+	customRenderActions: PropTypes.object,
+	searchFormRef: PropTypes.any,
+	downloadCsvButtonRef: PropTypes.any,
+
+	noDataMessage: PropTypes.string,
+	checkedKey: PropTypes.string,
+	disableCheckedKey: PropTypes.string,
+	totalPages: PropTypes.number,
+	showNumberofPages: PropTypes.number,
+	currentPage: PropTypes.number,
+	fileName: PropTypes.string,
+
+	showActions: PropTypes.bool,
+	searchable: PropTypes.bool,
+	downloadable: PropTypes.bool,
+	showMultiSelect: PropTypes.bool,
+	showPagination: PropTypes.bool,
+	showPerpageLimitOptions: PropTypes.bool,
+
+	onSort: PropTypes.func,
+	onRowSelect: PropTypes.func,
+	onAllRowSelect: PropTypes.func,
+	onRowView: PropTypes.func,
+	onRowEdit: PropTypes.func,
+	onRowDelete: PropTypes.func,
+	onPaginate: PropTypes.func,
+	onDownload: PropTypes.func,
+	onPerPageLimitSelect: PropTypes.func,
+
+	containerClass: PropTypes.string,
+	tableClass: PropTypes.string,
+	headerClass: PropTypes.string,
+	checkboxClass: PropTypes.string,
+	cellClass: PropTypes.string,
+	rowClass: PropTypes.string,
+	perpageLimitOptionClass: PropTypes.string,
+	actionButtonContainerClass: PropTypes.string,
+	actionButtonClass: PropTypes.string,
+	actionButtonIconClass: PropTypes.string,
+	searchFormClass: PropTypes.string,
+	searchFormInputClass: PropTypes.string,
+	searchFormButtonClass: PropTypes.string,
+	searchFormButtonIconClass: PropTypes.string,
+	downloadCsvButtonClass: PropTypes.string,
+	downloadCsvButtonIconClass: PropTypes.string,
+	paginationContainerClass: PropTypes.string,
+	paginationIconClass: PropTypes.string,
+	paginationItemClass: PropTypes.string,
+	paginationActiveItemClass: PropTypes.string
+};
+
+Table.defaultProps = {
+	noDataMessage: 'No data found',
+	fileName: 'data.csv',
+	showActions: false,
+	searchable: false,
+	downloadable: false,
+	showMultiSelect: false,
+	showPagination: false,
+	showPerpageLimitOptions: false,
+	containerClass: '',
+	tableClass: '',
+	headerClass: '',
+	checkboxClass: '',
+	cellClass: '',
+	rowClass: '',
+	perpageLimitOptionClass: '',
+	actionButtonContainerClass: '',
+	actionButtonClass: '',
+	actionButtonIconClass: '',
+	searchFormClass: '',
+	searchFormInputClass: '',
+	searchFormButtonClass: '',
+	searchFormButtonIconClass: '',
+	downloadCsvButtonClass: '',
+	downloadCsvButtonIconClass: '',
+	paginationContainerClass: '',
+	paginationIconClass: '',
+	paginationItemClass: '',
+	paginationActiveItemClass: '',
+};
+
 
 export default Table;
