@@ -164,17 +164,27 @@ function UserData(props){
            perPageLimitOptions={[10, 30, 50, 100 ]}
            // Array of numbers for options in per page limit selection
            customRenderCell={{
-              name: (row) => <a href={'/employee-profile/' + row.id} className='custom-class'> {row.name} </a>,
-              department: (row) => <span className='custom-class'> {row.department} </span>
+              name: (row) => (
+                <a href={'/employee-profile/' + row.id} className='custom-class'> {row.name} </a>
+              ),
+              department: (row) => (
+                <span className='custom-class'> {row.department} </span>
+              )
            }}
            // Custom render function in JSON Object for table cells
            // it will render any custom element in place of default value of cell under specified column
            // in this case an <a> element will be rendered at each row in name column
            // and a <span> element will be rendered at each row in department column 
            customRenderActions = {{
-              view: (row) => <button onClick={event => customViewRow(event, row)}> view </button>,
-              edit: (row) => <button onClick={event => customEditRow(event, row)}> Edit </button>,
-              delete: (row) => <button onClick={event => customDeleteRow(event, row)}> Delete </button>,
+              view: (row) => (
+                <button onClick={event => customViewRow(event, row)}> view </button>
+              ),
+              edit: (row) => (
+                <button onClick={event => customEditRow(event, row)}> Edit </button>
+              ),
+              delete: (row) => (
+                <button onClick={event => customDeleteRow(event, row)}> Delete </button>
+              ),
            }}
            // Custom render function in JSON Object for action buttons
            // it will render any custom element in place of view, edit and delete action button
