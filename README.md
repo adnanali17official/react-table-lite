@@ -8,7 +8,8 @@
 A lightweight easy to use and easily customizable React Component for rendering a table from JSON with minimal code.
 ##### <a href="https://react-azmat-components.web.app/#/react-table-lite" target="_blank">Click here for demo</a>
 
-<img src="https://s8.gifyu.com/images/rtl-animated-1.gif" alt="react-table-lite-preview-1" />
+<!-- <img src="https://s8.gifyu.com/images/rtl-animated-1.gif" alt="react-table-lite-preview-1" /> -->
+<img src="https://s6.gifyu.com/images/S6YdC.gif" alt="react-table-lite-preview-1" />
 
 ### Features:
 
@@ -73,14 +74,13 @@ A lightweight easy to use and easily customizable React Component for rendering 
 ### Preview:  
  
 *Plain View*
-<img src="https://qnae0a.dm.files.1drv.com/y4m5WNQquJC22nigTy5CKrAPRBbVhiFc3d5Re9nqhBFKeK7p9EYPJq-hKe5Z5ESDjAna6r7sbRqBHqMqCK7L03aD7Hnjhj_SdzglIlqzGYDUAe12hC1uHlrQQVtqjhx1Hs0vO7qNAHBSDwFsC3e9vtPVhCzvWrpKNs9imS3h7cN7n2kQTvA6PDWn-adtDeRrrUzqxsh4zy9FynmPjgAFx0EYQ?width=1221&height=311&cropmode=none" alt="react-table-lite-preview-2" />
-*With Actions Enabled*
+<img src="https://s6.gifyu.com/images/S6Ydi.png" alt="react-table-lite-preview-2" />
 
-<img src="https://qnc5ra.dm.files.1drv.com/y4m2rcN5UDu-DHJryQ3IwphGw1THRoOvO7kwe2a3SO_pt109ANgBt1Vh89iirlj39cY2ZwtmLs848BzfaK1ohf2kkhULQyGJdvVZOzScBiKlRB5vS8L0NpaB35me9CRXFL5RCy3jEREUbzaVBRHhsxsSGXaUG8sc4SHcWjY73TWXwyuBZ3tmD8wfRk7st2LEAweQWrNAwlUYQGvzcldjnCm3w?width=1196&height=319&cropmode=none" alt="react-table-lite-preview-3" />
+*With Actions Enabled*
+<img src="https://s6.gifyu.com/images/S6Yd0.png" alt="react-table-lite-preview-3" />
 
 *Custom Styling and Actions*
-
-<img src="https://1hunqa.dm.files.1drv.com/y4mBTaCZHenK-IEH4nut36JXKm0lZlH_IFLXC1ItJ-DnbboszwoEQRfgrRo--0qO51WaU6ulpQPQ9agbuPbhtTGEMVkQn5ngHphLYdX6bi4Hxx4QtPk377RtAu8wMpLlf_Qaa4465ZYBQ1-bihNPh9O5hWP2muTdrcwxrhzzORmPg4-CXMHY-OI7MvPJNa9w6Xm__tRyY5nlC9EJF3rh2rAVQ?width=1258&height=339&cropmode=none" alt="react-table-lite-preview-4" />
+<img src="https://s6.gifyu.com/images/S6Ydj.png" alt="react-table-lite-preview-4" />
 
 ### Example:
 ```js  
@@ -219,7 +219,7 @@ function UserData(props){
             // any arguments passed will be before 'event' and 'limit'
            }}
         />
-      )
+      );
   }
 ```
 ### Props:
