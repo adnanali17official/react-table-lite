@@ -1,15 +1,40 @@
-function convertJSONToCSV(jsonData, csvKeys=null) {
-  if(csvKeys){
+function convertJSONToCSV(jsonData, csvKeys = null) {
+  // cases handled while creating csv
+  // if the value in json starts with a numeric digit, add a \` before it to avoid csv formatting the value as integer
+  // if the value is some object or other data type which can't be parsed into a String, then return empty string '' in csv
+  if (csvKeys) {
     jsonData = jsonData?.map(item => {
       const newItem = {};
       csvKeys?.forEach(key => {
-        newItem[key] = item[key]
+        try {
+          if (item[key] && !isNaN(item[key][0]))
+            newItem[key] = `\`${item[key].toString()}`;
+          else
+            newItem[key] = `${item[key].toString()}`;
+        }
+        catch (err) {
+          console.error(err);
+          newItem[key] = '';
+        }
       });
       return newItem;
     })
   }
   const header = Object.keys(jsonData[0]).join(',');
-  const rows = jsonData.map(obj => Object.values(obj).join(','));
+  const rows = jsonData.map(obj => Object.values(obj)
+    ?.map(value => {
+      try {
+        if (value && !isNaN(value?.toString()[0]))
+          return `\`${value}`?.toString() || '';
+        else
+          return `${value}`?.toString() || '';
+      }
+      catch (err) {
+        console.error(err);
+        return '';
+      }
+    })
+    ?.join(','));
   return header + '\n' + rows.join('\n');
 };
 

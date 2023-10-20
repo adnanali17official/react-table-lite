@@ -69,7 +69,7 @@ function DemoView() {
 
 	const InitialCustomRenderCell = {
 		department: (row) => <span className={`department ${row?.department.slice(0, 2)}`}> {row?.department} </span>,
-		email: (row) => <input style={{ padding: '5px' }} type='text' defaultValue={row?.email} onBlur={(e) => handleEmailChange(e, row)} />
+		// email: (row) => <input style={{ padding: '5px' }} type='text' defaultValue={row?.email} onBlur={(e) => handleEmailChange(e, row)} />
 	};
 
 	const InitialCustomRenderButtons = {

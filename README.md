@@ -82,6 +82,9 @@ A lightweight easy to use and easily customizable React Component for rendering 
 *Custom Styling and Actions*
 <img src="https://s6.gifyu.com/images/S6Ydj.png" alt="react-table-lite-preview-4" />
 
+*Custom Render Cell and Actions*
+<img src="https://s6.gifyu.com/images/S6AHO.png" alt="react-table-lite-preview-5" />
+
 ### Example:
 ```js  
 import React from 'react';
@@ -249,8 +252,8 @@ searchFormRef | Ref | Ref of a custom form element to attach table's default sea
 downloadCsvButtonRef | Ref | Ref of a custom button element to attach table's default dwonload csv functionality |
 noDataMessage   | String | String used for 'No data' message
 fileName    | String | String used as default filename for csv files when downloading 
-checkedKey | String | Key in JSON data object to 'check' the row.
-disableCheckedKey | String | Key in JSON data object to disable selection of that row.
+checkedKey | String | Key in JSON data object to 'check' the row
+disableCheckedKey | String | Key in JSON data object to disable selection of that row
 totalPages | Number | Total Pages of data
 currentPage | Number | Current Page number
 showNumberofPages | Number |Range for show page number 
@@ -260,7 +263,7 @@ downloadable    | Boolean | Pass ‘true’ to enable download csv button
 showMultiSelect | Boolean | Enable to show multi select
 showPagination | Boolean | Enable to show pagination
 showPerpageLimitOptions | Boolean | Enable to show per page limit selection
-onSort | Callback | Callback function on sort.
+onSort | Callback | Callback function on sort
 onRowSelect    | Callback | Callback function on row select
 onAllRowSelect | Callback | Callback function on all row select
 onRowView   | Callback | Callback function on row view
