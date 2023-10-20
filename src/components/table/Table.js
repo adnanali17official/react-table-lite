@@ -125,7 +125,7 @@ const Table = ({
 				searchFormRef.current.removeEventListener("submit", handleCustomSearchBarOnSearch);
 			};
 		}
-	}, [searchFormRef, searchable]);
+	}, [rtlData, searchFormRef, searchable ]);
 
 	// If a custom downloadCsvButtonRef is provided
 	// attach the download file handler to it
@@ -136,7 +136,7 @@ const Table = ({
 				downloadCsvButtonRef.current.removeEventListener("click", handleOnCSVDownload);
 			};
 		}
-	}, [downloadCsvButtonRef, downloadable, rtlData, fileName, csvKeys]);
+	}, [rtlData, downloadCsvButtonRef, downloadable, fileName, csvKeys]);
 
 	const resetData = () => {
 		const dataArray = [...data];
@@ -295,7 +295,6 @@ const Table = ({
 				appliedSearch: Boolean(searchString?.trim())
 			}));
 		}
-
 	};
 
 	const handleOnCSVDownload = () => {
