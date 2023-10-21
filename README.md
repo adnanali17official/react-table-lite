@@ -14,7 +14,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
 ### Features:
 
  - **Fully Customizable:**
-    CSS classes can be added to easily customize the table.
+    Style props and CSS classes can be added to easily customize the table.
 
  - **JSON data array:**
     Accepts data array and renders them in respective table headers.
