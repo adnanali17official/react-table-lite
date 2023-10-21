@@ -231,7 +231,8 @@ function UserData(props){
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onDownload={()=>{
+           onDownload={(event)=>{
+            console.log(event);
              // Callback run after download csv button is clicked
            }}
            onPaginate={(args, event, currentPage)=>{

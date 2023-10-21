@@ -305,9 +305,9 @@ const Table = ({
 		}
 	};
 
-	const handleOnCSVDownload = () => {
+	const handleOnCSVDownload = (event) => {
 		if (onDownload) {
-			onDownload();
+			onDownload(event);
 		}
 		export_table_to_csv(rtlData, fileName, csvKeys);
 	};
