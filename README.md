@@ -69,7 +69,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
     Use ‘showPagination’ prop to enable pagination with custom range using ‘showNumberofPages’ prop. Pagination also requires ‘totalPages’, ‘currentPage’ and ‘onPaginate’ props.
 
 - **Per Page:**
-    Use ‘showPerpageLimitOptions’ prop to enable per page drop down. Pass callback function in ‘onPerPageLimitSelect’ prop.
+    Use ‘showPerpageLimitOptions’ prop to enable per page drop down. Pass callback function in ‘onPerPageLimitSelect’ prop and current per page limit in ‘currentPerPageLimit’.
 
 ### Preview:  
  
