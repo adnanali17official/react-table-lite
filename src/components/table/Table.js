@@ -81,7 +81,14 @@ const Table = ({
 	paginationContainerClass,
 	paginationIconClass,
 	paginationItemClass,
-	paginationActiveItemClass
+	paginationActiveItemClass,
+
+	// Styles
+	containerStyle,
+	tableStyle,
+	headerStyle,
+	rowStyle,
+	cellStyle
 
 }) => {
 
@@ -125,7 +132,7 @@ const Table = ({
 				searchFormRef.current.removeEventListener("submit", handleCustomSearchBarOnSearch);
 			};
 		}
-	}, [rtlData, searchFormRef, searchable ]);
+	}, [rtlData, searchFormRef, searchable]);
 
 	// If a custom downloadCsvButtonRef is provided
 	// attach the download file handler to it
@@ -311,10 +318,11 @@ const Table = ({
 		// Display the header text either from the value in customHeaders or use the headers value instead 
 		return (
 			<thead>
-				<tr className={`react-table-lite-row ${rowClass}`}>
+				<tr className={`react-table-lite-row ${rowClass}`} style={rowStyle}>
 					{ /****  Main Checkbox  ****/
 						showMultiSelect &&
 						<th
+							style={headerStyle}
 							className={`react-table-lite-header ${headerClass}`}
 						>
 							<input
@@ -330,6 +338,7 @@ const Table = ({
 						headers?.map((heading, index) => (
 							<th
 								key={index}
+								style={headerStyle}
 								className={`react-table-lite-header ${headerClass}`}
 							>
 								<span>
@@ -355,6 +364,7 @@ const Table = ({
 					{ /****  Actions header  ****/
 						showActions
 							? <th
+								style={headerStyle}
 								className={`react-table-lite-header ${headerClass}`}
 							>
 								<span> Actions </span>
@@ -374,9 +384,10 @@ const Table = ({
 					rtlData &&
 					headers?.length &&
 					rtlData?.map((item, index) => (
-						<tr key={`row-${index}-${JSON.stringify(item)}`} className={`react-table-lite-row ${rowClass}`}>
+						<tr key={`row-${index}-${JSON.stringify(item)}`} className={`react-table-lite-row ${rowClass}`} style={rowStyle}>
 							{showMultiSelect
 								? <td
+									style={cellStyle}
 									className={`react-table-lite-cell ${cellClass}`}
 								>
 									<input
@@ -393,6 +404,7 @@ const Table = ({
 							{headers.map((header_key, index) => (
 								<React.Fragment key={`value-${index}`}>
 									<td
+										style={cellStyle}
 										className={`react-table-lite-cell ${cellClass}`}
 									>
 										{/* Render either the element from customRender prop or directly render the item's value */}
@@ -425,8 +437,8 @@ const Table = ({
 				}
 				{
 					!rtlData || rtlData?.length < 1
-						? <tr className={`react-table-lite-row ${rowClass}`}>
-							<td colSpan={showActions ? headers?.length + 1 : headers?.length} className={`react-table-lite-cell ${cellClass}`}>
+						? <tr className={`react-table-lite-row ${rowClass}`} style={rowStyle}>
+							<td style={cellStyle} colSpan={showActions ? headers?.length + 1 : headers?.length} className={`react-table-lite-cell ${cellClass}`}>
 								{noDataMessage}
 							</td>
 						</tr>
@@ -507,12 +519,12 @@ const Table = ({
 	};
 
 	return (
-		<div className={`react-table-lite-container ${containerClass}`}>
+		<div className={`react-table-lite-container ${containerClass}`} style={containerStyle}>
 			<div className={`react-table-lite-top-section`}>
 				{SEARCHBAR()}
 				{DOWNLOAD_CSV_BUTTON()}
 			</div>
-			<table ref={react_table_ref} className={`react-table-lite-table ${tableClass}`}>
+			<table ref={react_table_ref} className={`react-table-lite-table ${tableClass}`} style={tableStyle}>
 				{TABLE_HEADER()}
 				{TABLE_BODY()}
 			</table>
@@ -582,7 +594,13 @@ Table.propTypes = {
 	paginationContainerClass: PropTypes.string,
 	paginationIconClass: PropTypes.string,
 	paginationItemClass: PropTypes.string,
-	paginationActiveItemClass: PropTypes.string
+	paginationActiveItemClass: PropTypes.string,
+
+	containerStyle: PropTypes.object,
+	tableStyle: PropTypes.object,
+	headerStyle: PropTypes.object,
+	rowStyle: PropTypes.object,
+	cellStyle: PropTypes.object
 };
 
 Table.defaultProps = {
@@ -614,6 +632,11 @@ Table.defaultProps = {
 	paginationIconClass: '',
 	paginationItemClass: '',
 	paginationActiveItemClass: '',
+	containerStyle: {},
+	tableStyle: {},
+	headerStyle: {},
+	rowStyle: {},
+	cellStyle: {}
 };
 
 

@@ -188,9 +188,9 @@ function DemoView() {
 						showPerpageLimitOptions={reactTableLiteOptions?.enablePerPageOptions}
 						perPageLimitOptions={InitialPerpageLimitOptions}
 						noDataMessage={InitialNoDataMessage}
-						// csvKeys={["joined", "name", "email"]}
-						// downloadCsvButtonRef={customCSVButtonRef}
-						// searchFormRef={customSearchFormRef}
+						csvKeys={["joined", "name", "email"]}
+						downloadCsvButtonRef={customCSVButtonRef}
+						searchFormRef={customSearchFormRef}
 					/>
 				</div>
 			</div>

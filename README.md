@@ -166,6 +166,16 @@ function UserData(props){
            // Key present in data to make row checkbox disabled
            perPageLimitOptions={[10, 30, 50, 100 ]}
            // Array of numbers for options in per page limit selection
+           containerStyle = {{}}
+           // Customize table container style           
+           tableStyle = {{}}
+           // Customize table style
+           headerStyle = {{}}
+           // Customize table header style
+           rowStyle = {{}}
+           // Customize table row style
+           cellStyle = {{}}
+           // Customize table data cell style
            customRenderCell={{
               name: (row) => (
                 <a href={'/employee-profile/' + row.id} className='custom-class'> {row.name} </a>
@@ -292,6 +302,11 @@ paginationContainerClass | String | CSS class for pagination container
 paginationIconClass | String | CSS class for pagination left and right arrow icon
 paginationItemClass | String | CSS class for pagination numbers
 paginationActiveItemClass | String | CSS class for active page number
+containerStyle | Style  | Style object for parent container
+tableStyle | Style  | Style object for table
+headerStyle | Style  | Style object for table header
+rowStyle    | Style  | Style object for table rows
+cellStyle   | Style  | Style object for table cells
 
 
 ### Support:  
