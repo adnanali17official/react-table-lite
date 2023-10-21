@@ -38,6 +38,7 @@
 
 .react-table-lite-top-section{
     display: flex;
+    margin-bottom: 10px;
 }
 
 .react-table-lite-action-btn-icon{
