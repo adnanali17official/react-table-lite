@@ -153,9 +153,11 @@ function UserData(props){
            currentPage={1}
            // Current Page number
            showNumberofPages={5}
-           // range for show page number 
+           // Range for show page number 
            showPerpageLimitOptions={true}
-           // show selection to change per page item limit
+           // Show selection to change per page item limit
+           selectedPerPageLimit={10}
+           // Set current per page item limit
            actionTypes={["edit","delete","view"]} 
            // Type of Row Operation (case insensitive)
            showMultiSelect  = {true}
@@ -230,7 +232,7 @@ function UserData(props){
             // any arguments passed will be before 'event' and 'row'
            }}
            onDownload={()=>{
-             // callback run after download csv button is clicked
+             // Callback run after download csv button is clicked
            }}
            onPaginate={(args, event, currentPage)=>{
             // 'currentPage' returns updated current page;
@@ -238,7 +240,7 @@ function UserData(props){
            }}
            onPerPageLimitSelect={(args, event, limit) => {
             console.log(args, event, limit);
-            // callback run after download csv button is clicked
+            // 'limit' returns the selected item limit from the menu;
             // any arguments passed will be before 'event' and 'limit'
            }}
         />
@@ -266,6 +268,7 @@ checkedKey | String | Key in JSON data object to 'check' the row
 disableCheckedKey | String | Key in JSON data object to disable selection of that row
 totalPages | Number | Total Pages of data
 currentPage | Number | Current Page number
+selectedPerPageLimit | Number | Current value of per page limit
 showNumberofPages | Number |Range for show page number 
 showActions | Boolean | Enable to show actions column
 searchable  | Boolean | Pass ‘true’ to enable search field |
