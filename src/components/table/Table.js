@@ -39,7 +39,7 @@ const Table = ({
 	disableCheckedKey,
 	totalPages,
 	showNumberofPages,
-	selectedPerPageLimit,
+	currentPerPageLimit,
 	currentPage,
 	fileName,
 
@@ -475,7 +475,7 @@ const Table = ({
 			<React.Fragment>
 				{showPerpageLimitOptions
 					? <PerPageOptions
-						selectedPerPageLimit={selectedPerPageLimit}
+						currentPerPageLimit={currentPerPageLimit}
 						onPerPageLimitSelect={onPerPageLimitSelect}
 						perPageLimitOptions={perPageLimitOptions}
 						perpageLimitOptionClass={perpageLimitOptionClass}
@@ -556,7 +556,7 @@ Table.propTypes = {
 	checkedKey: PropTypes.string,
 	disableCheckedKey: PropTypes.string,
 	totalPages: PropTypes.number,
-	selectedPerPageLimit: PropTypes.number,
+	currentPerPageLimit: PropTypes.number,
 	showNumberofPages: PropTypes.number,
 	currentPage: PropTypes.number,
 	fileName: PropTypes.string,

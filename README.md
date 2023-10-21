@@ -156,7 +156,7 @@ function UserData(props){
            // Range for show page number 
            showPerpageLimitOptions={true}
            // Show selection to change per page item limit
-           selectedPerPageLimit={10}
+           currentPerPageLimit={10}
            // Set current per page item limit
            actionTypes={["edit","delete","view"]} 
            // Type of Row Operation (case insensitive)
@@ -268,7 +268,7 @@ checkedKey | String | Key in JSON data object to 'check' the row
 disableCheckedKey | String | Key in JSON data object to disable selection of that row
 totalPages | Number | Total Pages of data
 currentPage | Number | Current Page number
-selectedPerPageLimit | Number | Current value of per page limit
+currentPerPageLimit | Number | Current value of per page limit
 showNumberofPages | Number |Range for show page number 
 showActions | Boolean | Enable to show actions column
 searchable  | Boolean | Pass ‘true’ to enable search field |
