@@ -186,7 +186,7 @@ function DemoView() {
 						/>
 					}
 					{CUSTOM_SEARCH_FORM()}
-					<Table
+					<Table				
 						data={reactTableLiteOptions?.useLiveData ? serverData : staticData}
 						headers={InitialHeaders}
 						checkedKey={InitialCheckedKey}
@@ -214,7 +214,7 @@ function DemoView() {
 						onPerPageLimitSelect={handlePerPageLimit}
 						showPerpageLimitOptions={reactTableLiteOptions?.showPerPageOptions}
 						perPageLimitOptions={InitialPerpageLimitOptions}
-						noDataMessage={InitialNoDataMessage}
+						// noDataMessage={InitialNoDataMessage}
 						csvKeys={InitialCsvKeys}
 						downloadCsvButtonRef={customCSVButtonRef}
 						searchFormRef={customSearchFormRef}
