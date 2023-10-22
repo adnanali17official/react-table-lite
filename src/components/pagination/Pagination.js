@@ -1,7 +1,12 @@
+
+// Packages
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
 import generatePagination from '../../script/generate_pagination';
+
+// Styles
 import '../../styles/Pagination.css';
 
 function Pagination({

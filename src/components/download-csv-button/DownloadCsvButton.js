@@ -1,7 +1,7 @@
+
+// Packages
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import '../../styles/SearchBar.css';
 
 function DownloadCsvButton({
 
