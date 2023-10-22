@@ -83,6 +83,8 @@ const Table = ({
 	paginationIconClass,
 	paginationItemClass,
 	paginationActiveItemClass,
+	tableTopSectionClass,
+	tableBottomSectionClass,
 
 	// Styles
 	containerStyle,
@@ -521,20 +523,40 @@ const Table = ({
 		);
 	};
 
+	const REACT_TABLE_TOP_SECTION = () => (
+		<React.Fragment>
+			{
+				(searchable && !searchFormRef) || (downloadable && !downloadCsvButtonRef)
+					? <div className={`react-table-lite-top-section ${tableTopSectionClass}`}>
+						{SEARCHBAR()}
+						{DOWNLOAD_CSV_BUTTON()}
+					</div>
+					: null
+			}
+		</React.Fragment>
+	);
+
+	const REACT_TABLE_BOTTOM_SECTION = () => (
+		<React.Fragment>
+			{
+				(showPagination || showPerpageLimitOptions)
+					? <div className={`react-table-lite-bottom-section ${tableBottomSectionClass}`}>
+						{PAGINATION()}
+						{PERPAGE()}
+					</div>
+					: null
+			}
+		</React.Fragment>
+	);
+
 	return (
 		<div className={`react-table-lite-container ${containerClass}`} style={containerStyle}>
-			<div className={`react-table-lite-top-section`}>
-				{SEARCHBAR()}
-				{DOWNLOAD_CSV_BUTTON()}
-			</div>
+			{REACT_TABLE_TOP_SECTION()}
 			<table ref={react_table_ref} className={`react-table-lite-table ${tableClass}`} style={tableStyle}>
 				{TABLE_HEADER()}
 				{TABLE_BODY()}
 			</table>
-			<div className={`react-table-lite-bottom-section`}>
-				{PAGINATION()}
-				{PERPAGE()}
-			</div>
+			{REACT_TABLE_BOTTOM_SECTION()}
 		</div>
 	);
 };
@@ -599,6 +621,8 @@ Table.propTypes = {
 	paginationIconClass: PropTypes.string,
 	paginationItemClass: PropTypes.string,
 	paginationActiveItemClass: PropTypes.string,
+	tableTopSectionClass: PropTypes.string,
+	tableBottomSectionClass: PropTypes.string,
 
 	containerStyle: PropTypes.object,
 	tableStyle: PropTypes.object,
@@ -636,6 +660,8 @@ Table.defaultProps = {
 	paginationIconClass: '',
 	paginationItemClass: '',
 	paginationActiveItemClass: '',
+	tableTopSectionClass: '',
+	tableBottomSectionClass: '',
 	containerStyle: {},
 	tableStyle: {},
 	headerStyle: {},

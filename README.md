@@ -35,7 +35,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
     If ‘showAction’ prop is enabled, use ‘actionTypes’ to provide which actions to display. If not provided, will display all actions.
 
 - **Actions Callback:**
-    If ‘showAction’ prop is enabled, use ‘onRowDelete’,‘onRowEdit’ and ‘onRowView’ to provide respective action callbacks. The last two args of callback will return event and row Object.
+    If ‘showAction’ prop is enabled, use ‘onRowDelete’, ‘onRowEdit’ and ‘onRowView’ to provide respective action callbacks. The last two args of callback will return event and row Object.
 
 - **Customize no data message:**
     Use ‘noDataMessage’ prop to provide empty data message.
@@ -203,9 +203,12 @@ function UserData(props){
            }}
            // Custom render function in JSON Object for action buttons
            // it will render any custom element in place of view, edit and delete action button
-           onSort={(data)=>{
-            console.log(data);  
+           onSort={(event, data, sortedBy, direction)=>{
+            console.log(data, sortedBy, direction);  
              // 'data' returns new sorted data
+             // 'sortedBy' returns the sorting key
+             // 'direction' is asc (ascending) or dsc (descending)
+             // **if onSort prop is passed, sorting will not update the table view
            }}
            onRowSelect={(args, event, row)=>{
             console.log(args, event, row);
@@ -292,6 +295,8 @@ headerClass | String | CSS class for table's th
 rowClass  | String | CSS class for table's tr
 cellClass | String | CSS class for table's td
 checkboxClass | String | CSS class for multiselect checkbox
+tableTopSectionClass | String | CSS class for container of search-bar and csv button
+tableBottomSectionClass | String | CSS class for container of pagination and per page
 perpageLimitOptionClass | String | CSS class for per page limit selection
 actionButtonContainerClass | String | CSS class for action button container
 actionButtonClass | String | CSS class for view, edit and delete action buttons
