@@ -214,7 +214,7 @@ function DemoView() {
 						onPerPageLimitSelect={handlePerPageLimit}
 						showPerpageLimitOptions={reactTableLiteOptions?.showPerPageOptions}
 						perPageLimitOptions={InitialPerpageLimitOptions}
-						// noDataMessage={InitialNoDataMessage}
+						noDataMessage={InitialNoDataMessage}
 						csvKeys={InitialCsvKeys}
 						downloadCsvButtonRef={customCSVButtonRef}
 						searchFormRef={customSearchFormRef}
