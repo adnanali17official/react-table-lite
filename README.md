@@ -166,7 +166,7 @@ function UserData(props){
            // Key present in data to mark row checked
            disableCheckedKey={"selectDisabled"}
            // Key present in data to make row checkbox disabled
-           perPageLimitOptions={[10, 30, 50, 100 ]}
+           perPageLimitOptions={[10, 30, 50, 100]}
            // Array of numbers for options in per page limit selection
            containerStyle = {{}}
            // Customize table container style           
