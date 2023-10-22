@@ -6,6 +6,7 @@ const ActionButtons = ({
 	dataRow,
 	actionTypes,
 	customRenderActions,
+	cellStyle,
 
 	// Boolean
 	showActions,
@@ -50,6 +51,7 @@ const ActionButtons = ({
 		if (showActions) {
 			return (
 				<td
+					style={cellStyle}
 					className={`react-table-lite-cell react-table-lite-actions ${cellClass}`}
 				>
 					<div className={`react-table-lite-action-btn-container ${actionButtonContainerClass}`}>
@@ -112,6 +114,7 @@ ActionButtons.propTypes = {
 	onRowEdit: PropTypes.func,
 	onRowDelete: PropTypes.func,
 	cellClass: PropTypes.string,
+	cellStyle: PropTypes.object,
 	actionButtonContainerClass: PropTypes.string,
 	actionButtonClass: PropTypes.string,
 	actionButtonIconClass: PropTypes.string
@@ -122,6 +125,7 @@ ActionButtons.defaultProps = {
 	onRowView: () => null,
 	onRowEdit: () => null,
 	onRowDelete: () => null,
+	cellStyle: {},
 	cellClass: '',
 	actionButtonContainerClass: '',
 	actionButtonClass: '',

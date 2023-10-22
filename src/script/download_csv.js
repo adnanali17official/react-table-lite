@@ -1,4 +1,4 @@
-function convertJSONToCSV(jsonData, csvKeys = null) {
+function convertJSONToCSV(jsonData, csvKeys = null, customHeaders={}) {
   // cases handled while creating csv
   // if the value in json starts with a numeric digit, add a \` before it to avoid csv formatting the value as integer
   // if the value is some object or other data type which can't be parsed into a String, then return empty string '' in csv
@@ -8,9 +8,9 @@ function convertJSONToCSV(jsonData, csvKeys = null) {
       csvKeys?.forEach(key => {
         try {
           if (item[key] && !isNaN(item[key][0]))
-            newItem[key] = `\`${item[key].toString()}`;
+            newItem[key] = `\`${item[key].toString()?.replaceAll(',', ' ')}`;
           else
-            newItem[key] = `${item[key].toString()}`;
+            newItem[key] = `${item[key].toString()?.replaceAll(',', ' ')}`;
         }
         catch (err) {
           console.error(err);
@@ -20,14 +20,14 @@ function convertJSONToCSV(jsonData, csvKeys = null) {
       return newItem;
     })
   }
-  const header = Object.keys(jsonData[0]).join(',');
+  const header = Object.keys(jsonData[0])?.map(key => customHeaders[key] || key).join(',');
   const rows = jsonData.map(obj => Object.values(obj)
     ?.map(value => {
       try {
         if (value && !isNaN(value?.toString()[0]))
-          return `\`${value}`?.toString() || '';
+          return `\`${value}`?.toString()?.replaceAll(',', ' ') || '';
         else
-          return `${value}`?.toString() || '';
+          return `${value}`?.toString()?.replaceAll(',', ' ') || '';
       }
       catch (err) {
         console.error(err);
@@ -50,8 +50,8 @@ function downloadCSV(csvData, fileName) {
   URL.revokeObjectURL(url);
 };
 
-export default function export_table_to_csv(data, filename = 'data.csv', csvKeys) {
-  const csvData = convertJSONToCSV(data, csvKeys);
+export default function export_table_to_csv(data, filename = 'data.csv', csvKeys, customHeaders) {
+  const csvData = convertJSONToCSV(data, csvKeys, customHeaders);
   downloadCSV(csvData, filename);
 };
 

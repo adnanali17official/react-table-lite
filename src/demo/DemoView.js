@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Table from '../../dist/table.esm';
 import ToggleProps from './components/toggle_props/ToggleProps';
 import EyeSvg from './components/eye_svg/EyeSvg';
@@ -9,67 +9,76 @@ import NewRow from './components/new_row/NewRow';
 import './demo-view.css';
 
 function DemoView() {
-	const InitialData = [
+
+	useEffect(() => {
+		fetchServerData(1,5);
+	}, []);
+
+	const InitialStaticData = [
 		{
 			id: 1,
-			name: "John Doe",
-			department: "Finance",
-			joined: '2017-12-01',
-			email: "john_doe@somedomain.com"
+			title: "finance news",
+			description: "Lorem Ipsum dolor sit amet",
+			is_checked: true,
 		},
 		{
 			id: 2,
-			name: "Kazuki Yashiro",
-			department: "Finance",
-			joined: '2023-09-01',
-			email: "y_kazuki@somedomain.com"
+			title: "finance news",
+			description: "Supports authentication, custom rate"
 		},
 		{
 			id: 3,
-			name: "Eddie Memon",
-			department: "Customer Support",
-			joined: '2018-03-02',
-			email: "eddie254@somedomain.com"
+			title: "tech news",
+			description: "The max width can be changed with one line",
+			is_disabled: true
 		},
+
 		{
 			id: 4,
-			name: "Ashiq Nuri",
-			department: "Human Resource",
-			joined: '2018-08-01',
-			email: "an452@somedomain.com"
+			title: "sports news",
+			description: "Liverpool vs Arsenal on October 22nd"
 		},
 	];
 
+	const fetchServerData = (offset, limit) => {
+		const URL = `https://api.slingacademy.com/v1/sample-data/blog-posts?offset=${offset}&limit=${limit}`;
+		fetch(URL)
+		.then(res => res.json())
+		.then(data => { if (data?.blogs) _serverData(data?.blogs?.slice(0,limit)) })
+		.catch(err => console.error(err));
+	};
+
 	const customSearchFormRef = useRef(null);
 	const customCSVButtonRef = useRef(null);
+
 	const InitialCheckedKey = 'is_checked';
 	const InitialDisableCheckedKey = 'is_disabled';
-	const InitialHeaders = ['id', 'name', 'department', 'email'];
-	const InitialCustomHeaders = { "joined": "Joined On", "id": "Profile No", "name": "Name", "department": "Department", "email": "Email" };
+	const InitialHeaders = ['id', 'title', 'description'];
+	const InitialCustomHeaders = { "id": "Id", "title": "Title", "description": "Description" };
+	const InitialSortBy = ["id", "title", "description"];
+	const InitialCsvKeys = ["id", "title", "description"];
+	const InitialSearchBy = ["id", "title", "description"];
 	const InitialActionTypes = ["edit", "view", "delete"];
 	const InitialPerpageLimitOptions = [5, 10, 20, 30, 50];
 	const InitialReactTableLiteOptions = {
+		useLiveData: false,
 		showActions: true,
 		showPagination: false,
 		enableMultiSelect: false,
 		customRenderCell: false,
 		customRenderActions: false,
 		enableSort: false,
-		enablePerPageOptions: false,
+		showPerPageOptions: false,
 		pagination: {
+			perPageLimit: 5, 
 			currentPage: 1,
 			totalPages: 1,
 			showNumberofPages: 1,
 		}
 	}
 
-	const InitialSortBy = ["id", "name", "department", "email", "joined"];
-
-	const InitialSearchBy = ["id", "name", "department", "email", "joined"];
-
 	const InitialCustomRenderCell = {
-		department: (row) => <span className={`department ${row?.department.slice(0, 2)}`}> {row?.department} </span>,
-		// email: (row) => <input style={{ padding: '5px' }} type='text' defaultValue={row?.email} onBlur={(e) => handleEmailChange(e, row)} />
+		description: (row) => <marquee> {row?.description} </marquee>
 	};
 
 	const InitialCustomRenderButtons = {
@@ -81,29 +90,18 @@ function DemoView() {
 	const InitialNoDataMessage = 'No Data Found..';
 
 	const [toastText, _toastText] = useState('');
-	const [data, _data] = useState([...InitialData]);
-	const [headers, _headers] = useState([...InitialHeaders]);
+	const [serverData, _serverData] = useState([]);
+	const [staticData, _staticData] = useState(InitialStaticData);
 	const [reactTableLiteOptions, _reactTableLiteOptions] = useState({ ...InitialReactTableLiteOptions });
 
 	const handleSubmitRow = event => {
 		event.preventDefault();
 		const newRow = {
-			id: data?.length + 1,
-			name: event.target[0].value,
-			email: event.target[1].value,
-			joined: event.target[2].value,
-			department: event.target[3].value,
-			is_checked: Boolean(event.target[4].value),
-		}
-		_data(old => ([...old, newRow]));
-	};
-
-	const handleEmailChange = (e, row) => {
-		const newData = [...data];
-		newData.forEach(item => {
-			if (item?.id === row?.id) item.email = e.target.value;
-		})
-		_data([...newData]);
+			id: InitialStaticData?.length + 1,
+			title: event.target[0].value,
+			description: event.target[1].value,			
+		}		
+		_staticData(old => ([...old, newRow]));
 	};
 
 	const handleShowToast = (text) => {
@@ -116,15 +114,20 @@ function DemoView() {
 	};
 
 	const handleViewRow = (event, row) => {
-		handleShowToast(`View ID-${row?.id}, ${row?.name}`);
+		handleShowToast(`View ID-${row?.id}, ${row?.title}`);
 	};
 
 	const handleEditRow = (event, row) => {
-		handleShowToast(`Edit ID-${row?.id}, ${row?.name}`);
+		handleShowToast(`Edit ID-${row?.id}, ${row?.title}`);
+	};
+
+	const handleDownload = (event) => {
+		console.log(event);
+		handleShowToast('Report Downloaded');
 	};
 
 	const handleDeleteRow = (event, row) => {
-		handleShowToast(`Delete ID-${row?.id}, ${row?.name}`);
+		handleShowToast(`Delete ID-${row?.id}, ${row?.title}`);
 	};
 
 	const handlePaginate = (event, currentPage) => {
@@ -133,15 +136,33 @@ function DemoView() {
 			...old,
 			pagination: {
 				...old?.pagination,
-				currentPage
+				currentPage,
 			}
-		}))
+		}));
+		const offset = currentPage === 1 ? 1 : (currentPage -1) * reactTableLiteOptions?.pagination?.perPageLimit;
+		const perPage = reactTableLiteOptions?.pagination?.perPageLimit;
+		fetchServerData(offset, perPage);
+	};
+
+	const handlePerPageLimit = (event, limit) => {
+		_reactTableLiteOptions(old => ({
+			...old,
+			pagination: {
+				...old?.pagination,
+				perPageLimit: limit,
+				totalPages: Math.ceil(50/limit),
+				currentPage: 1
+			}
+		}));
+		const offset = 1;
+		const perPage = limit;
+		fetchServerData(offset, perPage);
 	};
 
 	const CUSTOM_SEARCH_FORM = () => (
 		<div>
-			<form ref={customSearchFormRef}>
-				<input name='search' placeholder='search data..' style={{ width: '260px', border: 0, borderBottom: '2px', padding: "1.2em 1.2em 1.2em 0.5em", background: '#f1f1f1' }} />
+			<form id='Custom-Search-Form' ref={customSearchFormRef}>
+				<input name='search' placeholder='search data..'/>
 				<button type='button' ref={customCSVButtonRef}> Download </button>
 			</form>
 		</div>
@@ -155,16 +176,19 @@ function DemoView() {
 					<ToggleProps
 						reactTableLiteOptions={reactTableLiteOptions}
 						_reactTableLiteOptions={_reactTableLiteOptions}
+						fetchServerData={fetchServerData}
 					/>
 				</div>
 				<div className='content'>
-					<NewRow
-						handleSubmitRow={handleSubmitRow}
-					/>
+					{!reactTableLiteOptions?.useLiveData &&
+						<NewRow
+							handleSubmitRow={handleSubmitRow}
+						/>
+					}
 					{CUSTOM_SEARCH_FORM()}
 					<Table
-						data={data}
-						headers={headers}
+						data={reactTableLiteOptions?.useLiveData ? serverData : staticData}
+						headers={InitialHeaders}
 						checkedKey={InitialCheckedKey}
 						disableCheckedKey={InitialDisableCheckedKey}
 						customHeaders={InitialCustomHeaders}
@@ -181,16 +205,22 @@ function DemoView() {
 						currentPage={reactTableLiteOptions?.pagination?.currentPage}
 						totalPages={reactTableLiteOptions?.pagination?.totalPages}
 						showNumberofPages={reactTableLiteOptions?.pagination?.showNumberofPages}
+						currentPerPageLimit={reactTableLiteOptions?.pagination?.perPageLimit}
 						onRowView={handleViewRow}
 						onRowEdit={handleEditRow}
 						onRowDelete={handleDeleteRow}
 						onPaginate={handlePaginate}
-						showPerpageLimitOptions={reactTableLiteOptions?.enablePerPageOptions}
+						onDownload={handleDownload}
+						onPerPageLimitSelect={handlePerPageLimit}
+						showPerpageLimitOptions={reactTableLiteOptions?.showPerPageOptions}
 						perPageLimitOptions={InitialPerpageLimitOptions}
 						noDataMessage={InitialNoDataMessage}
-						csvKeys={["joined", "name", "email"]}
+						csvKeys={InitialCsvKeys}
 						downloadCsvButtonRef={customCSVButtonRef}
 						searchFormRef={customSearchFormRef}
+						paginationIconClass='custom-paginate-icon'
+						paginationItemClass='custom-pagination-item'
+						paginationActiveItemClass='custom-active-pagination-item'
 					/>
 				</div>
 			</div>

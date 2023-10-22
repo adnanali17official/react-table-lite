@@ -83,7 +83,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
 <img src="https://s6.gifyu.com/images/S6Ydj.png" alt="react-table-lite-preview-4" />
 
 *Custom Render Cell and Actions*
-<img src="https://s6.gifyu.com/images/S6AKs.png" alt="react-table-lite-preview-5" />
+<img src="https://s6.gifyu.com/images/S6GTk.png" alt="react-table-lite-preview-5" />
 
 ### Example:
 ```js  

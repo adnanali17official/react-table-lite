@@ -309,7 +309,7 @@ const Table = ({
 		if (onDownload) {
 			onDownload(event);
 		}
-		export_table_to_csv(rtlData, fileName, csvKeys);
+		export_table_to_csv(rtlData, fileName, csvKeys, customHeaders);
 	};
 
 	// ******Render Functions******
@@ -427,6 +427,7 @@ const Table = ({
 									onRowView={onRowView}
 									onRowEdit={onRowEdit}
 									onRowDelete={onRowDelete}
+									cellStyle={cellStyle}
 									cellClass={cellClass}
 									actionButtonContainerClass={actionButtonContainerClass}
 									actionButtonClass={actionButtonClass}
@@ -556,7 +557,7 @@ Table.propTypes = {
 	checkedKey: PropTypes.string,
 	disableCheckedKey: PropTypes.string,
 	totalPages: PropTypes.number,
-	currentPerPageLimit: PropTypes.number,
+	currentPerPageLimit: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	showNumberofPages: PropTypes.number,
 	currentPage: PropTypes.number,
 	fileName: PropTypes.string,
