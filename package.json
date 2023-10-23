@@ -1,9 +1,13 @@
 {
     "name": "react-table-lite",
-    "version": "2.0.2",
+    "version": "3.0.0",
     "license": "MIT",
     "author": "Daniyal Hasan Shah, Adnan Ali",
     "description": "A lite React component for rendering table with JSON data.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/adnanali17official/react-table-lite"
+    },
     "keywords": [
         "table",
         "table-component",
@@ -31,13 +35,12 @@
     "main": "./dist/table.cjs.js",
     "source": "src/build-index.js",
     "dependencies": {
-        "react": "^16.14.0",
-        "react-dom": "^16.14.0"
+        "prop-types": "^15.8.1"
     },
     "peerDependencies": {
-        "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "@babel/runtime": "^7.15.3"
+        "@babel/runtime": "^7.21.0",
+        "react": ">=16.14.0",
+        "react-dom": ">=16.14.0"
     },
     "scripts": {
         "build": "rollup -c build.config.js --exports auto",
@@ -59,21 +62,22 @@
         ]
     },
     "devDependencies": {
-        "@babel/core": "^7.15.0",
-        "@babel/plugin-transform-runtime": "^7.15.0",
-        "@babel/preset-env": "^7.15.0",
-        "@babel/preset-react": "^7.14.5",
-        "@rollup/plugin-babel": "^5.3.0",
-        "@rollup/plugin-commonjs": "^20.0.0",
-        "@rollup/plugin-node-resolve": "^13.0.4",
-        "@rollup/plugin-replace": "^3.0.0",
+        "@babel/core": "^7.21.3",
+        "@babel/plugin-transform-runtime": "^7.21.0",
+        "@babel/preset-env": "^7.20.2",
+        "@babel/preset-react": "^7.18.6",
+        "@rollup/plugin-babel": "^6.0.3",
+        "@rollup/plugin-commonjs": "^24.1.0",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-replace": "^5.0.2",
+        "@rollup/plugin-terser": "^0.4.0",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
-        "rollup": "^2.56.2",
+        "rollup": "^2.79.1",
         "rollup-plugin-livereload": "^2.0.5",
         "rollup-plugin-peer-deps-external": "^2.2.4",
-        "rollup-plugin-serve": "^1.1.0",
-        "rollup-plugin-styles": "^3.14.1",
-        "rollup-plugin-terser": "^7.0.2"
+        "rollup-plugin-polyfill-node": "^0.12.0",
+        "rollup-plugin-serve": "^2.0.2",
+        "rollup-plugin-styles": "^4.0.0"
     }
 }

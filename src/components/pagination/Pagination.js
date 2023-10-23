@@ -1,151 +1,146 @@
-import React from "react";
-// import ReactDOM from "react-dom";
-// import ReactDOMServer from 'react-dom/server';
-import "./Pagination.css";
 
-class Pagination extends React.Component{		
-  constructor(props){
-    super(props)
-    this.state={ 
-      totalPages: 1, 
-      currentPage: 1,
-      range: 1,
-      currentPagination:[],
+// Packages
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
+// Utils
+import generatePagination from '../../script/generate_pagination';
+
+// Styles
+import '../../styles/Pagination.css';
+
+function Pagination({
+
+  // Alpha Numeric
+  totalPages,
+  showNumberofPages,
+  currentPage,
+
+  // Functions
+  onPaginate,
+
+  // Classes
+  paginationContainerClass,
+  paginationIconClass,
+  paginationItemClass,
+  paginationActiveItemClass
+
+}) {
+
+  const [currentPagination, _currentPagination] = useState([])
+
+  useEffect(() => {
+    if (totalPages && currentPage && showNumberofPages) {
+      const paginationArray = generatePagination(totalPages, showNumberofPages, currentPage);
+      _currentPagination([...paginationArray]);
     }
-  }
-  
-  componentDidMount(){
-    this.getPropsData();
-    this.generatePaginationArray()
-  }
+  }, [totalPages, currentPage, showNumberofPages]);
 
-  componentDidUpdate = (prevProps) => {
-    if(prevProps !== this.props){
-      this.getPropsData();
-      this.generatePaginationArray()
-    }
-  }
+  // ******Render Functions******
 
-  getPropsData(){
-    let totalPages = typeof this.props.totalPages !== "number"  ? 1 : this.props.totalPages;
-    let currentPage = typeof this.props.currentPage !== "number" ? 1 : this.props.currentPage;
-    let range = typeof this.props.range !== "number" ? 5 : this.props.range;
+  const LEFT_ARROWS = () => (
+    currentPage != 1
+      ? <React.Fragment>
+        <JumpPageIcon
+          onClick={(e, ...args) => onPaginate(...args, e, 1)}
+          className={`react-table-lite-pagination-jump-icon-left ${paginationIconClass}`} />
+        <TogglePageIcon
+          onClick={(e, ...args) => onPaginate(...args, e, currentPage - 1)}
+          className={`react-table-lite-pagination-toggle-icon-left ${paginationIconClass}`}
+        />
+      </React.Fragment>
+      : null
+  );
 
-    if(range > totalPages){
-      range = totalPages;
-    }
-    if(range === 0){
-      console.error("'range' prop must be a positive integer !")
-    }
+  const RIGHT_ARROWS = () => (
+    totalPages != currentPage
+      ? <React.Fragment>
+        <TogglePageIcon
+          onClick={(e, ...args) => onPaginate(...args, e, currentPage + 1)}
+          className={`react-table-lite-pagination-toggle-icon-right ${paginationIconClass}`}
+        />
+        <JumpPageIcon
+          onClick={(e, ...args) => onPaginate(...args, e, totalPages)}
+          className={`react-table-lite-pagination-jump-icon-right ${paginationIconClass}`}
+        />
+      </React.Fragment>
+      : null
+  );
 
-    this.setState({ 
-      totalPages: totalPages, 
-      currentPage: currentPage,
-      range: range,
-    });
-  }			
-  
-  
-  _handlePage(pageNo){			
-    if(pageNo>0 && pageNo <= this.state.totalPages){
-      // console.log( pageNo );
-      if(typeof this.props.onPaginate === "function"){
-        this.props.onPaginate(pageNo);
-      } 
-    }
-  }
-  
-  generatePaginationArray(){
-    let tempArray = [];
-    let range = this.state.range;
-    let newPaginationArray = [];
-    let total = this.state.totalPages;			
-    let paginationSections = Math.ceil(total/range)
-    let paginationArray = Array(total).fill(0).map((element,index)=>{return index + 1});
+  const PAGES = () => (
+    currentPagination?.map((pageNo) => (
+      <span
+        key={pageNo}
+        onClick={(e) => onPaginate(e, pageNo)}
+        className={`react-table-lite-pagination-item 
+        ${paginationItemClass} 
+        ${pageNo == currentPage
+            ? (paginationActiveItemClass || 'react-table-lite-pagination-active-item')
+            : ''
+          }`
+        }
+      >
+        {pageNo}
+      </span>
+    ))
+  );
 
-    paginationArray.forEach((element)=>{
-      tempArray.push(element);
-      if( element % range === 0 ){
-        newPaginationArray.push(tempArray)
-        tempArray = []
-      }				
-    })					
-    let missingElements = range - tempArray.length;		
-    Array(missingElements).fill(0).forEach((element,index)=>{
-      tempArray.unshift(tempArray[0]-1);	
-    })														
-    newPaginationArray.push(tempArray)
-    // console.log(newPaginationArray)
-    this.setState({ currentPagination:newPaginationArray });
-  }
-  
-  render(){
-    let Found = false;
-    return(
-      <div className="rtl-pagination-container">
-        <ul className="rtl-paginate-ul">
-          <li 
-            className="rtl-pagination-next" 							
-            onClick={this._handlePage.bind(this,1)}
-            style={this.state.currentPage === 1 ? {display:'none'}:{}}
-          > 
-            <span>◀</span><span className="rtl-pagination-first">◀</span>
-          </li>
-          <li 
-            className="rtl-pagination-back" 
-            onClick={this._handlePage.bind(this,this.state.currentPage-1)}
-            style={this.state.currentPage === 1 ? {display:'none'}:{}}
-          > 	
-            ◀ 
-          </li>							
-             {Number(this.state.totalPages)?
-              <React.Fragment>
-                {
-                  this.state.currentPagination.map((elemental)=>{
-                    if(!Found)
-                    return(
-                    elemental.map((element, key)=>{
-                      if(elemental.indexOf(this.state.currentPage)>-1){
-                        Found = true;													
-                        return(
-                          <li
-                            key={key} 													
-                            className={this.state.currentPage === element?
-                                "rtl-pagination-item rtl-pagination-active" : "rtl-pagination-item"
-                            }
-                            onClick={this._handlePage.bind(this,(element))}
-                          > 
-                            {element} 
-                          </li>
-                        )
-                      }
-                    })
-                    )
-                  })
-                  
-                }
-              </React.Fragment>
-            :
-            ""
-            }							
-          <li 
-            className="rtl-pagination-next" 
-            style={this.state.totalPages === this.state.currentPage? {display:'none'}:{}}
-            onClick={this._handlePage.bind(this,this.state.currentPage+1)}
-          > 
-            ▶ 
-          </li>
-          <li 
-            className="rtl-pagination-next" 
-            style={this.state.totalPages === this.state.currentPage? {display:'none'}:{}}
-            onClick={this._handlePage.bind(this,this.state.totalPages)}
-          > 
-            <span>▶</span><span className="rtl-pagination-last">▶</span>
-          </li>
-        </ul>	
-      </div>
-    )
-  }
+  return (
+    <div className={`react-table-lite-pagination-container ${paginationContainerClass}`}>
+      {LEFT_ARROWS()}
+      {PAGES()}
+      {RIGHT_ARROWS()}
+    </div>
+  )
 }
+
+// ****** SVGs ******
+
+function JumpPageIcon({ ...props }) {
+  return (
+    <svg
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 16 16"
+    >
+      <path d="M12 2v12h-2v-5.5l-5 5v-11l5 5v-5.5z" />
+    </svg>
+  )
+};
+
+function TogglePageIcon({ ...props }) {
+  return (
+    <svg
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 16 16"
+    >
+      <path d="M3 2l10 6-10 6z" />
+    </svg>
+
+  )
+};
+
+Pagination.propTypes = {
+  totalPages: PropTypes.number.isRequired,
+  showNumberofPages: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  onPaginate: PropTypes.func,
+  paginationContainerClass: PropTypes.string,
+  paginationIconClass: PropTypes.string,
+  paginationItemClass: PropTypes.string,
+  paginationActiveItemClass: PropTypes.string
+};
+
+Pagination.defaultProps = {
+  totalPages: 1,
+  showNumberofPages: 1,
+  currentPage: 1,
+  onPaginate: () => null,
+  paginationContainerClass: '',
+  paginationIconClass: '',
+  paginationItemClass: '',
+  paginationActiveItemClass: ''
+};
 
 export default Pagination;
