@@ -9,7 +9,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
 ##### <a href="https://react-azmat-components.web.app/#/react-table-lite" target="_blank">Click here for demo</a>
 
 <!-- <img src="https://s8.gifyu.com/images/rtl-animated-1.gif" alt="react-table-lite-preview-1" /> -->
-<img src="https://s6.gifyu.com/images/S6YdC.gif" alt="react-table-lite-preview-1" />
+<img src="https://s6.gifyu.com/images/S6XKo.gif" alt="react-table-lite-preview-1" />
 
 ### Features:
 
@@ -83,7 +83,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
 <img src="https://s6.gifyu.com/images/S6Ydj.png" alt="react-table-lite-preview-4" />
 
 *Custom Render Cell and Actions*
-<img src="https://s6.gifyu.com/images/S6GTk.png" alt="react-table-lite-preview-5" />
+<img src="https://s6.gifyu.com/images/S6XT0.png" alt="react-table-lite-preview-5" />
 
 ### Example:
 ```js  
@@ -148,25 +148,25 @@ function UserData(props){
            // Enable Row Operation
            showPagination={true}
            // Enable Pagination
-           totalPages={10} 
+           totalPages = {10} 
            // Total Pages of data
-           currentPage={1}
+           currentPage = {1}
            // Current Page number
-           showNumberofPages={5}
+           showNumberofPages = {5}
            // Range for show page number 
-           showPerpageLimitOptions={true}
+           showPerpageLimitOptions = {true}
            // Show selection to change per page item limit
-           currentPerPageLimit={10}
+           currentPerPageLimit = {10}
            // Set current per page item limit
-           actionTypes={["edit","delete","view"]} 
+           actionTypes = {["edit","delete","view"]} 
            // Type of Row Operation (case insensitive)
            showMultiSelect  = {true}
            // Enable Multi-select
-           checkedKey={"selected"}
+           checkedKey = {"selected"}
            // Key present in data to mark row checked
-           disableCheckedKey={"selectDisabled"}
+           disableCheckedKey = {"selectDisabled"}
            // Key present in data to make row checkbox disabled
-           perPageLimitOptions={[10, 30, 50, 100]}
+           perPageLimitOptions = {[10, 30, 50, 100]}
            // Array of numbers for options in per page limit selection
            containerStyle = {{}}
            // Customize table container style           
@@ -203,46 +203,46 @@ function UserData(props){
            }}
            // Custom render function in JSON Object for action buttons
            // it will render any custom element in place of view, edit and delete action button
-           onSort={(event, data, sortedBy, direction)=>{
+           onSort = {(event, data, sortedBy, direction)=>{
             console.log(data, sortedBy, direction);  
              // 'data' returns new sorted data
              // 'sortedBy' returns the sorting key
              // 'direction' is asc (ascending) or dsc (descending)
              // **if onSort prop is passed, sorting will not update the table view
            }}
-           onRowSelect={(args, event, row)=>{
+           onRowSelect = {(args, event, row)=>{
             console.log(args, event, row);
             // 'row' returns row object 
             // any arguments passed will be before 'event' and 'row'
            }}
-           onAllRowSelect={(args, event, allrows)=>{
+           onAllRowSelect = {(args, event, allrows)=>{
             // 'allrows' returns JSON objects of all rows of table
             // any arguments passed will be before 'event' and 'allrows'
            }}
-           onRowDelete={(args, event, row)=>{
+           onRowDelete = {(args, event, row)=>{
             console.log(args, event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onRowEdit={(args, event, row)=>{
+           onRowEdit = {(args, event, row)=>{
             console.log(args, event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onRowView={(args, event, row)=>{
+           onRowView = {(args, event, row)=>{
             console.log(args, event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onDownload={(event)=>{
+           onDownload = {(event)=>{
             console.log(event);
              // Callback run after download csv button is clicked
            }}
-           onPaginate={(args, event, currentPage)=>{
+           onPaginate = {(args, event, currentPage)=>{
             // 'currentPage' returns updated current page;
             // any arguments passed will be before 'event' and 'currentPage'
            }}
-           onPerPageLimitSelect={(args, event, limit) => {
+           onPerPageLimitSelect = {(args, event, limit) => {
             console.log(args, event, limit);
             // 'limit' returns the selected item limit from the menu;
             // any arguments passed will be before 'event' and 'limit'
