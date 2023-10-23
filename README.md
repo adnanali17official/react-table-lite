@@ -187,7 +187,7 @@ function UserData(props){
               )
            }}
            // Custom render function in JSON Object for table cells
-           // it will render any custom element in place of default value of cell under specified column
+           // it will render any custom element in place of default value of cell in column
            // in this case an <a> element will be rendered at each row in name column
            // and a <span> element will be rendered at each row in department column 
            customRenderActions = {{
