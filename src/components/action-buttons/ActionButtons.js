@@ -6,24 +6,23 @@ import PropTypes from 'prop-types';
 const ActionButtons = ({
 	// Objects
 	dataRow,
-	actionTypes,
+	actionTypes = ['view', 'edit', 'delete'],
 	customRenderActions,
-	cellStyle,
+	cellStyle = {},
 
 	// Boolean
-	showActions,
+	showActions = false,
 
 	// Functions
-	onRowView,
-	onRowEdit,
-	onRowDelete,
+	onRowView = () => null,
+	onRowEdit = () => null,
+	onRowDelete = () => null,
 
 	// Classes
-	cellClass,
-	actionButtonContainerClass,
-	actionButtonClass,
-	actionButtonIconClass
-
+	cellClass = '',
+	actionButtonContainerClass = '',
+	actionButtonClass = '',
+	actionButtonIconClass = ''
 
 }) => {
 
@@ -122,16 +121,16 @@ ActionButtons.propTypes = {
 	actionButtonIconClass: PropTypes.string
 }
 
-ActionButtons.defaultProps = {
-	actionTypes: ['view', 'edit', 'delete'],
-	onRowView: () => null,
-	onRowEdit: () => null,
-	onRowDelete: () => null,
-	cellStyle: {},
-	cellClass: '',
-	actionButtonContainerClass: '',
-	actionButtonClass: '',
-	actionButtonIconClass: ''
-};
+// ActionButtons.defaultProps = {
+// 	actionTypes: ['view', 'edit', 'delete'],
+// 	onRowView: () => null,
+// 	onRowEdit: () => null,
+// 	onRowDelete: () => null,
+// 	cellStyle: {},
+// 	cellClass: '',
+// 	actionButtonContainerClass: '',
+// 	actionButtonClass: '',
+// 	actionButtonIconClass: ''
+// };
 
 export default ActionButtons;

@@ -12,18 +12,18 @@ import '../../styles/Pagination.css';
 function Pagination({
 
   // Alpha Numeric
-  totalPages,
-  showNumberofPages,
-  currentPage,
+  totalPages = 1,
+  currentPage = 1,
+  showNumberofPages = 1,
 
   // Functions
-  onPaginate,
+  onPaginate = () => null,
 
   // Classes
-  paginationContainerClass,
-  paginationIconClass,
-  paginationItemClass,
-  paginationActiveItemClass
+  paginationContainerClass = '',
+  paginationIconClass = '',
+  paginationItemClass = '',
+  paginationActiveItemClass = ''
 
 }) {
 
@@ -132,15 +132,15 @@ Pagination.propTypes = {
   paginationActiveItemClass: PropTypes.string
 };
 
-Pagination.defaultProps = {
-  totalPages: 1,
-  showNumberofPages: 1,
-  currentPage: 1,
-  onPaginate: () => null,
-  paginationContainerClass: '',
-  paginationIconClass: '',
-  paginationItemClass: '',
-  paginationActiveItemClass: ''
-};
+// Pagination.defaultProps = {
+//   totalPages: 1,
+//   showNumberofPages: 1,
+//   currentPage: 1,
+//   onPaginate: () => null,
+//   paginationContainerClass: '',
+//   paginationIconClass: '',
+//   paginationItemClass: '',
+//   paginationActiveItemClass: ''
+// };
 
 export default Pagination;

@@ -9,17 +9,17 @@ import '../../styles/SearchBar.css';
 function SearchBar({
 
   // Alpha Numeric
-  searchString,
+  searchString = '',
 
   // Functions
   handleOnSearch,
-  handleSearchStringChange,
+  handleSearchStringChange = () => null,
 
   // Classes
-  searchFormClass,
-  searchFormInputClass,
-  searchFormButtonClass,
-  searchFormButtonIconClass
+  searchFormClass = '',
+  searchFormInputClass = '',
+  searchFormButtonClass = '',
+  searchFormButtonIconClass = ''
 
 }) {
 
@@ -79,14 +79,14 @@ SearchBar.propTypes = {
   searchFormButtonIconClass: PropTypes.string
 };
 
-SearchBar.defaultProps = {
-  handleOnSearch: () => null,
-  handleSearchStringChange: () => null,
-  searchString: '',
-  searchFormClass: '',
-  searchFormInputClass: '',
-  searchFormButtonClass: '',
-  searchFormButtonIconClass: ''
-};
+// SearchBar.defaultProps = {
+//   handleOnSearch: () => null,
+//   handleSearchStringChange: () => null,
+//   searchString: '',
+//   searchFormClass: '',
+//   searchFormInputClass: '',
+//   searchFormButtonClass: '',
+//   searchFormButtonIconClass: ''
+// };
 
 export default SearchBar;
