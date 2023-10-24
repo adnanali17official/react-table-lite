@@ -7,16 +7,16 @@ import PropTypes from 'prop-types';
 function PerPageOptions({
 
   // Alpha Numeric
-  currentPerPageLimit,
+  currentPerPageLimit = 5,
 
   // Objects
-  perPageLimitOptions,
+  perPageLimitOptions = [5, 10, 20, 30, 50],
 
   // Functions
-  onPerPageLimitSelect,
+  onPerPageLimitSelect = () => null,
 
-  // Alpha Numeric
-  perpageLimitOptionClass
+  // Classes
+  perpageLimitOptionClass = ''
 
 }) {
 
@@ -47,11 +47,11 @@ PerPageOptions.propTypes = {
   perpageLimitOptionClass: PropTypes.string,
 };
 
-PerPageOptions.defaultProps = {
-  perPageLimitOptions: [5, 10, 20, 30, 50],
-  onPerPageLimitSelect: () => null,
-  currentPerPageLimit: 5,
-  perpageLimitOptionClass: ''
-};
+// PerPageOptions.defaultProps = {
+//   perPageLimitOptions: [5, 10, 20, 30, 50],
+//   onPerPageLimitSelect: () => null,
+//   currentPerPageLimit: 5,
+//   perpageLimitOptionClass: ''
+// };
 
 export default PerPageOptions;

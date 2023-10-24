@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 function DownloadCsvButton({
 
   // Functions
-  handleOnCSVDownload,
+  handleOnCSVDownload = () => null,
 
   // Classes
-  downloadCsvButtonClass,
-  downloadCsvButtonIconClass
+  downloadCsvButtonClass = '',
+  downloadCsvButtonIconClass = ''
 
 }) {
 
@@ -49,10 +49,10 @@ DownloadCsvButton.propTypes = {
   downloadCsvButtonIconClass: PropTypes.string,
 };
 
-DownloadCsvButton.defaultProps = {
-  handleOnCSVDownload: () => null,
-  downloadCsvButtonClass: '',
-  downloadCsvButtonIconClass: ''
-};
+// DownloadCsvButton.defaultProps = {
+//   handleOnCSVDownload: () => null,
+//   downloadCsvButtonClass: '',
+//   downloadCsvButtonIconClass: ''
+// };
 
 export default DownloadCsvButton;
