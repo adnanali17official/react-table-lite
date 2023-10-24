@@ -14,9 +14,9 @@ const ActionButtons = ({
 	showActions = false,
 
 	// Functions
-	onRowView = () => null = '',
-	onRowEdit = () => null = '',
-	onRowDelete = () => null = '',
+	onRowView = () => null,
+	onRowEdit = () => null,
+	onRowDelete = () => null,
 
 	// Classes
 	cellClass = '',
