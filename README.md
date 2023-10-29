@@ -319,6 +319,3 @@ headerStyle | Style  | Style object for table header
 rowStyle    | Style  | Style object for table rows
 cellStyle   | Style  | Style object for table cells
 
-
-### Support:  
-For support contact: daniyal_09.2005@hotmail.com, adnanali17official@gmail.com
