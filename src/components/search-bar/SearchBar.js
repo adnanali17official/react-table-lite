@@ -11,7 +11,7 @@ function SearchBar({
   searchString = '',
 
   // Functions
-  handleOnSearch,
+  handleOnSearch = () => null,
   handleSearchStringChange = () => null,
 
   // Classes
