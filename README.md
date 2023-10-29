@@ -242,7 +242,7 @@ function UserData(props){
             // 'currentPage' returns updated current page;
             // any arguments passed will be before 'event' and 'currentPage'
            }}
-           onPerPageLimitSelect = {(args, event, limit) => {
+           onPerPageLimitSelect = {(args, event, limit)=>{
             console.log(args, event, limit);
             // 'limit' returns the selected item limit from the menu;
             // any arguments passed will be before 'event' and 'limit'
