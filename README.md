@@ -203,46 +203,46 @@ function UserData(props){
            }}
            // Custom render function in JSON Object for action buttons
            // it will render any custom element in place of view, edit and delete action button
-           onSort = {(event, data, sortedBy, direction)=>{
+           onSort = {(event, data, sortedBy, direction) => {
             console.log(data, sortedBy, direction);  
              // 'data' returns new sorted data
              // 'sortedBy' returns the sorting key
              // 'direction' is asc (ascending) or dsc (descending)
              // **if onSort prop is passed, sorting will not update the table view
            }}
-           onRowSelect = {(args, event, row)=>{
+           onRowSelect = {(args, event, row) => {
             console.log(args, event, row);
             // 'row' returns row object 
             // any arguments passed will be before 'event' and 'row'
            }}
-           onAllRowSelect = {(args, event, allrows)=>{
+           onAllRowSelect = {(args, event, allrows) => {
             // 'allrows' returns JSON objects of all rows of table
             // any arguments passed will be before 'event' and 'allrows'
            }}
-           onRowDelete = {(args, event, row)=>{
+           onRowDelete = {(args, event, row) => {
             console.log(args, event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onRowEdit = {(args, event, row)=>{
+           onRowEdit = {(args, event, row) => {
             console.log(args, event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onRowView = {(args, event, row)=>{
+           onRowView = {(args, event, row) => {
             console.log(args, event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
-           onDownload = {(event)=>{
+           onDownload = {(event) => {
             console.log(event);
              // Callback run after download csv button is clicked
            }}
-           onPaginate = {(args, event, currentPage)=>{
+           onPaginate = {(args, event, currentPage) => {
             // 'currentPage' returns updated current page;
             // any arguments passed will be before 'event' and 'currentPage'
            }}
-           onPerPageLimitSelect = {(args, event, limit)=>{
+           onPerPageLimitSelect = {(args, event, limit) => {
             console.log(args, event, limit);
             // 'limit' returns the selected item limit from the menu;
             // any arguments passed will be before 'event' and 'limit'
