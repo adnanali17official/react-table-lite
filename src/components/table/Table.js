@@ -1,4 +1,3 @@
-
 // Packages
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types';
