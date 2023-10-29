@@ -204,7 +204,7 @@ function UserData(props){
            // Custom render function in JSON Object for action buttons
            // it will render any custom element in place of view, edit and delete action button
            onSort = {(event, data, sortedBy, direction) => {
-            console.log(data, sortedBy, direction);  
+            console.log(event, data, sortedBy, direction);  
              // 'data' returns new sorted data
              // 'sortedBy' returns the sorting key
              // 'direction' is asc (ascending) or dsc (descending)
@@ -216,6 +216,7 @@ function UserData(props){
             // any arguments passed will be before 'event' and 'row'
            }}
            onAllRowSelect = {(args, event, allrows) => {
+            console.log(event, allrows);
             // 'allrows' returns JSON objects of all rows of table
             // any arguments passed will be before 'event' and 'allrows'
            }}
@@ -239,6 +240,7 @@ function UserData(props){
              // Callback run after download csv button is clicked
            }}
            onPaginate = {(args, event, currentPage) => {
+            console.log(event, currentPage);
             // 'currentPage' returns updated current page;
             // any arguments passed will be before 'event' and 'currentPage'
            }}
