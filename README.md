@@ -211,7 +211,7 @@ function UserData(props){
              // **if onSort prop is passed, sorting will not update the table view
            }}
            onRowSelect = {(args, event, row) => {
-            console.log(args, event, row);
+            console.log(event, row);
             // 'row' returns row object 
             // any arguments passed will be before 'event' and 'row'
            }}
@@ -220,17 +220,17 @@ function UserData(props){
             // any arguments passed will be before 'event' and 'allrows'
            }}
            onRowDelete = {(args, event, row) => {
-            console.log(args, event, row);
+            console.log(event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
            onRowEdit = {(args, event, row) => {
-            console.log(args, event, row);
+            console.log(event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
            onRowView = {(args, event, row) => {
-            console.log(args, event, row);
+            console.log(event, row);
             // 'row' returns row object
             // any arguments passed will be before 'event' and 'row'
            }}
@@ -243,7 +243,7 @@ function UserData(props){
             // any arguments passed will be before 'event' and 'currentPage'
            }}
            onPerPageLimitSelect = {(args, event, limit) => {
-            console.log(args, event, limit);
+            console.log(event, limit);
             // 'limit' returns the selected item limit from the menu;
             // any arguments passed will be before 'event' and 'limit'
            }}
