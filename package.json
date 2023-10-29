@@ -33,6 +33,7 @@
         "minimal"
     ],
     "main": "./dist/table.cjs.js",
+    "module": "./dist/table.esm.js",
     "source": "src/build-index.js",
     "dependencies": {
         "prop-types": "^15.8.1"
