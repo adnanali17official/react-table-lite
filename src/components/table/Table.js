@@ -669,5 +669,4 @@ Table.propTypes = {
 // 	cellStyle: {}
 // };
 
-
 export default Table;
