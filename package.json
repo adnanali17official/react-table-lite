@@ -1,84 +1,82 @@
 {
-    "name": "react-table-lite",
-    "version": "3.0.0",
-    "license": "MIT",
-    "author": "Daniyal Hasan Shah, Adnan Ali",
-    "description": "A lite React component for rendering table with JSON data.",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/adnanali17official/react-table-lite"
-    },
-    "keywords": [
-        "table",
-        "table-component",
-        "react-data-table",
-        "react-table",
-        "data-table",
-        "csv",
-        "crud",
-        "sortable",
-        "downloadable",
-        "searchable",
-        "sort",
-        "download",
-        "search",
-        "json",
-        "react",
-        "edit",
-        "delete",
-        "lite",
-        "lightweight",
-        "js",
-        "javascript",
-        "minimal"
+  "name": "react-table-lite",
+  "version": "3.0.2",
+  "license": "MIT",
+  "author": "Daniyal Hasan Shah, Adnan Ali",
+  "description": "A lite React component for rendering table with JSON data.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adnanali17official/react-table-lite"
+  },
+  "keywords": [
+    "table",
+    "table-component",
+    "react-data-table",
+    "react-table",
+    "data-table",
+    "csv",
+    "crud",
+    "sortable",
+    "downloadable",
+    "searchable",
+    "sort",
+    "download",
+    "search",
+    "json",
+    "react",
+    "edit",
+    "delete",
+    "lite",
+    "lightweight",
+    "js",
+    "javascript",
+    "minimal"
+  ],
+  "main": "./dist/table.cjs.js",
+  "module": "./dist/table.esm.js",
+  "source": "src/build-index.js",
+  "peerDependencies": {
+    "@babel/runtime": "^7.21.0",
+    "prop-types": "^15.8.1",
+    "react": ">=16.14.0",
+    "react-dom": ">=16.14.0"
+  },
+  "scripts": {
+    "build": "rollup -c build.config.js --exports auto",
+    "watch": "rollup -c serve.config.js -w"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-    "main": "./dist/table.cjs.js",
-    "module": "./dist/table.esm.js",
-    "source": "src/build-index.js",
-    "dependencies": {
-        "prop-types": "^15.8.1"
-    },
-    "peerDependencies": {
-        "@babel/runtime": "^7.21.0",
-        "react": ">=16.14.0",
-        "react-dom": ">=16.14.0"
-    },
-    "scripts": {
-        "build": "rollup -c build.config.js --exports auto",
-        "watch": "rollup -c serve.config.js -w"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "@babel/core": "^7.21.3",
-        "@babel/plugin-transform-runtime": "^7.21.0",
-        "@babel/preset-env": "^7.20.2",
-        "@babel/preset-react": "^7.18.6",
-        "@rollup/plugin-babel": "^6.0.3",
-        "@rollup/plugin-commonjs": "^24.1.0",
-        "@rollup/plugin-node-resolve": "^15.2.3",
-        "@rollup/plugin-replace": "^5.0.2",
-        "@rollup/plugin-terser": "^0.4.0",
-        "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "rollup": "^2.79.1",
-        "rollup-plugin-livereload": "^2.0.5",
-        "rollup-plugin-peer-deps-external": "^2.2.4",
-        "rollup-plugin-polyfill-node": "^0.12.0",
-        "rollup-plugin-serve": "^2.0.2",
-        "rollup-plugin-styles": "^4.0.0"
-    }
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/plugin-transform-runtime": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-terser": "^0.4.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "rollup": "^2.79.1",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "rollup-plugin-serve": "^2.0.2",
+    "rollup-plugin-styles": "^4.0.0"
+  }
 }
