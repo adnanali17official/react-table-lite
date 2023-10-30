@@ -1,4 +1,3 @@
-
 // Packages
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types';
@@ -34,22 +33,22 @@ const Table = ({
 	downloadCsvButtonRef,
 
 	// Alpha Numeric
-	noDataMessage,
 	checkedKey,
 	disableCheckedKey,
 	totalPages,
 	showNumberofPages,
 	currentPerPageLimit,
 	currentPage,
-	fileName,
+	noDataMessage = 'No data found',
+	fileName = 'data.csv',
 
 	// Boolean
-	showActions,
-	searchable,
-	downloadable,
-	showMultiSelect,
-	showPagination,
-	showPerpageLimitOptions,
+	showActions = false,
+	searchable = false,
+	downloadable = false,
+	showMultiSelect = false,
+	showPagination = false,
+	showPerPageLimitOptions = false,
 
 	// Functions
 	onSort,
@@ -63,35 +62,35 @@ const Table = ({
 	onPerPageLimitSelect,
 
 	// Classes
-	containerClass,
-	tableClass,
-	headerClass,
-	checkboxClass,
-	cellClass,
-	rowClass,
-	perpageLimitOptionClass,
-	actionButtonContainerClass,
-	actionButtonClass,
-	actionButtonIconClass,
-	searchFormClass,
-	searchFormInputClass,
-	searchFormButtonClass,
-	searchFormButtonIconClass,
-	downloadCsvButtonClass,
-	downloadCsvButtonIconClass,
-	paginationContainerClass,
-	paginationIconClass,
-	paginationItemClass,
-	paginationActiveItemClass,
-	tableTopSectionClass,
-	tableBottomSectionClass,
+	containerClass = '',
+	tableClass = '',
+	headerClass = '',
+	checkboxClass = '',
+	cellClass = '',
+	rowClass = '',
+	perpageLimitOptionClass = '',
+	actionButtonContainerClass = '',
+	actionButtonClass = '',
+	actionButtonIconClass = '',
+	searchFormClass = '',
+	searchFormInputClass = '',
+	searchFormButtonClass = '',
+	searchFormButtonIconClass = '',
+	downloadCsvButtonClass = '',
+	downloadCsvButtonIconClass = '',
+	paginationContainerClass = '',
+	paginationIconClass = '',
+	paginationItemClass = '',
+	paginationActiveItemClass = '',
+	tableTopSectionClass = '',
+	tableBottomSectionClass = '',
 
 	// Styles
-	containerStyle,
-	tableStyle,
-	headerStyle,
-	rowStyle,
-	cellStyle
+	containerStyle = {},
+	tableStyle = {},
+	headerStyle = {},
+	rowStyle = {},
+	cellStyle = {}
 
 }) => {
 
@@ -476,7 +475,7 @@ const Table = ({
 	const PERPAGE = () => {
 		return (
 			<React.Fragment>
-				{showPerpageLimitOptions
+				{showPerPageLimitOptions
 					? <PerPageOptions
 						currentPerPageLimit={currentPerPageLimit}
 						onPerPageLimitSelect={onPerPageLimitSelect}
@@ -539,7 +538,7 @@ const Table = ({
 	const REACT_TABLE_BOTTOM_SECTION = () => (
 		<React.Fragment>
 			{
-				(showPagination || showPerpageLimitOptions)
+				(showPagination || showPerPageLimitOptions)
 					? <div className={`react-table-lite-bottom-section ${tableBottomSectionClass}`}>
 						{PAGINATION()}
 						{PERPAGE()}
@@ -575,13 +574,13 @@ Table.propTypes = {
 	searchFormRef: PropTypes.any,
 	downloadCsvButtonRef: PropTypes.any,
 
-	noDataMessage: PropTypes.string,
 	checkedKey: PropTypes.string,
 	disableCheckedKey: PropTypes.string,
 	totalPages: PropTypes.number,
 	currentPerPageLimit: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	showNumberofPages: PropTypes.number,
 	currentPage: PropTypes.number,
+	noDataMessage: PropTypes.string,
 	fileName: PropTypes.string,
 
 	showActions: PropTypes.bool,
@@ -589,7 +588,7 @@ Table.propTypes = {
 	downloadable: PropTypes.bool,
 	showMultiSelect: PropTypes.bool,
 	showPagination: PropTypes.bool,
-	showPerpageLimitOptions: PropTypes.bool,
+	showPerPageLimitOptions: PropTypes.bool,
 
 	onSort: PropTypes.func,
 	onRowSelect: PropTypes.func,
@@ -631,43 +630,42 @@ Table.propTypes = {
 	cellStyle: PropTypes.object
 };
 
-Table.defaultProps = {
-	noDataMessage: 'No data found',
-	fileName: 'data.csv',
-	showActions: false,
-	searchable: false,
-	downloadable: false,
-	showMultiSelect: false,
-	showPagination: false,
-	showPerpageLimitOptions: false,
-	containerClass: '',
-	tableClass: '',
-	headerClass: '',
-	checkboxClass: '',
-	cellClass: '',
-	rowClass: '',
-	perpageLimitOptionClass: '',
-	actionButtonContainerClass: '',
-	actionButtonClass: '',
-	actionButtonIconClass: '',
-	searchFormClass: '',
-	searchFormInputClass: '',
-	searchFormButtonClass: '',
-	searchFormButtonIconClass: '',
-	downloadCsvButtonClass: '',
-	downloadCsvButtonIconClass: '',
-	paginationContainerClass: '',
-	paginationIconClass: '',
-	paginationItemClass: '',
-	paginationActiveItemClass: '',
-	tableTopSectionClass: '',
-	tableBottomSectionClass: '',
-	containerStyle: {},
-	tableStyle: {},
-	headerStyle: {},
-	rowStyle: {},
-	cellStyle: {}
-};
-
+// Table.defaultProps = {
+// 	noDataMessage: 'No data found',
+// 	fileName: 'data.csv',
+// 	showActions: false,
+// 	searchable: false,
+// 	downloadable: false,
+// 	showMultiSelect: false,
+// 	showPagination: false,
+// 	showPerPageLimitOptions: false,
+// 	containerClass: '',
+// 	tableClass: '',
+// 	headerClass: '',
+// 	checkboxClass: '',
+// 	cellClass: '',
+// 	rowClass: '',
+// 	perpageLimitOptionClass: '',
+// 	actionButtonContainerClass: '',
+// 	actionButtonClass: '',
+// 	actionButtonIconClass: '',
+// 	searchFormClass: '',
+// 	searchFormInputClass: '',
+// 	searchFormButtonClass: '',
+// 	searchFormButtonIconClass: '',
+// 	downloadCsvButtonClass: '',
+// 	downloadCsvButtonIconClass: '',
+// 	paginationContainerClass: '',
+// 	paginationIconClass: '',
+// 	paginationItemClass: '',
+// 	paginationActiveItemClass: '',
+// 	tableTopSectionClass: '',
+// 	tableBottomSectionClass: '',
+// 	containerStyle: {},
+// 	tableStyle: {},
+// 	headerStyle: {},
+// 	rowStyle: {},
+// 	cellStyle: {}
+// };
 
 export default Table;
