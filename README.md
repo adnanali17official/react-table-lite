@@ -126,27 +126,27 @@ function UserData(props){
            // Headers should be same as data JSON Object's keys (required)
            sortBy = {["name", "department"]}
            // keys for sorting should be present in headers array
-           customHeaders={{"name":"employee"}}
+           customHeaders = {{"name":"employee"}}
            // custom header label in JSON        
-           searchable={true}
+           searchable = {true}
            // Enable table search field
-           searchBy={["name", "email"]}
+           searchBy = {["name", "email"]}
            // keys for sorting should be present in headers array
            downloadable = {true}
            // Pass true to enable download button
-           csvKeys={["name","department","email"]} 
+           csvKeys = {["name","department","email"]} 
            // The CSV file will include these fields only
-           downloadCsvButtonRef={customDownloadButtonRef}
+           downloadCsvButtonRef = {customDownloadButtonRef}
            // Here customDownloadButtonRef is a ref of custom button element
-           searchFormRef={customSearchFormRef}
+           searchFormRef = {customSearchFormRef}
            // Here customSearchFormRef is a ref of custom form element
            fileName = {"Table_Data"}
            // Default name of downloaded csv file
-           noDataMessage={"my custom no data"}
+           noDataMessage = {"my custom no data"}
            // Custom no data string.            
            showActions = {true}
            // Enable Row Operation
-           showPagination={true}
+           showPagination = {true}
            // Enable Pagination
            totalPages = {10} 
            // Total Pages of data
@@ -160,7 +160,7 @@ function UserData(props){
            // Set current per page item limit
            actionTypes = {["edit","delete","view"]} 
            // Type of Row Operation (case insensitive)
-           showMultiSelect  = {true}
+           showMultiSelect = {true}
            // Enable Multi-select
            checkedKey = {"selected"}
            // Key present in data to mark row checked
@@ -178,7 +178,7 @@ function UserData(props){
            // Customize table row style
            cellStyle = {{}}
            // Customize table data cell style
-           customRenderCell={{
+           customRenderCell = {{
               name: (row) => (
                 <a href={'/employee-profile/' + row.id} className='custom-class'> {row.name} </a>
               ),
@@ -318,4 +318,3 @@ tableStyle | Style  | Style object for table
 headerStyle | Style  | Style object for table header
 rowStyle    | Style  | Style object for table rows
 cellStyle   | Style  | Style object for table cells
-
