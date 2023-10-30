@@ -69,7 +69,7 @@ A lightweight easy to use and easily customizable React Component for rendering 
     Use ‘showPagination’ prop to enable pagination with custom range using ‘showNumberofPages’ prop. Pagination also requires ‘totalPages’, ‘currentPage’ and ‘onPaginate’ props.
 
 - **Per Page:**
-    Use ‘showPerpageLimitOptions’ prop to enable per page drop down. Pass callback function in ‘onPerPageLimitSelect’ prop and current per page limit in ‘currentPerPageLimit’ prop.
+    Use ‘showPerPageLimitOptions’ prop to enable per page drop down. Pass callback function in ‘onPerPageLimitSelect’ prop and current per page limit in ‘currentPerPageLimit’ prop.
 
 ### Preview:  
  
@@ -154,7 +154,7 @@ function UserData(props){
            // Current Page number
            showNumberofPages = {5}
            // Range for show page number 
-           showPerpageLimitOptions = {true}
+           showPerPageLimitOptions = {true}
            // Show selection to change per page item limit
            currentPerPageLimit = {10}
            // Set current per page item limit
@@ -281,7 +281,7 @@ searchable  | Boolean | Pass ‘true’ to enable search field |
 downloadable    | Boolean | Pass ‘true’ to enable download csv button
 showMultiSelect | Boolean | Enable to show multi select
 showPagination | Boolean | Enable to show pagination
-showPerpageLimitOptions | Boolean | Enable to show per page limit selection
+showPerPageLimitOptions | Boolean | Enable to show per page limit selection
 onSort | Callback | Callback function on sort
 onRowSelect    | Callback | Callback function on row select
 onAllRowSelect | Callback | Callback function on all row select

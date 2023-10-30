@@ -48,7 +48,7 @@ const Table = ({
 	downloadable = false,
 	showMultiSelect = false,
 	showPagination = false,
-	showPerpageLimitOptions = false,
+	showPerPageLimitOptions = false,
 
 	// Functions
 	onSort,
@@ -475,7 +475,7 @@ const Table = ({
 	const PERPAGE = () => {
 		return (
 			<React.Fragment>
-				{showPerpageLimitOptions
+				{showPerPageLimitOptions
 					? <PerPageOptions
 						currentPerPageLimit={currentPerPageLimit}
 						onPerPageLimitSelect={onPerPageLimitSelect}
@@ -538,7 +538,7 @@ const Table = ({
 	const REACT_TABLE_BOTTOM_SECTION = () => (
 		<React.Fragment>
 			{
-				(showPagination || showPerpageLimitOptions)
+				(showPagination || showPerPageLimitOptions)
 					? <div className={`react-table-lite-bottom-section ${tableBottomSectionClass}`}>
 						{PAGINATION()}
 						{PERPAGE()}
@@ -588,7 +588,7 @@ Table.propTypes = {
 	downloadable: PropTypes.bool,
 	showMultiSelect: PropTypes.bool,
 	showPagination: PropTypes.bool,
-	showPerpageLimitOptions: PropTypes.bool,
+	showPerPageLimitOptions: PropTypes.bool,
 
 	onSort: PropTypes.func,
 	onRowSelect: PropTypes.func,
@@ -638,7 +638,7 @@ Table.propTypes = {
 // 	downloadable: false,
 // 	showMultiSelect: false,
 // 	showPagination: false,
-// 	showPerpageLimitOptions: false,
+// 	showPerPageLimitOptions: false,
 // 	containerClass: '',
 // 	tableClass: '',
 // 	headerClass: '',
