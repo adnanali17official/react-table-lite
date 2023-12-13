@@ -105,7 +105,7 @@ const Table = ({
 
 	// Map a local state of the data prop
 	useEffect(() => {
-		if (data && headers && data?.length && headers?.length) {
+		if (Array.isArray(data) && Array.isArray(headers) && headers?.length) {
 			resetData();
 		}
 	}, [data, headers]);
@@ -131,7 +131,8 @@ const Table = ({
 		if (searchFormRef && searchFormRef?.current && searchable) {
 			searchFormRef.current.addEventListener("submit", handleCustomSearchBarOnSearch);
 			return () => {
-				searchFormRef.current.removeEventListener("submit", handleCustomSearchBarOnSearch);
+				if (searchFormRef)
+					searchFormRef?.current?.removeEventListener("submit", handleCustomSearchBarOnSearch);
 			};
 		}
 	}, [rtlData, searchFormRef, searchable]);
@@ -142,7 +143,8 @@ const Table = ({
 		if (downloadCsvButtonRef && downloadCsvButtonRef?.current && downloadable && rtlData) {
 			downloadCsvButtonRef.current.addEventListener("click", handleOnCSVDownload);
 			return () => {
-				downloadCsvButtonRef.current.removeEventListener("click", handleOnCSVDownload);
+				if (downloadCsvButtonRef)
+					downloadCsvButtonRef?.current?.removeEventListener("click", handleOnCSVDownload);
 			};
 		}
 	}, [rtlData, downloadCsvButtonRef, downloadable, fileName, csvKeys]);
